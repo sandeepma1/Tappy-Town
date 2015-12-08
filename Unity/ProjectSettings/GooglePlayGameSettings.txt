@@ -1,0 +1,8 @@
+lastUpgrade=00927
+proj.AppId=298085787304
+and.BundleId=com.pooch.crossytown
+proj.classDir=Assets
+proj.ConstantsClassName=GPSCT
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e298085787304%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3ecom.pooch.crossytown%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_1%22%3eCgkIqM2wutYIEAIQBw%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_1%22%3eCgkIqM2wutYIEAIQAQ%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_2%22%3eCgkIqM2wutYIEAIQAg%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_3%22%3eCgkIqM2wutYIEAIQAw%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_4%22%3eCgkIqM2wutYIEAIQBA%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_achievement_5%22%3eCgkIqM2wutYIEAIQBQ%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_leaderboard_ct%22%3eCgkIqM2wutYIEAIQBg%3c%2fstring%3e%0d%0a%3c%2fresources%3e%0d%0a
+and.ClientId=
+android.SetupDone=true
