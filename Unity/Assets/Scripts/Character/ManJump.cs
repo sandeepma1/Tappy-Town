@@ -36,7 +36,8 @@ public class ManJump : MonoBehaviour
 		board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 		dieSound = GetComponent<AudioSource> ();
 
-		character = Instantiate (Resources.Load ("Characters/" + PlayerPrefs.GetString ("currentCharacterSelected")) as GameObject);
+		string charName =  PlayerPrefs.GetString ("currentCharacterSelected", "chr_raver3");
+		character = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
 		character.transform.parent = this.transform;
 		character.transform.localPosition = new Vector3 (0, -0.5f, 0);
 		character.transform.localEulerAngles = new Vector3 (270, 315, 0);
