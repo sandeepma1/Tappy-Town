@@ -9,6 +9,7 @@ public class UnityVideoAds : MonoBehaviour
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
 		}
+		print ("test");
 	}
 
 	public void ShowRewardedAd ()

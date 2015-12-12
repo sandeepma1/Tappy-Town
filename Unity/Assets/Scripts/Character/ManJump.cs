@@ -35,21 +35,21 @@ public class ManJump : MonoBehaviour
 		c = GetComponent<CharacterController> ();
 		board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 		dieSound = GetComponent<AudioSource> ();
-
-		string charName =  PlayerPrefs.GetString ("currentCharacterSelected", "chr_raver3");
-		character = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
-		character.transform.parent = this.transform;
-		character.transform.localPosition = new Vector3 (0, -0.5f, 0);
-		character.transform.localEulerAngles = new Vector3 (270, 315, 0);
+		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_raver3");
+		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
+		playerMesh.transform.parent = this.transform;
+		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0);
+		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 	}
 	void Start ()
 	{
-		foreach (Transform trans in this.transform) {
+		/*foreach (Transform trans in this.transform) {
 			if (trans.name.StartsWith ("chr_")) {
 				playerMesh = trans.gameObject;
 			}
-		}
+		}*/
+		//playerMesh = character;
 		controller = GetComponent<CharacterController> ();
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
@@ -63,8 +63,8 @@ public class ManJump : MonoBehaviour
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
 					jumpCount++;
 					if (jumpCount >= 20) {
-						Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
-						});			 
+						/*Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
+						});*/			 
 					}
 					moveDirection.y = jumpSpeed;
 					//g = gravity;

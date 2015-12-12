@@ -9,8 +9,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	public GameObject[] a, b, c, d, g, p, h;
 	public Light mainLight, mainLightWithShadow, nightLight;
 	public GameObject lastBestBoard;
-	public GameObject defaultWorld, world2;
-	public Transform startPointPosition;
+	public GameObject world0, world1, world2;
 	string[] text;
 	int totalSections = 0;
 	static int sectionHeight = 10;
@@ -22,22 +21,21 @@ public class InfiniteLevelReader : MonoBehaviour
 	GameObject[] objToSpawn;
 	static public int numberOfFiles = 4;
 	GameObject[] blocks;
-
+	
 	float setLastBestBoardPosition;
 	int worldIndex = 0;
-
-
-	/*	void CreateEmptyGOs (int nos, string name)
-    {
-      objToSpawn = new GameObject[nos];
-      for (int i = 0; i < nos; i++) {
-        objToSpawn [i] = new GameObject (name + i);
-        objToSpawn [i].transform.position = new Vector3 (0, 0, zPosTemp);
-        objToSpawn [i].AddComponent<blockDisableAtPeriod> ();
-        zPosTemp = zPosTemp + sectionHeight;
-      }
-    }*/
-
+	public static GameObject[] myObjects;
+	//I used this to keep track of the number of objects I spawned in the scene.
+	public static int numSpawned = 0;
+	
+	void test ()
+	{		
+		Object[] veh = (Object[])Resources.LoadAll ("Vehicles");
+		for (int i = 0; i < veh.Length; i++) {
+			//print (veh [i].name);
+		}
+	}
+	
 	void CreateAllEmptyGOs ()
 	{
 		objToSpawn = new GameObject[sectionHeight * numberOfFiles];
@@ -51,48 +49,44 @@ public class InfiniteLevelReader : MonoBehaviour
 			}
 		}
 	}
-
+	
 	void SetupGameEnvironment ()
 	{
+		print (PlayerPrefs.GetString ("currentCharacterSelected"));
 		if ((PlayerPrefs.GetString ("currentCharacterSelected")) == "") {
 			PlayerPrefs.SetString ("currentCharacterSelected", "chr_raver3");
 		}
-		/****************************************************************************
-worldIndex = 0 //Default World
-worldIndex = 1 //Alien World
-
-
-		/****************************************************************************/
-
+		
 		switch (PlayerPrefs.GetString ("currentCharacterSelected")) {		
-		case "chr_bananaman":// Dark world Default Index
+		case "chr_goth1":// Dark world
 			NightModeON (true);
-			StartItemsMaker (defaultWorld);
-			break;
-		case "alien_engi3":// Dark world Default Index
-			worldIndex = 1;
-			StartItemsMaker (defaultWorld);
-			NightModeON (false);
-			break;	
-		case "chr_bridget":
-			worldIndex = 1;
-			StartItemsMaker (world2);
-			NightModeON (false);
-			break;
-		default:
-			NightModeON (false);
 			worldIndex = 0;
-			StartItemsMaker (defaultWorld);
+			StartItemsMaker (world0);
+			break;
+		case "alien_engi3":// Alien World
+			NightModeON (false);
+			worldIndex = 1;
+			StartItemsMaker (world1);
+			break;	
+		case "chr_bridget":// City World
+			NightModeON (false);
+			worldIndex = 2;
+			StartItemsMaker (world2);
+			break;
+		
+		default:			// Town World - DEFAULT GREEN
+			NightModeON (false); 
+			worldIndex = 0;
+			StartItemsMaker (world0);
 			break;
 		}
 	}
-
+	
 	void StartItemsMaker (GameObject startItem)
 	{
-		Instantiate (startItem, startPointPosition.position, Quaternion.identity);
-		//startPointPosition.position = startItem.transform.position;
+		Instantiate (startItem, Vector3.zero, Quaternion.identity);
 	}
-
+	
 	void NightModeON (bool active)
 	{
 		mainLight.gameObject.SetActive (!active);
@@ -108,6 +102,7 @@ worldIndex = 1 //Alien World
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
+		print (worldIndex);
 		for (int i = 0; i < levelData.Length; i++) {
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
 			text [i] = levelData [i].text;
@@ -143,12 +138,6 @@ worldIndex = 1 //Alien World
 						case "b1":
 							AutoInstantiate (b [1], new Vector3 (xPos, yPos, zPos));
 							break;
-/*						case "d0":
-							int coins = Random.Range (0, 4);
-							if (coins >= 2) {
-								AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
-							}
-							break;*/
 						case "d0":
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
@@ -167,6 +156,12 @@ worldIndex = 1 //Alien World
 							break;
 						case "p1":
 							AutoInstantiate (p [1], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p2":
+							AutoInstantiate (p [2], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p3":
+							AutoInstantiate (p [3], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "h0":
 							AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));

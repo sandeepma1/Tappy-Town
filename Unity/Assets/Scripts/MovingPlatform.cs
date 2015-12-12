@@ -37,8 +37,8 @@ public class MovingPlatform : MonoBehaviour
 		//percentText.text = (101 - (((progressBarSlider.maxValue - transform.position.x) / progressBarSlider.maxValue) * 100)).ToString ("F0");
 		Score.text = transform.position.x.ToString ("F0");
 		if (transform.position.x >= 500) {
-			Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
-			});
+			/*Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
+			});*/
 		}
 	}
 
@@ -46,9 +46,9 @@ public class MovingPlatform : MonoBehaviour
 	{
 		if (PlayerPrefs.GetInt ("lastBestScore") <= (int)transform.position.x) {
 			PlayerPrefs.SetInt ("lastBestScore", (int)transform.position.x);
-			Social.ReportScore (PlayerPrefs.GetInt ("lastBestScore"), "CgkIqM2wutYIEAIQBg", (bool success) => {
+			/*Social.ReportScore (PlayerPrefs.GetInt ("lastBestScore"), "CgkIqM2wutYIEAIQBg", (bool success) => {
 				// handle success or failure
-			});
+			});*/
 		}
 	}
 	public void ResetPosition ()
