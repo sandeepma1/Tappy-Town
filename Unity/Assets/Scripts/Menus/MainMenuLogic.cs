@@ -24,7 +24,7 @@ public class MainMenuLogic : MonoBehaviour
 		if (PlayerPrefs.GetInt ("warningMenu") <= 0) {	
 			PlayerPrefs.SetInt ("warningMenu", 1);	
 			warningMenu.SetActive (true);
-			PlayerPrefs.SetString ("currentCharacterSelected", "chr_raver3");
+			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
 		}//**************************************************************************************
 		playIcon.enabled = false;
 		lockIcon.enabled = false;

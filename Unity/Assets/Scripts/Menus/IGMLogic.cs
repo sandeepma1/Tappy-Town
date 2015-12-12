@@ -26,7 +26,7 @@ public class IGMLogic : MonoBehaviour
 	private Vector3 velocity = Vector3.zero;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
 	public Toggle toggleMuteButton, toggleScreenRotationButton, toggleShadowsButton;
-	public Light shadowLight;
+	public Light shadowLight, light2;
 	public GameObject tutorialMenu1, tutorialMenu2;
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
 	public GameObject movingPlatform;
@@ -38,10 +38,13 @@ public class IGMLogic : MonoBehaviour
 	Vector3 cameraPos;
 
 
+	public static IGMLogic m_instance = null;
+
 	// Use this for initialization
 
 	void Awake ()
-	{
+	{	
+		m_instance = this;	
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10, 16, -30);
@@ -66,17 +69,17 @@ public class IGMLogic : MonoBehaviour
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("warningMenu") <= 0) {	
 			PlayerPrefs.SetInt ("warningMenu", 1);	
-			PlayerPrefs.SetString ("currentCharacterSelected", "chr_raver3");
+			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0 && GameEventManager.currentPlayingLevel == 1) {
 			PlayerPrefs.SetInt ("runOnceTutorial1", 1);
-			tutorialMenu1.SetActive (true);
+			//tutorialMenu1.SetActive (true);
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("runOnceTutorial2") <= 0 && GameEventManager.currentPlayingLevel == 4) {
 			PlayerPrefs.SetInt ("runOnceTutorial2", 1);
-			tutorialMenu2.SetActive (true);
+			//tutorialMenu2.SetActive (true);
 		}//**************************************************************************************
 	}
 	void Start ()
@@ -215,9 +218,17 @@ public class IGMLogic : MonoBehaviour
 	{
 		SetMainCameraCanvas (true);
 		charSelcMenu.SetActive (false);
+		if (GameEventManager.isNightMode) {
+			shadowLight.gameObject.SetActive(false);
+			light2.gameObject.SetActive(false);
+		}
 	}
+
 	public void SelectChar ()
 	{
+		//PlayerPrefs.SetFloat("lastScrollValue",CharacterSelection.m_instance.scrollValue.x);
+
+		//print(PlayerPrefs.GetFloat("lastScrollValue"));
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
 		Application.LoadLevel (Application.loadedLevel);
@@ -225,6 +236,10 @@ public class IGMLogic : MonoBehaviour
 
 	public void OpenCharacterSelectionMenu ()
 	{
+		if (GameEventManager.isNightMode) {
+			shadowLight.gameObject.SetActive(true);
+			light2.gameObject.SetActive(true);
+		}
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		SetMainCameraCanvas (false);
 		charSelcMenu.SetActive (true);

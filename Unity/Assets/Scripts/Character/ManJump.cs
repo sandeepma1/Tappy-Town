@@ -35,7 +35,7 @@ public class ManJump : MonoBehaviour
 		c = GetComponent<CharacterController> ();
 		board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 		dieSound = GetComponent<AudioSource> ();
-		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_raver3");
+		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_mailman");
 		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
 		playerMesh.transform.parent = this.transform;
 		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0);

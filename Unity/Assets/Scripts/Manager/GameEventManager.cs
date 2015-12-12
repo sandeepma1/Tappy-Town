@@ -13,7 +13,7 @@ public static class GameEventManager
 
 	static public bool cubeTouchableAfterRotate = false, checkIfRigBodiesIsSleeping;
 	static public bool hidePauseMenu, pause;
-	static public bool PMlevel1 = true, showAreUSureWindow, isLevelLoaded, islevelCompleted;
+	static public bool PMlevel1 = true, showAreUSureWindow, isLevelLoaded, islevelCompleted, isNightMode;
 
 	public delegate void GameEvent ();
 	

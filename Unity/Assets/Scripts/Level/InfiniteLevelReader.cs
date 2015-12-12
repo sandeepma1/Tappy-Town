@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class InfiniteLevelReader : MonoBehaviour
 {
 	public GameObject[] a, b, c, d, g, p, h;
-	public Light mainLight, mainLightWithShadow, nightLight;
+	public Light mainLight, mainLightWithShadow, nightLight,spotLight;
 	public GameObject lastBestBoard;
-	public GameObject world0, world1, world2;
+	public GameObject world0, world1, world2,world3;
 	string[] text;
 	int totalSections = 0;
 	static int sectionHeight = 10;
@@ -52,27 +52,36 @@ public class InfiniteLevelReader : MonoBehaviour
 	
 	void SetupGameEnvironment ()
 	{
-		print (PlayerPrefs.GetString ("currentCharacterSelected"));
+//		print (PlayerPrefs.GetString ("currentCharacterSelected"));
 		if ((PlayerPrefs.GetString ("currentCharacterSelected")) == "") {
-			PlayerPrefs.SetString ("currentCharacterSelected", "chr_raver3");
+			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
 		}
 		
 		switch (PlayerPrefs.GetString ("currentCharacterSelected")) {		
-		case "chr_goth1":// Dark world
+		case "chr_goth1": // Dark world
+		case "chr_thief":
 			NightModeON (true);
 			worldIndex = 0;
 			StartItemsMaker (world0);
 			break;
-		case "alien_engi3":// Alien World
+		case "chr_bridget":// City World
 			NightModeON (false);
 			worldIndex = 1;
 			StartItemsMaker (world1);
-			break;	
-		case "chr_bridget":// City World
+			break;
+		case "alien_engi3":// Alien World
+		case "alien_eye1c":
 			NightModeON (false);
 			worldIndex = 2;
 			StartItemsMaker (world2);
+			break;			
+		case "chr_riotcop":// Cop World
+			NightModeON (false);
+			worldIndex = 3;
+			StartItemsMaker (world3);
 			break;
+		//case "chr_paramedic2":
+		//	break;
 		
 		default:			// Town World - DEFAULT GREEN
 			NightModeON (false); 
@@ -89,12 +98,21 @@ public class InfiniteLevelReader : MonoBehaviour
 	
 	void NightModeON (bool active)
 	{
+		if (active) {
+			GameEventManager.isNightMode = true;
+		}
+		else
+		{
+			GameEventManager.isNightMode = false;
+		}
 		mainLight.gameObject.SetActive (!active);
 		mainLightWithShadow.gameObject.SetActive (!active);
 		nightLight.gameObject.SetActive (active);
+		spotLight.gameObject.SetActive(active);
 	}
 	void Awake ()
 	{
+		
 		SetupGameEnvironment ();
 		yPos = sectionHeight - 1;// *********** adjusted value
 		levelData = new TextAsset[numberOfFiles];
@@ -102,11 +120,12 @@ public class InfiniteLevelReader : MonoBehaviour
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
-		print (worldIndex);
+
 		for (int i = 0; i < levelData.Length; i++) {
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
 			text [i] = levelData [i].text;
 			lines = Regex.Split (text [i], "\r\n");
+			print(levelData [i]);
 			totalSections = lines.Length / sectionHeight;
 			//CreateEmptyGOs (10, i.ToString ());
 			foreach (string line in lines) {
@@ -142,8 +161,14 @@ public class InfiniteLevelReader : MonoBehaviour
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c":
-							int cars = Random.Range (0, 4);
+							int cars = Random.Range (0,2);
 							AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "c2":							
+							AutoInstantiate (c[2], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "c3":							
+							AutoInstantiate (c[3], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "g0":
 							AutoInstantiate (g [0], new Vector3 (xPos, yPos, zPos));
@@ -162,6 +187,9 @@ public class InfiniteLevelReader : MonoBehaviour
 							break;
 						case "p3":
 							AutoInstantiate (p [3], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p4":							
+							AutoInstantiate (p [4], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "h0":
 							AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));
@@ -184,7 +212,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		if (PlayerPrefs.GetInt ("lastBestScore") <= 30) {
 			lastBestBoard.transform.localPosition = new Vector3 (-100, 0, 0);
 		} else {
-			lastBestBoard.transform.localPosition = new Vector3 (PlayerPrefs.GetInt ("lastBestScore"), 0, 0);
+			lastBestBoard.transform.localPosition = new Vector3 (PlayerPrefs.GetInt ("lastBestScore"), 0, 1.25f);
 		}
 	}
 	void AutoInstantiate (GameObject aa, Vector3 posaa)

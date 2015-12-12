@@ -17,13 +17,20 @@ public class CharacterSelection : MonoBehaviour
 	Mesh initialMesh;
 	Hashtable optional;
 	float charIndex = 0;
+	public ScrollRect charScrollRect;
+	public static CharacterSelection m_instance = null;
+	public Vector2 scrollValue = new Vector2(0,0);
+
 	public void Awake ()
 	{
+		m_instance = this;
 		charUnlocked = GameObject.FindGameObjectsWithTag ("charUnlocked");
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.notUsed);
+		//charScrollRect.GetComponent<ScrollRect>().horizontalNormalizedPosition = PlayerPrefs.GetFloat("lastScrollValue");
 
 	}
+		
 	public void ScanAllChars ()
 	{
 		charUnlocked = GameObject.FindGameObjectsWithTag ("charUnlocked");
@@ -43,6 +50,7 @@ public class CharacterSelection : MonoBehaviour
 	}
 	void OnTriggerEnter (Collider other)
 	{
+		
 		charNumber++;
 		charNumberText.text = charNumber.ToString () + "/100";
 
@@ -72,15 +80,20 @@ public class CharacterSelection : MonoBehaviour
 			selectCharButton.interactable = false;
 			break;
 		}		
+		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	void OnTriggerExit (Collider other)
 	{
+		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer>().enabled = true;
+
 		charNumberText.text = charNumber.ToString () + "/100";
 
 		charTemp.gameObject.transform.localScale = new Vector3 (300, 300, 300);
+
 		//LeanTween.cancel (charTemp.gameObject);
 		LeanTween.scale (charTemp.gameObject, new Vector3 (125, 125, 125), 0.15f, optional);
+		other.gameObject.SetActive(true);
 	}
 
 	void OnDisable ()
@@ -88,9 +101,10 @@ public class CharacterSelection : MonoBehaviour
 		charTemp.SetActive (false);
 	}
 
-	public void ScrollValueChange (Vector2 sasa)
-	{
-		charIndex = sasa.x * 100;
+	public void ScrollValueChange (Vector2 scrollRectValue)
+	{	
+		//scrollValue = scrollRectValue;
+		charIndex = scrollRectValue.x * 100;
 		charNumberText.text = charIndex.ToString ("F0") + "/100";
 	}
 }

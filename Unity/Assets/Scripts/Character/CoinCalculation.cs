@@ -20,10 +20,10 @@ public class CoinCalculation : MonoBehaviour
 	public void AddCoins (int nos)
 	{
 		coinAchievement++;
-		if (coinAchievement >= 10) {
+		/*if (coinAchievement >= 10) {
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
-		}
+		}*/
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") + nos);
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 		//coinsText.GetComponent<Animation> ().Play ("CoinScale");
