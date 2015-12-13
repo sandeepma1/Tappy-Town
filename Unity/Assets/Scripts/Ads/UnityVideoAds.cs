@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UnityVideoAds : MonoBehaviour
 {
@@ -19,13 +20,13 @@ public class UnityVideoAds : MonoBehaviour
 			Advertisement.Show ("rewardedVideoZone", options);
 		}
 	}
-	
+
 	private void HandleShowResult (ShowResult result)
 	{
 		switch (result) {
 		case ShowResult.Finished:
 			Debug.Log ("The ad was successfully shown.");
-			Application.LoadLevel ("level");
+			SceneManager.LoadSceneAsync ("level");
 			// YOUR CODE TO REWARD THE GAMER
 			// Give coins etc.
 			break;

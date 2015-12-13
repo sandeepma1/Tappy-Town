@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ManJump : MonoBehaviour
 {
@@ -92,7 +93,8 @@ public class ManJump : MonoBehaviour
 			//print ("repo");
 		}
 		if (Input.GetMouseButtonDown (2)) {
-			Application.LoadLevel (Application.loadedLevel);
+			//Application.LoadLevel (Application.loadedLevel);
+			SceneManager.LoadSceneAsync ("level");
 		}
 	}
 

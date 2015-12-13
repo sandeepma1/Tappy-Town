@@ -10,12 +10,13 @@ public class levelReader : MonoBehaviour
 	string[] lines;
 	string[] chars, charsE;
 	int limit = 0;
-	int counter_Inner = 0, counter_Outer = 0, counter_InnerE = 0, counter_OuterE = 0;
+	int counter_Inner = 0, counter_Outer = 0;
 	int count = 0;
 
 	public GameObject[] a, b, c, g, j, t, z;
 	public GameObject[] aE, bE, cE;
-	TextAsset levelData;// = Resources.Load ("Level2 - Sheet1") as TextAsset;
+	TextAsset levelData;
+// = Resources.Load ("Level2 - Sheet1") as TextAsset;
 	public Slider progressBarSlider;
 	public GameObject lastBestBoard;
 	float setLastBestBoardPosition;
@@ -151,6 +152,7 @@ public class levelReader : MonoBehaviour
 			lastBestBoard.transform.localPosition = new Vector3 (setLastBestBoardPosition + 1, 0, 0);
 		}
 	}
+
 	void AutoInstantiate (GameObject aa, Vector3 posaa)
 	{
 		GameObject objectInstance;

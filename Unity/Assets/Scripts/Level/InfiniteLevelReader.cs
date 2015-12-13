@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InfiniteLevelReader : MonoBehaviour
 {
 	public GameObject[] a, b, c, d, g, p, h;
-	public Light mainLight, mainLightWithShadow, nightLight, spotLight;
+	public Light mainLightWithShadow, nightLight, spotLight;
 	public GameObject lastBestBoard;
 	public GameObject world0, world1, world2, world3;
 	string[] text;
@@ -19,7 +19,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	int xPos = 0, yPos = 0, zPos = 0, zPosTemp = 0;
 	TextAsset[] levelData;
 	GameObject[] objToSpawn;
-	static public int numberOfFiles = 4;
+	static public int numberOfFiles = 5;
 	GameObject[] blocks;
 	
 	float setLastBestBoardPosition;
@@ -27,6 +27,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	public static GameObject[] myObjects;
 	//I used this to keep track of the number of objects I spawned in the scene.
 	public static int numSpawned = 0;
+	public static InfiniteLevelReader m_instance = null;
 
 	void test ()
 	{		
@@ -52,11 +53,9 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void SetupGameEnvironment ()
 	{
-//		print (PlayerPrefs.GetString ("currentCharacterSelected"));
 		if ((PlayerPrefs.GetString ("currentCharacterSelected")) == "") {
 			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
-		}
-		
+		}		
 		switch (PlayerPrefs.GetString ("currentCharacterSelected")) {		
 		case "chr_goth1": // Dark world
 		case "chr_thief":
@@ -103,7 +102,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		} else {
 			GameEventManager.isNightMode = false;
 		}
-		mainLight.gameObject.SetActive (!active);
+		//mainLight.gameObject.SetActive (!active);
 		mainLightWithShadow.gameObject.SetActive (!active);
 		nightLight.gameObject.SetActive (active);
 		spotLight.gameObject.SetActive (active);
@@ -111,7 +110,7 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void Awake ()
 	{
-		
+		m_instance = this;
 		SetupGameEnvironment ();
 		yPos = sectionHeight - 1;// *********** adjusted value
 		levelData = new TextAsset[numberOfFiles];
@@ -124,9 +123,7 @@ public class InfiniteLevelReader : MonoBehaviour
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
 			text [i] = levelData [i].text;
 			lines = Regex.Split (text [i], "\r\n");
-			print (levelData [i]);
 			totalSections = lines.Length / sectionHeight;
-			//CreateEmptyGOs (10, i.ToString ());
 			foreach (string line in lines) {
 				if (line != "") {// Skip all blank lines
 					lineCount++;

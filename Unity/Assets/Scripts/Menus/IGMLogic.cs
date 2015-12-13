@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IGMLogic : MonoBehaviour
 {
@@ -8,7 +9,6 @@ public class IGMLogic : MonoBehaviour
 	public float duration = 0;
 	public float magnitude = 0;
 	public bool isGamePause = false;
-	//public Text coinsText;
 	public GameObject pauseMenuGO;
 	public Camera mainCamera, menuCamera;
 	public Image blankLogo;
@@ -18,25 +18,23 @@ public class IGMLogic : MonoBehaviour
 	public GameObject pauseButton, playButton;
 	public GameObject startGameGO;
 	public GameObject startGameButton;
-	int coinsCollected = 0;
 	public GameObject settingsMenuGO;
 	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
 	public Text jumpText, attemptsText, timeText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
-	public TextMesh lastBestScore;//, attempts, totalAttempts, lastBest, starsCollected;
+	public TextMesh lastBestScore;
 	private Vector3 velocity = Vector3.zero;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
 	public Toggle toggleMuteButton, toggleScreenRotationButton, toggleShadowsButton;
-	public Light shadowLight, light2;
+	public Light shadowLight;
+	//, light2;
 	public GameObject tutorialMenu1, tutorialMenu2;
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
 	public GameObject movingPlatform;
 	float timer = 0;
-	bool stopTimer = false;
 	Hashtable optional;
 	Animator anim;
 	Animation an;
 	Vector3 cameraPos;
-
 
 	public static IGMLogic m_instance = null;
 
@@ -47,13 +45,11 @@ public class IGMLogic : MonoBehaviour
 		m_instance = this;	
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
-		cameraPos = new Vector3 (-10, 16, -30);
+		cameraPos = new Vector3 (-10, 16, -31);
 		Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);
 		menuCamera.gameObject.SetActive (false);
-		//an = mainCanvas.GetComponent<Animation> ();
-		//an.Play ();
 		anim = mainCanvas.GetComponent<Animator> ();
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
@@ -82,6 +78,7 @@ public class IGMLogic : MonoBehaviour
 			//tutorialMenu2.SetActive (true);
 		}//**************************************************************************************
 	}
+
 	void Start ()
 	{
 		PlayerPrefs.SetInt ("levelAttempts", PlayerPrefs.GetInt ("levelAttempts") + 1);
@@ -152,7 +149,8 @@ public class IGMLogic : MonoBehaviour
 	IEnumerator LevelRestartWithWait ()
 	{
 		yield return new WaitForSeconds (1.2f);
-		Application.LoadLevel (Application.loadedLevel);
+		SceneManager.LoadSceneAsync ("level");
+
 	}
 
 	public void ShowIGM ()
@@ -164,6 +162,7 @@ public class IGMLogic : MonoBehaviour
 	{
 		pauseMenuGO.SetActive (false);
 	}
+
 	public void GoToHome ()
 	{
 		watchAdsGO.SetActive (false);
@@ -176,7 +175,6 @@ public class IGMLogic : MonoBehaviour
 	IEnumerator GotoMainMenuWait ()
 	{
 		yield return new WaitForSeconds (1f);
-		Application.LoadLevel ("MainMenu");
 	}
 
 	public void SettingsButtonPressed ()
@@ -191,23 +189,28 @@ public class IGMLogic : MonoBehaviour
 		SetMainCameraCanvas (true);
 		//GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 	}
+
 	public void CloseStatssmenu ()
 	{
 		statsWindow.SetActive (false);
 	}
+
 	public void CloseCreditsMenu ()
 	{
 		creditsWindow.SetActive (false);
 	}
+
 	public void CloseResetGameMenu ()
 	{
 		resetGameWindow.SetActive (false);
 	}
+
 	public void CloseTutorialMenu1 ()
 	{
 		tutorialMenu1.SetActive (false);
 		SetMainCameraCanvas (true);
 	}
+
 	public void CloseTutorialMenu2 ()
 	{
 		tutorialMenu2.SetActive (false);
@@ -219,26 +222,27 @@ public class IGMLogic : MonoBehaviour
 		SetMainCameraCanvas (true);
 		charSelcMenu.SetActive (false);
 		if (GameEventManager.isNightMode) {
-			shadowLight.gameObject.SetActive(false);
-			light2.gameObject.SetActive(false);
+			shadowLight.gameObject.SetActive (false);
+			//light2.gameObject.SetActive (false);
 		}
 	}
 
 	public void SelectChar ()
 	{
-		//PlayerPrefs.SetFloat("lastScrollValue",CharacterSelection.m_instance.scrollValue.x);
+		print (CharacterSelection.m_instance.scrollValue.x);
+		PlayerPrefs.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 
-		//print(PlayerPrefs.GetFloat("lastScrollValue"));
+		print (PlayerPrefs.GetFloat ("lastScrollValue"));
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
-		Application.LoadLevel (Application.loadedLevel);
+		SceneManager.LoadSceneAsync ("level");
 	}
 
 	public void OpenCharacterSelectionMenu ()
 	{
 		if (GameEventManager.isNightMode) {
-			shadowLight.gameObject.SetActive(true);
-			light2.gameObject.SetActive(true);
+			shadowLight.gameObject.SetActive (true);
+			//light2.gameObject.SetActive (true);
 		}
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		SetMainCameraCanvas (false);
@@ -259,21 +263,25 @@ public class IGMLogic : MonoBehaviour
 		SetMainCameraCanvas (false);
 		settingsMenuGO.SetActive (true);
 	}
+
 	public void ShowStatsMenu ()
 	{
 		SetMainCameraCanvas (false);
 		statsWindow.SetActive (true);
 	}
+
 	public void ShowCreditsMenu ()
 	{
 		SetMainCameraCanvas (false);
 		creditsWindow.SetActive (true);
 	}
+
 	public void ShowResetGameMenu ()
 	{
 		SetMainCameraCanvas (false);
 		resetGameWindow.SetActive (true);
 	}
+
 	public void ShowPayToContinueMenu (int coins)
 	{
 		payToContinueMenu.SetActive (true);
@@ -290,6 +298,7 @@ public class IGMLogic : MonoBehaviour
 	{
 		Application.OpenURL ("https://play.google.com/store/apps/details?id=com.pooch.crossytown");
 	}
+
 	public void StartGame ()
 	{
 		pauseButton.SetActive (true);
@@ -299,10 +308,10 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (true);
 		//startGameButton.SetActive (false);
 	}
+
 	public void ShowLevelCompleteMenu (int jumpCount)
 	{
 		pauseButton.SetActive (false);
-		stopTimer = true;
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		if (GameEventManager.currentPlayingLevel <= GameEventManager.maxLevels - 1) {
 			levelCompleteMenuGO.SetActive (true);
@@ -319,6 +328,7 @@ public class IGMLogic : MonoBehaviour
 		}
 
 	}
+
 	public void GameComplete ()
 	{
 		gameCompleteMenuGO.SetActive (true);
@@ -330,6 +340,7 @@ public class IGMLogic : MonoBehaviour
 			PlayerPrefs.SetInt ("unlockedLevels", GameEventManager.currentPlayingLevel);
 		}
 	}
+
 	public void KillPlayer ()
 	{
 		movingPlatform.GetComponent<MovingPlatform> ().SaveLastBestRunScore ();
@@ -339,6 +350,7 @@ public class IGMLogic : MonoBehaviour
 		anim.Play ("PromoStrap1");
 		StartCoroutine ("PlayerDiedMenuWait");
 	}
+
 	IEnumerator PlayerDiedMenuWait ()
 	{
 		yield return new WaitForSeconds (1F);
@@ -377,6 +389,7 @@ public class IGMLogic : MonoBehaviour
 		yield return new WaitForSeconds (0.25f);
 		//gameName.gameObject.SetActive (false);
 	}
+
 	IEnumerator Shake ()
 	{
 		float elapsed = 0.0f;
@@ -402,6 +415,6 @@ public class IGMLogic : MonoBehaviour
 	public void ResetGameData ()
 	{
 		PlayerPrefs.DeleteAll ();
-		Application.LoadLevel ("1Loading");
+		SceneManager.LoadSceneAsync ("1Loading");
 	}
 }

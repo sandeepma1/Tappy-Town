@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class ScreenControl : MonoBehaviour
-{		
+{
 	//bool isPortrait = false;
-	int countP = 0, countL = 0, count = 0;
+	//int countP = 0, countL = 0, count = 0;
 	bool isChanged;
 	public Canvas mainCanvas;
 	
@@ -19,6 +19,7 @@ public class ScreenControl : MonoBehaviour
 						RotateCamera (1);
 				}*/
 	}
+
 	void LateUpdate ()
 	{
 		/*if (!PlayerPrefsX.GetBool ("screenRotation")) {		
@@ -55,7 +56,7 @@ public class ScreenControl : MonoBehaviour
 			mainCanvas.GetComponent<CanvasScaler> ().referenceResolution = new Vector2 (1280, 720);
 		}
 		if (angle == 1) {
-			Camera.main.transform.localPosition = new Vector3 (-10, 15, -30);
+			Camera.main.transform.localPosition = new Vector3 (-10, 15, -31);
 			//StartCoroutine ("PauseGameAfterScreenRotate", new Vector3 (-10, 15, -30));
 			mainCanvas.GetComponent<CanvasScaler> ().referenceResolution = new Vector2 (720, 1280);
 		}

@@ -7,7 +7,7 @@ public class CharacterSelection : MonoBehaviour
 
 	// Use this for initialization
 	GameObject[] charUnlocked;
-	public Text selectedCharacterNameText, charStatusText;	
+	public Text selectedCharacterNameText, charStatusText;
 	string charNameTemp;
 	public Button selectCharButton;
 	public GameObject charPreviewPos;
@@ -19,7 +19,7 @@ public class CharacterSelection : MonoBehaviour
 	float charIndex = 0;
 	public ScrollRect charScrollRect;
 	public static CharacterSelection m_instance = null;
-	public Vector2 scrollValue = new Vector2(0,0);
+	public Vector2 scrollValue = new Vector2 (0, 0);
 
 	public void Awake ()
 	{
@@ -27,14 +27,15 @@ public class CharacterSelection : MonoBehaviour
 		charUnlocked = GameObject.FindGameObjectsWithTag ("charUnlocked");
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.notUsed);
-		//charScrollRect.GetComponent<ScrollRect>().horizontalNormalizedPosition = PlayerPrefs.GetFloat("lastScrollValue");
+		charScrollRect.GetComponent<ScrollRect> ().horizontalNormalizedPosition = PlayerPrefs.GetFloat ("lastScrollValue");
 
 	}
-		
+
 	public void ScanAllChars ()
 	{
 		charUnlocked = GameObject.FindGameObjectsWithTag ("charUnlocked");
 	}
+
 	public void SetCharName ()
 	{
 		PlayerPrefs.SetString ("currentCharacterSelected", charNameTemp);
@@ -48,6 +49,7 @@ public class CharacterSelection : MonoBehaviour
 		}
 		charTemp.transform.Rotate (0, 0, 60 * Time.deltaTime);
 	}
+
 	void OnTriggerEnter (Collider other)
 	{
 		
@@ -80,12 +82,12 @@ public class CharacterSelection : MonoBehaviour
 			selectCharButton.interactable = false;
 			break;
 		}		
-		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer>().enabled = false;
+		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer> ().enabled = false;
 	}
 
 	void OnTriggerExit (Collider other)
 	{
-		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer>().enabled = true;
+		other.gameObject.transform.GetChild (0).GetComponent<MeshRenderer> ().enabled = true;
 
 		charNumberText.text = charNumber.ToString () + "/100";
 
@@ -93,7 +95,7 @@ public class CharacterSelection : MonoBehaviour
 
 		//LeanTween.cancel (charTemp.gameObject);
 		LeanTween.scale (charTemp.gameObject, new Vector3 (125, 125, 125), 0.15f, optional);
-		other.gameObject.SetActive(true);
+		other.gameObject.SetActive (true);
 	}
 
 	void OnDisable ()
@@ -103,7 +105,7 @@ public class CharacterSelection : MonoBehaviour
 
 	public void ScrollValueChange (Vector2 scrollRectValue)
 	{	
-		//scrollValue = scrollRectValue;
+		scrollValue = scrollRectValue;
 		charIndex = scrollRectValue.x * 100;
 		charNumberText.text = charIndex.ToString ("F0") + "/100";
 	}

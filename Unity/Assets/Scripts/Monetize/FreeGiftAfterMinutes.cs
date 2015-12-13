@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FreeGiftAfterMinutes : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 			PlayerPrefs.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 		}//**************************************************************************************
 	}
+
 	void Start ()
 	{
 		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
@@ -69,6 +71,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 			OpenRedeemMenu ();
 		}
 	}
+
 	public void RedeemedButtonClicked ()
 	{
 		PlayerPrefsX.SetBool ("isReady", false);
@@ -78,6 +81,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		StartCoroutine ("PlayerGetCoinsAnimation");
 
 	}
+
 	IEnumerator PlayerGetCoinsAnimation ()
 	{
 		particle.SetActive (false);
@@ -93,19 +97,30 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 
 		yield return new WaitForSeconds (3);
-		Application.LoadLevel ("level");
+		SceneManager.LoadSceneAsync ("level");
 		CloseRedeemMenu ();
 	}
+
 	public void CloseRedeemMenu ()
 	{
+
+		if (GameEventManager.isNightMode) {
+			IGMLogic.m_instance.shadowLight.gameObject.SetActive (false);
+			//IGMLogic.m_instance.light2.gameObject.SetActive (false);
+		}
 		mainCamera.SetActive (true);
 		mainCanvas.SetActive (true);
 		menuCamera.SetActive (false);
 		menuCanvas.SetActive (false);
 		redeemMenu.SetActive (false);
 	}
+
 	public void OpenRedeemMenu ()
 	{
+		if (GameEventManager.isNightMode) {
+			IGMLogic.m_instance.shadowLight.gameObject.SetActive (true);
+			//IGMLogic.m_instance.light2.gameObject.SetActive (true);
+		}
 		mainCamera.SetActive (false);
 		mainCanvas.SetActive (false);
 		menuCamera.SetActive (true);
