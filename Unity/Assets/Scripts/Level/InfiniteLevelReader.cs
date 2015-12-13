@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class InfiniteLevelReader : MonoBehaviour
 {
 	public GameObject[] a, b, c, d, g, p, h;
-	public Light mainLight, mainLightWithShadow, nightLight,spotLight;
+	public Light mainLight, mainLightWithShadow, nightLight, spotLight;
 	public GameObject lastBestBoard;
-	public GameObject world0, world1, world2,world3;
+	public GameObject world0, world1, world2, world3;
 	string[] text;
 	int totalSections = 0;
 	static int sectionHeight = 10;
@@ -27,7 +27,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	public static GameObject[] myObjects;
 	//I used this to keep track of the number of objects I spawned in the scene.
 	public static int numSpawned = 0;
-	
+
 	void test ()
 	{		
 		Object[] veh = (Object[])Resources.LoadAll ("Vehicles");
@@ -35,7 +35,7 @@ public class InfiniteLevelReader : MonoBehaviour
 			//print (veh [i].name);
 		}
 	}
-	
+
 	void CreateAllEmptyGOs ()
 	{
 		objToSpawn = new GameObject[sectionHeight * numberOfFiles];
@@ -49,7 +49,7 @@ public class InfiniteLevelReader : MonoBehaviour
 			}
 		}
 	}
-	
+
 	void SetupGameEnvironment ()
 	{
 //		print (PlayerPrefs.GetString ("currentCharacterSelected"));
@@ -90,26 +90,25 @@ public class InfiniteLevelReader : MonoBehaviour
 			break;
 		}
 	}
-	
+
 	void StartItemsMaker (GameObject startItem)
 	{
 		Instantiate (startItem, Vector3.zero, Quaternion.identity);
 	}
-	
+
 	void NightModeON (bool active)
 	{
 		if (active) {
 			GameEventManager.isNightMode = true;
-		}
-		else
-		{
+		} else {
 			GameEventManager.isNightMode = false;
 		}
 		mainLight.gameObject.SetActive (!active);
 		mainLightWithShadow.gameObject.SetActive (!active);
 		nightLight.gameObject.SetActive (active);
-		spotLight.gameObject.SetActive(active);
+		spotLight.gameObject.SetActive (active);
 	}
+
 	void Awake ()
 	{
 		
@@ -125,7 +124,7 @@ public class InfiniteLevelReader : MonoBehaviour
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
 			text [i] = levelData [i].text;
 			lines = Regex.Split (text [i], "\r\n");
-			print(levelData [i]);
+			print (levelData [i]);
 			totalSections = lines.Length / sectionHeight;
 			//CreateEmptyGOs (10, i.ToString ());
 			foreach (string line in lines) {
@@ -161,14 +160,14 @@ public class InfiniteLevelReader : MonoBehaviour
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c":
-							int cars = Random.Range (0,2);
+							int cars = Random.Range (0, 2);
 							AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c2":							
-							AutoInstantiate (c[2], new Vector3 (xPos, yPos, zPos));
+							AutoInstantiate (c [2], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c3":							
-							AutoInstantiate (c[3], new Vector3 (xPos, yPos, zPos));
+							AutoInstantiate (c [3], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "g0":
 							AutoInstantiate (g [0], new Vector3 (xPos, yPos, zPos));
@@ -207,6 +206,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		}
 		SetLastBestMarker ();
 	}
+
 	void SetLastBestMarker ()
 	{
 		if (PlayerPrefs.GetInt ("lastBestScore") <= 30) {
@@ -215,6 +215,7 @@ public class InfiniteLevelReader : MonoBehaviour
 			lastBestBoard.transform.localPosition = new Vector3 (PlayerPrefs.GetInt ("lastBestScore"), 0, 1.25f);
 		}
 	}
+
 	void AutoInstantiate (GameObject aa, Vector3 posaa)
 	{
 		GameObject objectInstance;

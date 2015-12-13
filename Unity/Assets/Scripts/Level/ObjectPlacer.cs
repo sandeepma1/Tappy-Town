@@ -5,9 +5,7 @@ using System.Collections.Generic;
 public class ObjectPlacer : MonoBehaviour
 {
 	Queue<int> digitQ = new Queue<int> ();
-	public Transform playerPos;
 	int posAdder = 0;
-	int spwaner = 0;
 	GameObject[] blocks;
 	//*****************
 	int dCount = 0;
@@ -19,6 +17,7 @@ public class ObjectPlacer : MonoBehaviour
 	//*****************
 	bool isReliefMoment = false;
 	int reliefMomentCounter = 0;
+
 	void Start ()
 	{
 		int ran;
@@ -40,9 +39,12 @@ public class ObjectPlacer : MonoBehaviour
 	void Update ()
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
-			if (playerPos.transform.position.x >= posAdder) {
+			if (MovingPlatform.m_instance.transform.position.x >= posAdder) {
 				posAdder = posAdder + 30;
 				GenerateEnvSection ();
+			}
+			if (MovingPlatform.m_instance.transform.position.x >= 300) {
+				
 			}
 		}
 	}
@@ -78,6 +80,7 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [finalObjNumber].transform.position = new Vector3 (posAdder, 0);
 		blocks [finalObjNumber].SetActive (true);
 	}
+
 	void calDigit2 ()
 	{
 		tempDigit2 = Random.Range (0, 10);

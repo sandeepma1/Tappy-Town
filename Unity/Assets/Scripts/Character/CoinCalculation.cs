@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class CoinCalculation : MonoBehaviour
 {
 	public Text coinsText;
-	int tempCoins = 0;
 	int coinAchievement = 0;
 	//public Animation coinScaler;
 
@@ -13,10 +12,12 @@ public class CoinCalculation : MonoBehaviour
 	{
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 	}
+
 	public void UpdateCoinsOnUI ()
 	{
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 	}
+
 	public void AddCoins (int nos)
 	{
 		coinAchievement++;
@@ -28,6 +29,7 @@ public class CoinCalculation : MonoBehaviour
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 		//coinsText.GetComponent<Animation> ().Play ("CoinScale");
 	}
+
 	IEnumerator ScaleCoinText ()
 	{
 		//coinsText.rectTransform.sizeDelta = new Vector2 (1.2f, 1.2f);

@@ -24,7 +24,6 @@ public class ManJump : MonoBehaviour
 	public GameObject tapnHoldText;
 	Vector3 iniScale;
 	int coinMultipler = 0;
-	float g = 0;
 	CharacterController c;
 	int diedCounter = 0;
 	int coinsToAsk = 0;
@@ -42,6 +41,7 @@ public class ManJump : MonoBehaviour
 		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 	}
+
 	void Start ()
 	{
 		/*foreach (Transform trans in this.transform) {
@@ -55,6 +55,7 @@ public class ManJump : MonoBehaviour
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
 	}
+
 	void Update ()
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
@@ -152,6 +153,7 @@ public class ManJump : MonoBehaviour
 			inAirJumpBox = true;
 		}
 	}
+
 	void OnTriggerExit (Collider other)
 	{
 		if (other.gameObject.tag == "airJump") {
@@ -159,6 +161,7 @@ public class ManJump : MonoBehaviour
 			print (inAirJumpBox);
 		}
 	}
+
 	IEnumerator small ()
 	{
 		LeanTween.cancel (playerMesh);
@@ -166,6 +169,7 @@ public class ManJump : MonoBehaviour
 		yield return new WaitForSeconds (0.25f);
 		LeanTween.scale (playerMesh, iniScale, 0.15f, optional);
 	}
+
 	IEnumerator big ()
 	{
 		LeanTween.cancel (playerMesh);
@@ -173,6 +177,7 @@ public class ManJump : MonoBehaviour
 		yield return new WaitForSeconds (0.25f);
 		LeanTween.scale (playerMesh, iniScale, 0.15f, optional);
 	}
+
 	IEnumerator rotate ()
 	{
 		LeanTween.cancel (playerMesh);
@@ -210,6 +215,7 @@ public class ManJump : MonoBehaviour
 	{
 
 	}
+
 	void UserHadAndPaidCoins ()
 	{
 		StopCoroutine ("PlayerDiedStartTimer");
@@ -270,14 +276,14 @@ public class ManJump : MonoBehaviour
 		coinMultipler++;
 		coinsToAsk = coinMultipler * 20;
 		igmLogic.GetComponent<IGMLogic> ().ShowPayToContinueMenu (coinsToAsk);
-		counDownText.text = "7";
+		/*counDownText.text = "7";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "6";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "5";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "4";
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds (1);*/
 		counDownText.text = "3";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "2";
@@ -297,6 +303,7 @@ public class ManJump : MonoBehaviour
 		transform.parent.GetComponent<MovingPlatform> ().lastBestFun (true);
 		//igmLogic.GetComponent<IGMLogic> ().PauseGame ();
 	}
+
 	void SpeedUpPlayer ()
 	{
 		speedUpParticle.Play ();

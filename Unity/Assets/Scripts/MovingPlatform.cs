@@ -15,9 +15,11 @@ public class MovingPlatform : MonoBehaviour
 	//public TextMesh lastBestText;
 	public Text percentText;
 	public Text Score;
+	public static MovingPlatform m_instance = null;
 
 	void Start ()
 	{
+		m_instance = this;
 		tempMoveDirection = moveDirection;
 		playerPos = this.transform.position;
 		manPos = man.transform.position;
@@ -51,11 +53,13 @@ public class MovingPlatform : MonoBehaviour
 			});*/
 		}
 	}
+
 	public void ResetPosition ()
 	{
 		this.transform.position = playerPos;
 		man.transform.position = manPos;
 	}
+
 	public void lastBestFun (bool isComplete)
 	{
 		lastBest = 100 - (((progressBarSlider.maxValue - transform.position.x) / progressBarSlider.maxValue) * 100);
@@ -67,6 +71,7 @@ public class MovingPlatform : MonoBehaviour
 		}
 
 	}
+
 	public void SpeedUp ()
 	{
 		StartCoroutine ("SpeedUpPlayer");
