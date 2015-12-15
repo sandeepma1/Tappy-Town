@@ -10,9 +10,10 @@ public class ManJump : MonoBehaviour
 	public float gravity = 96.0F;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, skateBoardGO, board;
+	public GameObject playerMesh, board;
+	// skateBoardGO, ;
 	public ParticleSystem playerDieParticle, speedUpParticle;
-	public GameObject skateboardGO, playerShadowQuad;
+	public GameObject playerShadowQuad;
 	public Text counDownText, continueText;
 	Hashtable optional;
 	public GameObject igmLogic;
@@ -102,10 +103,10 @@ public class ManJump : MonoBehaviour
 	{
 		for (int i = 0; i < times; i++) {
 			playerMesh.SetActive (false);
-			skateBoardGO.SetActive (false);
+			//skateBoardGO.SetActive (false);
 			yield return new WaitForSeconds (0.1f);
 			playerMesh.SetActive (true);
-			skateBoardGO.SetActive (true);
+			//skateBoardGO.SetActive (true);
 			yield return new WaitForSeconds (0.1f);
 		}
 	}
@@ -197,7 +198,7 @@ public class ManJump : MonoBehaviour
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
-		skateboardGO.SetActive (false);
+		//skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
 		igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
 		transform.parent.GetComponent<MovingPlatform> ().lastBestFun (false);
@@ -252,7 +253,7 @@ public class ManJump : MonoBehaviour
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
-		skateboardGO.SetActive (false);
+		//skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
 
 		lastBest = lastBest / 10;

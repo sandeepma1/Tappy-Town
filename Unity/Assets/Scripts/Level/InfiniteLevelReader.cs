@@ -10,7 +10,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	public Light mainLightWithShadow, nightLight, spotLight;
 	public GameObject lastBestBoard;
 	public GameObject world0, world1, world2, world3;
-	string[] text;
+	//string[] text;
 	int totalSections = 0;
 	static int sectionHeight = 10;
 	int count = 0, lineCount = 0;
@@ -114,15 +114,15 @@ public class InfiniteLevelReader : MonoBehaviour
 		SetupGameEnvironment ();
 		yPos = sectionHeight - 1;// *********** adjusted value
 		levelData = new TextAsset[numberOfFiles];
-		text = new string[numberOfFiles];
+		//text = new string[numberOfFiles];
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
 
 		for (int i = 0; i < levelData.Length; i++) {
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
-			text [i] = levelData [i].text;
-			lines = Regex.Split (text [i], "\r\n");
+			//text [i] = levelData [i].text;
+			lines = Regex.Split (levelData [i].text, "\r\n");
 			totalSections = lines.Length / sectionHeight;
 			foreach (string line in lines) {
 				if (line != "") {// Skip all blank lines

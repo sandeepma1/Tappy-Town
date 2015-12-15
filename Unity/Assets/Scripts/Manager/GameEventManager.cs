@@ -16,7 +16,7 @@ public static class GameEventManager
 	static public bool PMlevel1 = true, showAreUSureWindow, isLevelLoaded, islevelCompleted, isNightMode;
 
 	public delegate void GameEvent ();
-	
+
 	public enum E_STATES
 	{
 		e_mainMenu,
@@ -26,15 +26,14 @@ public static class GameEventManager
 		e_nextLevel,
 		e_previousLevel,
 		e_resetLevel,
-		e_levelFinish
-	}
+		e_levelFinish}
 	;
-	
+
 	public enum E_CLICKSTATE
 	{
 		e_delayFinish,
-		e_delayStart
-	}
+		e_delayStart}
+
 	;
 	
 	//--------------
@@ -49,6 +48,7 @@ public static class GameEventManager
 	{
 		m_click_state = clickstate;
 	}
+
 	public static E_CLICKSTATE GetClickState ()
 	{
 		return m_click_state;
@@ -60,6 +60,7 @@ public static class GameEventManager
 	{
 		m_gameState = state;
 	}
+
 	public static E_STATES GetState ()
 	{
 		return m_gameState;
