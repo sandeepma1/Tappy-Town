@@ -19,7 +19,7 @@ public class ObjectPlacer : MonoBehaviour
 	public Transform cargoInstantiatePosition;
 	int cargoDigit1 = 4;
 	int cargoDigit2 = 0;
-	bool isCargoTruckStarted = true;
+	bool isCargoTruckStarted = false;
 	int cargoTruckSequenceStartCounter = 0;
 	//****************** Player's XP Vars
 	public int playerXP = 0;
@@ -71,29 +71,35 @@ public class ObjectPlacer : MonoBehaviour
 
 	void NewEnvGenerator ()
 	{
-		/*	if (int.Parse (chars [charAdder]) == 4) {			
-			finalObjNumber = int.Parse (chars [charAdder] + "" + cargoTruckSequenceStartCounter);
-			cargoTruckSequenceStartCounter++;
-			CargoTruckSequenceStart ();
-			print ("over" + cargoTruckSequenceStartCounter);
-			if (cargoTruckSequenceStartCounter >= 4) {
-				cargoTruckSequenceStartCounter = 0;
+		
+		switch (chars [charAdder]) {
+		case "csS":
+			if (!isCargoTruckStarted) {
+				print ("Cargo Start");
+				CargoTruckSequenceStart ();
 			}
-		} else {*/
-			
-		calDigit2 ();
-		digit2 = digitQ.Dequeue ();
-		finalObjNumber = int.Parse (chars [charAdder] + "" + digit2);
-		//	}
+			break;
+		case "csE":
+			if (isCargoTruckStarted) {
+				print ("Cargo End");
+				CargoTruckSequenceEnd ();
+			}
+			break;
+		default:
+			print (chars [charAdder] + " " + charAdder);
+			calDigit2 ();
+			digit2 = digitQ.Dequeue ();
+			finalObjNumber = int.Parse (chars [charAdder] + "" + digit2);
+			blocks [finalObjNumber].transform.position = new Vector3 (posAdder, 0);
+			blocks [finalObjNumber].SetActive (true);
+			break;
+		}
 
-		//print (finalObjNumber);
-		blocks [finalObjNumber].transform.position = new Vector3 (posAdder, 0);
-		blocks [finalObjNumber].SetActive (true);
-		charAdder++;
 		if (charAdder > chars.Length) {
 			print ("char ended");
 			charAdder = Random.Range ((chars.Length / 2), chars.Length);
 		}
+		charAdder++;
 	}
 
 	void calDigit2 ()
@@ -106,26 +112,42 @@ public class ObjectPlacer : MonoBehaviour
 		}
 	}
 
+	void CargoTruckSequenceEnd ()
+	{
+		blocks [42].transform.position = new Vector3 (posAdder, 0);
+		blocks [42].SetActive (true);
+		StartCoroutine ("CargoTruckEndingAnimation");
+		isCargoTruckStarted = false;
+	}
+
 	void CargoTruckSequenceStart ()
 	{
-		if (isCargoTruckStarted) {
-			StartCoroutine ("CargoTruckStartingAnimation");
-			isCargoTruckStarted = false;
-		}
-		cargoDigit2 = cargoDigit2 + 1;
+		blocks [41].transform.position = new Vector3 (posAdder, 0);
+		blocks [41].SetActive (true);
+		StartCoroutine ("CargoTruckStartingAnimation");
+		isCargoTruckStarted = true;
+		/*cargoDigit2 = cargoDigit2 + 1;
 		if (cargoDigit2 > 3) {
 			cargoDigit2 = 1;
-		}
-		blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].transform.position = new Vector3 (posAdder, 0);
-		blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].SetActive (true);
+		}*/
+		/*blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].transform.position = new Vector3 (posAdder, 0);
+		blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].SetActive (true);*/
+	}
+
+	IEnumerator CargoTruckEndingAnimation ()
+	{
+		LeanTween.moveLocalX (cargoTruck, 26, 1f, optional);
+		yield return new WaitForSeconds (1f);
+		cargoTruck.transform.position = new Vector3 (-10, cargoTruck.transform.position.y, cargoTruck.transform.position.z);
 	}
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{
-		yield return new WaitForSeconds (3f);
+		//yield return new WaitForSeconds (3f);
 		LeanTween.moveLocalX (cargoTruck, 16, 3f, optional);
 		yield return new WaitForSeconds (4f);
-		InvokeRepeating ("CargoTruckStartThrowingObjects", 0, 1F);
+		//InvokeRepeating ("CargoTruckStartThrowingObjects", 0, 1F);
+		CargoTruckStartThrowingObjects ();
 	}
 
 	void CargoTruckStartThrowingObjects ()

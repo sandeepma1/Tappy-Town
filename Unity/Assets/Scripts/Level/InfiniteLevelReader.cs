@@ -121,7 +121,6 @@ public class InfiniteLevelReader : MonoBehaviour
 
 		for (int i = 0; i < levelData.Length; i++) {
 			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
-			//text [i] = levelData [i].text;
 			lines = Regex.Split (levelData [i].text, "\r\n");
 			totalSections = lines.Length / sectionHeight;
 			foreach (string line in lines) {

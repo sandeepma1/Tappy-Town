@@ -39,8 +39,8 @@ public class ManJump : MonoBehaviour
 		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_mailman");
 		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
 		playerMesh.transform.parent = this.transform;
-		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0);
-		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
+		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, -0.5f);
+		playerMesh.transform.localEulerAngles = new Vector3 (270, 270, 0);
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 	}
 
@@ -262,6 +262,7 @@ public class ManJump : MonoBehaviour
 			lastBest = 100;
 		}
 		if (transform.root.position.x >= lastBest && diedCounter < 2) {
+			diedCounter++;
 			print ("Died Times: " + diedCounter);
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
