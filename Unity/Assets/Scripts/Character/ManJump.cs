@@ -39,7 +39,7 @@ public class ManJump : MonoBehaviour
 		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_mailman");
 		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
 		playerMesh.transform.parent = this.transform;
-		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, -0.5f);
+		playerMesh.transform.localPosition = new Vector3 (0, -0.65f, -0.5f);
 		playerMesh.transform.localEulerAngles = new Vector3 (270, 270, 0);
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 	}
