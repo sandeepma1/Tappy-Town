@@ -10,8 +10,7 @@ public class ManJump : MonoBehaviour
 	public float gravity = 96.0F;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, board;
-	// skateBoardGO, ;
+	public GameObject playerMesh, board, skateboardGO;
 	public ParticleSystem playerDieParticle, speedUpParticle;
 	public GameObject playerShadowQuad;
 	public Text counDownText, continueText;
@@ -39,8 +38,8 @@ public class ManJump : MonoBehaviour
 		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_mailman");
 		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
 		playerMesh.transform.parent = this.transform;
-		playerMesh.transform.localPosition = new Vector3 (0, -0.65f, -0.5f);
-		playerMesh.transform.localEulerAngles = new Vector3 (270, 270, 0);
+		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0.05f);
+		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 	}
 
@@ -198,7 +197,7 @@ public class ManJump : MonoBehaviour
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
-		//skateboardGO.SetActive (false);
+		skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
 		igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
 		transform.parent.GetComponent<MovingPlatform> ().lastBestFun (false);
@@ -228,7 +227,6 @@ public class ManJump : MonoBehaviour
 		print (PlayerPrefs.GetInt ("Coins"));
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
 		igmLogic.GetComponent<CoinCalculation> ().UpdateCoinsOnUI ();
-		print (PlayerPrefs.GetInt ("Coins"));
 	}
 
 	IEnumerator EnablePlayersColliderAfterWait ()

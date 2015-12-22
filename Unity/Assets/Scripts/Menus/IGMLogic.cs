@@ -299,6 +299,11 @@ public class IGMLogic : MonoBehaviour
 		Application.OpenURL ("https://play.google.com/store/apps/details?id=com.pooch.crossytown");
 	}
 
+	public void OpenSandeepTwitterPage ()
+	{
+		Application.OpenURL ("https://twitter.com/sandeepmamdikar");
+	}
+
 	public void StartGame ()
 	{
 		pauseButton.SetActive (true);

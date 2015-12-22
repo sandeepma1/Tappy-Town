@@ -11,22 +11,19 @@ public class ObjectPlacer : MonoBehaviour
 	GameObject[] blocks;
 	//*****************
 	int digit2 = 0;
-	int finalObjNumber = 0;
 	int tempDigit2 = 0;
 	//***************** Cargo Truck Vars
 	public GameObject cargoTruck;
 	public GameObject cargoPrefab;
 	public Transform cargoInstantiatePosition;
-	int cargoDigit1 = 4;
-	int cargoDigit2 = 0;
 	bool isCargoTruckStarted = false;
-	int cargoTruckSequenceStartCounter = 0;
 	//****************** Player's XP Vars
 	public int playerXP = 0;
 	TextAsset levelData;
 	string[] lines;
 	string[] chars;
 	int charAdder = 0;
+
 	//***********************
 	Hashtable optional;
 
@@ -44,15 +41,15 @@ public class ObjectPlacer : MonoBehaviour
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.notUsed);
 		int ran;
-		ran = Random.Range (2, 4);
+		ran = Random.Range (2, 7);
 		digitQ.Enqueue (ran);
 		digitQ.Enqueue (ran - 1);
 		digitQ.Enqueue (ran + 2);
-		blocks = new GameObject[InfiniteLevelReader.numberOfFiles * 10];
+		blocks = new GameObject[InfiniteLevelReader.m_instance.numberOfFiles * 10];
 		int ctr = 0;
-		for (int i = 0; i < InfiniteLevelReader.numberOfFiles; i++) {
+		for (int i = 0; i < InfiniteLevelReader.m_instance.numberOfFiles; i++) {
 			for (int j = 0; j < 10; j++) {
-				blocks [ctr] = GameObject.Find (i.ToString () + j.ToString ());
+				blocks [ctr] = GameObject.Find (InfiniteLevelReader.m_instance.levelData [i].name + j.ToString ());
 				blocks [ctr].gameObject.SetActive (false);
 				ctr++;
 			}
@@ -69,9 +66,19 @@ public class ObjectPlacer : MonoBehaviour
 		}
 	}
 
+	int FindArrayIndex (string name)
+	{		
+		int i;
+		for (i = 0; i < blocks.Length; i++) {
+			if (blocks [i].name == name) {				
+				break;
+			}
+		}
+		return i;
+	}
+
 	void NewEnvGenerator ()
 	{
-		
 		switch (chars [charAdder]) {
 		case "csS":
 			if (!isCargoTruckStarted) {
@@ -85,19 +92,18 @@ public class ObjectPlacer : MonoBehaviour
 				CargoTruckSequenceEnd ();
 			}
 			break;
-		default:
-			print (chars [charAdder] + " " + charAdder);
+		default:			
 			calDigit2 ();
 			digit2 = digitQ.Dequeue ();
-			finalObjNumber = int.Parse (chars [charAdder] + "" + digit2);
-			blocks [finalObjNumber].transform.position = new Vector3 (posAdder, 0);
-			blocks [finalObjNumber].SetActive (true);
+			print (chars [charAdder] + digit2);
+			blocks [FindArrayIndex (chars [charAdder] + digit2)].transform.position = new Vector3 (posAdder, 0);
+			blocks [FindArrayIndex (chars [charAdder] + digit2)].SetActive (true);
 			break;
 		}
 
-		if (charAdder > chars.Length) {
-			print ("char ended");
-			charAdder = Random.Range ((chars.Length / 2), chars.Length);
+		if (charAdder >= chars.Length - 1) {
+			print ("char ended" + Random.Range ((chars.Length / 2), chars.Length));
+			charAdder = Random.Range (1, (chars.Length - 1));
 		}
 		charAdder++;
 	}
@@ -114,18 +120,22 @@ public class ObjectPlacer : MonoBehaviour
 
 	void CargoTruckSequenceEnd ()
 	{
-		blocks [42].transform.position = new Vector3 (posAdder, 0);
-		blocks [42].SetActive (true);
-		StartCoroutine ("CargoTruckEndingAnimation");
+		blocks [FindArrayIndex ("cs10")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("cs10")].SetActive (true);
 		isCargoTruckStarted = false;
+		StopAllCoroutines ();
+		StartCoroutine ("CargoTruckEndingAnimation");
+
 	}
 
 	void CargoTruckSequenceStart ()
 	{
-		blocks [41].transform.position = new Vector3 (posAdder, 0);
-		blocks [41].SetActive (true);
-		StartCoroutine ("CargoTruckStartingAnimation");
+		blocks [FindArrayIndex ("cs10")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("cs10")].SetActive (true);
 		isCargoTruckStarted = true;
+		StopAllCoroutines ();
+		StartCoroutine ("CargoTruckStartingAnimation");
+
 		/*cargoDigit2 = cargoDigit2 + 1;
 		if (cargoDigit2 > 3) {
 			cargoDigit2 = 1;
@@ -147,7 +157,7 @@ public class ObjectPlacer : MonoBehaviour
 		LeanTween.moveLocalX (cargoTruck, 16, 3f, optional);
 		yield return new WaitForSeconds (4f);
 		//InvokeRepeating ("CargoTruckStartThrowingObjects", 0, 1F);
-		CargoTruckStartThrowingObjects ();
+		//	CargoTruckStartThrowingObjects ();
 	}
 
 	void CargoTruckStartThrowingObjects ()

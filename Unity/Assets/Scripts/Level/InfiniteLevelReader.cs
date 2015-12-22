@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class InfiniteLevelReader : MonoBehaviour
 {
-	public GameObject[] a, b, c, d, g, p, h;
+	public GameObject[] a, b, c, d, g, p, h, cs, lo;
 	public Light mainLightWithShadow, nightLight, spotLight;
 	public GameObject lastBestBoard;
 	public GameObject world0, world1, world2, world3;
@@ -17,25 +17,18 @@ public class InfiniteLevelReader : MonoBehaviour
 	string[] lines;
 	string[] chars;
 	int xPos = 0, yPos = 0, zPos = 0, zPosTemp = 0;
-	TextAsset[] levelData;
 	GameObject[] objToSpawn;
-	static public int numberOfFiles = 5;
+	public int numberOfFiles = 11;
 	GameObject[] blocks;
-	
+	public TextAsset[] levelData;
 	float setLastBestBoardPosition;
-	int worldIndex = 0;
+	string worldName = "";
 	public static GameObject[] myObjects;
 	//I used this to keep track of the number of objects I spawned in the scene.
 	public static int numSpawned = 0;
 	public static InfiniteLevelReader m_instance = null;
 
-	void test ()
-	{		
-		Object[] veh = (Object[])Resources.LoadAll ("Vehicles");
-		for (int i = 0; i < veh.Length; i++) {
-			//print (veh [i].name);
-		}
-	}
+	public Text debugText;
 
 	void CreateAllEmptyGOs ()
 	{
@@ -43,7 +36,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		int ctr = 0;
 		for (int i = 0; i < numberOfFiles; i++) {
 			for (int j = 0; j < sectionHeight; j++) {
-				objToSpawn [ctr] = new GameObject (i.ToString () + j.ToString ());
+				objToSpawn [ctr] = new GameObject (levelData [i].name + j.ToString ());
 				objToSpawn [ctr].transform.position = new Vector3 (0, 0, zPosTemp);
 				zPosTemp = zPosTemp + sectionHeight;
 				ctr++;
@@ -60,31 +53,28 @@ public class InfiniteLevelReader : MonoBehaviour
 		case "chr_goth1": // Dark world
 		case "chr_thief":
 			NightModeON (true);
-			worldIndex = 0;
+			worldName = "town";
 			StartItemsMaker (world0);
 			break;
 		case "chr_bridget":// City World
 			NightModeON (false);
-			worldIndex = 1;
+			worldName = "city";
 			StartItemsMaker (world1);
 			break;
 		case "alien_engi3":// Alien World
 		case "alien_eye1c":
 			NightModeON (false);
-			worldIndex = 2;
+			worldName = "alien";
 			StartItemsMaker (world2);
 			break;			
 		case "chr_riotcop":// Cop World
 			NightModeON (false);
-			worldIndex = 3;
+			worldName = "cop";
 			StartItemsMaker (world3);
 			break;
-		//case "chr_paramedic2":
-		//	break;
-		
 		default:			// Town World - DEFAULT GREEN
 			NightModeON (false); 
-			worldIndex = 0;
+			worldName = "town";
 			StartItemsMaker (world0);
 			break;
 		}
@@ -102,29 +92,27 @@ public class InfiniteLevelReader : MonoBehaviour
 		} else {
 			GameEventManager.isNightMode = false;
 		}
-		//mainLight.gameObject.SetActive (!active);
 		mainLightWithShadow.gameObject.SetActive (!active);
 		nightLight.gameObject.SetActive (active);
 		spotLight.gameObject.SetActive (active);
 	}
 
 	void Awake ()
-	{
+	{		
 		m_instance = this;
 		SetupGameEnvironment ();
+		levelData = Resources.LoadAll <TextAsset> ("Levels/" + worldName);
+		numberOfFiles = levelData.Length;
+
 		yPos = sectionHeight - 1;// *********** adjusted value
-		levelData = new TextAsset[numberOfFiles];
-		//text = new string[numberOfFiles];
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
-
 		for (int i = 0; i < levelData.Length; i++) {
-			levelData [i] = Resources.Load ("Levels/" + worldIndex + "/" + i.ToString ()) as TextAsset;
 			lines = Regex.Split (levelData [i].text, "\r\n");
 			totalSections = lines.Length / sectionHeight;
 			foreach (string line in lines) {
-				if (line != "") {// Skip all blank lines
+				if (line != "") {
 					lineCount++;
 					if (lineCount % sectionHeight == 0) {
 						zPos = sectionHeight + zPos;
@@ -133,7 +121,6 @@ public class InfiniteLevelReader : MonoBehaviour
 					}
 					chars = Regex.Split (line, ",");
 					yPos--;
-					//yPos = 1;
 					foreach (string chars1 in chars) {
 						xPos++;
 						switch (chars1) {
@@ -151,6 +138,9 @@ public class InfiniteLevelReader : MonoBehaviour
 							break;
 						case "b1":
 							AutoInstantiate (b [1], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "b2":
+							AutoInstantiate (b [2], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "d0":
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
@@ -186,11 +176,29 @@ public class InfiniteLevelReader : MonoBehaviour
 						case "p4":							
 							AutoInstantiate (p [4], new Vector3 (xPos, yPos, zPos));
 							break;
+						case "p5":							
+							AutoInstantiate (p [5], new Vector3 (xPos, yPos, zPos));
+							break;
 						case "h0":
 							AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "h1":
 							AutoInstantiate (h [1], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "cb0":
+							AutoInstantiate (cs [0], new Vector3 (xPos, yPos, zPos));
+							break;						
+						case "lo0":
+							AutoInstantiate (lo [0], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "lo1":
+							AutoInstantiate (lo [1], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "lo2":
+							AutoInstantiate (lo [2], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "lo3":
+							AutoInstantiate (lo [3], new Vector3 (xPos, yPos, zPos));
 							break;
 						default:
 							break;
