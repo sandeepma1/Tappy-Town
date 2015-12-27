@@ -97,13 +97,19 @@ public class InfiniteLevelReader : MonoBehaviour
 		spotLight.gameObject.SetActive (active);
 	}
 
+	void BlocksMaker (string value)
+	{
+		for (int i = 0; i < value.Length; i++) {
+			
+		}
+	}
+
 	void Awake ()
-	{		
+	{	
 		m_instance = this;
 		SetupGameEnvironment ();
 		levelData = Resources.LoadAll <TextAsset> ("Levels/" + worldName);
 		numberOfFiles = levelData.Length;
-
 		yPos = sectionHeight - 1;// *********** adjusted value
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
@@ -121,6 +127,7 @@ public class InfiniteLevelReader : MonoBehaviour
 					}
 					chars = Regex.Split (line, ",");
 					yPos--;
+
 					foreach (string chars1 in chars) {
 						xPos++;
 						switch (chars1) {
@@ -132,6 +139,27 @@ public class InfiniteLevelReader : MonoBehaviour
 							break;
 						case "a2":
 							AutoInstantiate (a [2], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a3":
+							AutoInstantiate (a [3], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a4":
+							AutoInstantiate (a [4], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a5":
+							AutoInstantiate (a [5], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a6":
+							AutoInstantiate (a [6], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a7":
+							AutoInstantiate (a [7], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a8":
+							AutoInstantiate (a [8], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "a9":
+							AutoInstantiate (a [9], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "b0":
 							AutoInstantiate (b [0], new Vector3 (xPos, yPos, zPos));
@@ -178,6 +206,15 @@ public class InfiniteLevelReader : MonoBehaviour
 							break;
 						case "p5":							
 							AutoInstantiate (p [5], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p6":							
+							AutoInstantiate (p [6], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p7":							
+							AutoInstantiate (p [7], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "p8":							
+							AutoInstantiate (p [8], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "h0":
 							AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));

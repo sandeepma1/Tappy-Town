@@ -12,10 +12,14 @@ public class MovingPlatform : MonoBehaviour
 	public GameObject IGM_GO;
 	public Slider progressBarSlider;
 	float lastBest = 0;
-	//public TextMesh lastBestText;
 	public Text percentText;
 	public Text Score;
 	public static MovingPlatform m_instance = null;
+
+	/*	void OnDisable ()
+	{
+		this.gameObject.SetActive (true);
+	}*/
 
 	void Start ()
 	{
@@ -46,6 +50,7 @@ public class MovingPlatform : MonoBehaviour
 
 	public void SaveLastBestRunScore ()
 	{
+		PlayerPrefs.SetInt ("PlayerDistanceCovered", PlayerPrefs.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
 		if (PlayerPrefs.GetInt ("lastBestScore") <= (int)transform.position.x) {
 			PlayerPrefs.SetInt ("lastBestScore", (int)transform.position.x);
 			/*Social.ReportScore (PlayerPrefs.GetInt ("lastBestScore"), "CgkIqM2wutYIEAIQBg", (bool success) => {
@@ -60,16 +65,11 @@ public class MovingPlatform : MonoBehaviour
 		man.transform.position = manPos;
 	}
 
-	public void lastBestFun (bool isComplete)
+	public void lastBestFun ()
 	{
-		lastBest = 100 - (((progressBarSlider.maxValue - transform.position.x) / progressBarSlider.maxValue) * 100);
-		if (isComplete || lastBest > 100) {
-			lastBest = 100;
+		if (lastBest > PlayerPrefs.GetFloat ("lastBest")) {
+			PlayerPrefs.SetFloat ("lastBest", lastBest);
 		}
-		if (lastBest > PlayerPrefs.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel)) {
-			PlayerPrefs.SetFloat ("lastBest" + GameEventManager.currentPlayingLevel, lastBest);
-		}
-
 	}
 
 	public void SpeedUp ()

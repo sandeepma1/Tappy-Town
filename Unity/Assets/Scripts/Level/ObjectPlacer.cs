@@ -14,6 +14,8 @@ public class ObjectPlacer : MonoBehaviour
 	int tempDigit2 = 0;
 	//***************** Cargo Truck Vars
 	public GameObject cargoTruck;
+	Vector3 cargoTruckIniPosition;
+	Vector3 cargoTruckIniRotation;
 	public GameObject cargoPrefab;
 	public Transform cargoInstantiatePosition;
 	bool isCargoTruckStarted = false;
@@ -36,8 +38,11 @@ public class ObjectPlacer : MonoBehaviour
 	}
 
 	void Start ()
-	{
+	{		
 		ReadPlayerXPFile (playerXP);
+		cargoTruckIniPosition = cargoTruck.transform.localPosition;
+		cargoTruckIniRotation = cargoTruck.transform.localEulerAngles;
+//		print (cargoTruckIniPosition);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.notUsed);
 		int ran;
@@ -95,7 +100,7 @@ public class ObjectPlacer : MonoBehaviour
 		default:			
 			calDigit2 ();
 			digit2 = digitQ.Dequeue ();
-			print (chars [charAdder] + digit2);
+//			print (chars [charAdder] + digit2);
 			blocks [FindArrayIndex (chars [charAdder] + digit2)].transform.position = new Vector3 (posAdder, 0);
 			blocks [FindArrayIndex (chars [charAdder] + digit2)].SetActive (true);
 			break;
@@ -120,20 +125,20 @@ public class ObjectPlacer : MonoBehaviour
 
 	void CargoTruckSequenceEnd ()
 	{
-		blocks [FindArrayIndex ("cs10")].transform.position = new Vector3 (posAdder, 0);
-		blocks [FindArrayIndex ("cs10")].SetActive (true);
+		blocks [FindArrayIndex ("d2cs1")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2cs1")].SetActive (true);
 		isCargoTruckStarted = false;
-		StopAllCoroutines ();
+		//StopAllCoroutines ();
 		StartCoroutine ("CargoTruckEndingAnimation");
 
 	}
 
 	void CargoTruckSequenceStart ()
 	{
-		blocks [FindArrayIndex ("cs10")].transform.position = new Vector3 (posAdder, 0);
-		blocks [FindArrayIndex ("cs10")].SetActive (true);
+		blocks [FindArrayIndex ("d2cs0")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2cs0")].SetActive (true);
 		isCargoTruckStarted = true;
-		StopAllCoroutines ();
+		//StopAllCoroutines ();
 		StartCoroutine ("CargoTruckStartingAnimation");
 
 		/*cargoDigit2 = cargoDigit2 + 1;
@@ -144,21 +149,37 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].SetActive (true);*/
 	}
 
-	IEnumerator CargoTruckEndingAnimation ()
+	/*IEnumerator CargoTruckEndingAnimation ()
 	{
 		LeanTween.moveLocalX (cargoTruck, 26, 1f, optional);
 		yield return new WaitForSeconds (1f);
-		cargoTruck.transform.position = new Vector3 (-10, cargoTruck.transform.position.y, cargoTruck.transform.position.z);
+		cargoTruck.transform.localPosition = new Vector3 (-10, cargoTruck.transform.localPosition.y, cargoTruck.transform.localPosition.z);
 	}
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{
-		//yield return new WaitForSeconds (3f);
-		LeanTween.moveLocalX (cargoTruck, 16, 3f, optional);
-		yield return new WaitForSeconds (4f);
-		//InvokeRepeating ("CargoTruckStartThrowingObjects", 0, 1F);
-		//	CargoTruckStartThrowingObjects ();
+		yield return new WaitForSeconds (0f);
+		LeanTween.moveLocalX (cargoTruck, 16, 2.5f, optional);
+
+	}*/
+
+	IEnumerator CargoTruckStartingAnimation ()
+	{
+		yield return new WaitForSeconds (2f);
+		LeanTween.moveLocalZ (cargoTruck, 5, 1.5f, optional);
+		LeanTween.moveLocalX (cargoTruck, 13, 1.5f, optional);
+		yield return new WaitForSeconds (1f);
+		LeanTween.rotateY (cargoTruck, 90, 0.65f, optional);
 	}
+
+	IEnumerator CargoTruckEndingAnimation ()
+	{
+		LeanTween.moveLocalX (cargoTruck, 26, 0.5f, optional);
+		yield return new WaitForSeconds (1f);
+		cargoTruck.transform.localPosition = cargoTruckIniPosition;
+		cargoTruck.transform.localEulerAngles = cargoTruckIniRotation;
+	}
+
 
 	void CargoTruckStartThrowingObjects ()
 	{

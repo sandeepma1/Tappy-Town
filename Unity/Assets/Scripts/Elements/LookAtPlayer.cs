@@ -20,7 +20,7 @@ public class LookAtPlayer : MonoBehaviour
 		child.transform.LookAt (player);
 		child.transform.localEulerAngles = new Vector3 (0, child.transform.localEulerAngles.y, 0);
 		if (isChasing) {
-			print ("chasing");
+//			print ("chasing");
 			transform.Translate (moveDirection * (Time.deltaTime * 1));
 		}
 

@@ -29,6 +29,7 @@ public class ManJump : MonoBehaviour
 	int diedCounter = 0;
 	int coinsToAsk = 0;
 	int lastBest = 0;
+	public Text debugText;
 	//public GameObject playerGO
 	void Awake ()
 	{
@@ -112,6 +113,7 @@ public class ManJump : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+		debugText.text = other.name;
 		if (other.gameObject.tag == "death") {
 			playerPartiallyDied ();
 		}
@@ -200,7 +202,7 @@ public class ManJump : MonoBehaviour
 		skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
 		igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
-		transform.parent.GetComponent<MovingPlatform> ().lastBestFun (false);
+		//transform.parent.GetComponent<MovingPlatform> ().lastBestFun (false);
 		//}
 	}
 
@@ -302,7 +304,7 @@ public class ManJump : MonoBehaviour
 	void LevelFinished ()
 	{
 		igmLogic.GetComponent<IGMLogic> ().ShowLevelCompleteMenu (jumpCount);
-		transform.parent.GetComponent<MovingPlatform> ().lastBestFun (true);
+		//transform.parent.GetComponent<MovingPlatform> ().lastBestFun (true);
 		//igmLogic.GetComponent<IGMLogic> ().PauseGame ();
 	}
 

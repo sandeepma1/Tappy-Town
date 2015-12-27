@@ -6,8 +6,8 @@ public static class GameEventManager
 	//Global Variables
 	static public string gameVersion = "0.8_alfa";
 	
-	static public int maxLevels = 5;
-	static public int currentPlayingLevel = 1;
+	//static public int maxLevels = 5;
+	//static public int currentPlayingLevel = 1;
 	static public int currentLevelAttempts = 0;
 	static public int GPSLoginCounter = 0;
 

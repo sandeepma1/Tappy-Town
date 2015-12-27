@@ -16,7 +16,7 @@ public class levelReader : MonoBehaviour
 	public GameObject[] a, b, c, g, j, t, z;
 	public GameObject[] aE, bE, cE;
 	TextAsset levelData;
-// = Resources.Load ("Level2 - Sheet1") as TextAsset;
+	// = Resources.Load ("Level2 - Sheet1") as TextAsset;
 	public Slider progressBarSlider;
 	public GameObject lastBestBoard;
 	float setLastBestBoardPosition;
@@ -26,12 +26,12 @@ public class levelReader : MonoBehaviour
 	{
 		//PlayerPrefs.SetInt ("lastPlayedLevel", GameEventManager.currentPlayingLevel);
 		//GameEventManager.currentPlayingLevel = PlayerPrefs.GetInt ("lastPlayedLevel");
-		if (Resources.Load ("Level" + GameEventManager.currentPlayingLevel).name == null) {
+		/*if (Resources.Load ("Level" + GameEventManager.currentPlayingLevel).name == null) {
 
 			levelData = Resources.Load ("Level1") as TextAsset;
 		} else {
 			levelData = Resources.Load ("Level" + GameEventManager.currentPlayingLevel) as TextAsset;
-		}
+		}*/
 	}
 
 	void Start ()
@@ -140,10 +140,10 @@ public class levelReader : MonoBehaviour
 			isLevelData = true;
 		}
 		progressBarSlider.maxValue = (count / 13);
-		SetLastBestMarker ();
+		//SetLastBestMarker ();
 	}
 
-	void SetLastBestMarker ()
+	/*void SetLastBestMarker ()
 	{
 		if (PlayerPrefs.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel) >= 99 || PlayerPrefs.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel) <= 0) {
 			lastBestBoard.transform.localPosition = new Vector3 (-100, 0, 0);
@@ -152,7 +152,7 @@ public class levelReader : MonoBehaviour
 			lastBestBoard.transform.localPosition = new Vector3 (setLastBestBoardPosition + 1, 0, 0);
 		}
 	}
-
+*/
 	void AutoInstantiate (GameObject aa, Vector3 posaa)
 	{
 		GameObject objectInstance;

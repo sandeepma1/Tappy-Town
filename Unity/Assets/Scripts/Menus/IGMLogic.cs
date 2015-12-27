@@ -26,7 +26,10 @@ public class IGMLogic : MonoBehaviour
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
 	public Toggle toggleMuteButton, toggleScreenRotationButton, toggleShadowsButton;
 	public Light shadowLight;
-	//, light2;
+	//******************************
+	public Text t_deaths, t_distance, t_jumps, t_coins, t_coinsSpent, t_secretCoins;
+
+	//*****************************
 	public GameObject tutorialMenu1, tutorialMenu2;
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
 	public GameObject movingPlatform;
@@ -68,12 +71,12 @@ public class IGMLogic : MonoBehaviour
 			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
-		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0 && GameEventManager.currentPlayingLevel == 1) {
+		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0) {
 			PlayerPrefs.SetInt ("runOnceTutorial1", 1);
 			//tutorialMenu1.SetActive (true);
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
-		if (PlayerPrefs.GetInt ("runOnceTutorial2") <= 0 && GameEventManager.currentPlayingLevel == 4) {
+		if (PlayerPrefs.GetInt ("runOnceTutorial2") <= 0) {
 			PlayerPrefs.SetInt ("runOnceTutorial2", 1);
 			//tutorialMenu2.SetActive (true);
 		}//**************************************************************************************
@@ -265,9 +268,20 @@ public class IGMLogic : MonoBehaviour
 	}
 
 	public void ShowStatsMenu ()
-	{
+	{		
 		SetMainCameraCanvas (false);
+		PopulateStatsValues ();
 		statsWindow.SetActive (true);
+	}
+
+	void PopulateStatsValues ()
+	{
+		t_deaths.text = PlayerPrefs.GetInt ("PlayerDeath").ToString ();
+		t_distance.text = PlayerPrefs.GetInt ("PlayerDistanceCovered").ToString ();
+		t_jumps.text = PlayerPrefs.GetInt ("PlayerTotalJumps").ToString ();
+		t_coins.text = PlayerPrefs.GetInt ("PlayerCoinsCollected").ToString ();
+		t_coinsSpent.text = PlayerPrefs.GetInt ("PlayerCoinsSpent").ToString ();
+		t_secretCoins.text = PlayerPrefs.GetInt ("PlayerSecretCoins").ToString ();
 	}
 
 	public void ShowCreditsMenu ()
@@ -318,19 +332,19 @@ public class IGMLogic : MonoBehaviour
 	{
 		pauseButton.SetActive (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		if (GameEventManager.currentPlayingLevel <= GameEventManager.maxLevels - 1) {
-			levelCompleteMenuGO.SetActive (true);
-			jumpText.text = jumpCount.ToString ();
-			timeText.text = timer.ToString ("F2");
-			attemptsText.text = GameEventManager.currentLevelAttempts.ToString ();
-			LevelCompleteManager ();
-		} else {
-			print ("game complete");
-			gameCompleteMenuGO.SetActive (true);
-			jumpText1.text = jumpCount.ToString ();
-			timeText1.text = timer.ToString ("F2");
-			attemptsText1.text = GameEventManager.currentLevelAttempts.ToString ();
-		}
+		//if (GameEventManager.currentPlayingLevel <= GameEventManager.maxLevels - 1) {
+		levelCompleteMenuGO.SetActive (true);
+		jumpText.text = jumpCount.ToString ();
+		timeText.text = timer.ToString ("F2");
+		attemptsText.text = GameEventManager.currentLevelAttempts.ToString ();
+		LevelCompleteManager ();
+		//} else {
+		print ("game complete");
+		gameCompleteMenuGO.SetActive (true);
+		jumpText1.text = jumpCount.ToString ();
+		timeText1.text = timer.ToString ("F2");
+		attemptsText1.text = GameEventManager.currentLevelAttempts.ToString ();
+		//}
 
 	}
 
@@ -341,9 +355,9 @@ public class IGMLogic : MonoBehaviour
 
 	public void LevelCompleteManager ()
 	{
-		if (PlayerPrefs.GetInt ("unlockedLevels") < GameEventManager.currentPlayingLevel) {
+		/*if (PlayerPrefs.GetInt ("unlockedLevels") < GameEventManager.currentPlayingLevel) {
 			PlayerPrefs.SetInt ("unlockedLevels", GameEventManager.currentPlayingLevel);
-		}
+		}*/
 	}
 
 	public void KillPlayer ()
