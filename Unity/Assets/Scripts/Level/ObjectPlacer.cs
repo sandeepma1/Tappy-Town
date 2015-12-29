@@ -19,6 +19,7 @@ public class ObjectPlacer : MonoBehaviour
 	public GameObject cargoPrefab;
 	public Transform cargoInstantiatePosition;
 	bool isCargoTruckStarted = false;
+	bool isFlappyBird = false;
 	//****************** Player's XP Vars
 	public int playerXP = 0;
 	TextAsset levelData;
@@ -97,6 +98,18 @@ public class ObjectPlacer : MonoBehaviour
 				CargoTruckSequenceEnd ();
 			}
 			break;
+		case "fbS":
+			if (!isFlappyBird) {
+				//print ("Flappy Bird Start " + isFlappyBird);
+				FlappyBirdSequenceStart ();
+			}
+			break;
+		case "fbE":
+			if (isFlappyBird) {
+				//print ("Flappy Bird End " + isFlappyBird);
+				FlappyBirdSequenceEnd ();
+			}
+			break;
 		default:			
 			calDigit2 ();
 			digit2 = digitQ.Dequeue ();
@@ -128,9 +141,7 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [FindArrayIndex ("d2cs1")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2cs1")].SetActive (true);
 		isCargoTruckStarted = false;
-		//StopAllCoroutines ();
 		StartCoroutine ("CargoTruckEndingAnimation");
-
 	}
 
 	void CargoTruckSequenceStart ()
@@ -138,30 +149,23 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [FindArrayIndex ("d2cs0")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2cs0")].SetActive (true);
 		isCargoTruckStarted = true;
-		//StopAllCoroutines ();
 		StartCoroutine ("CargoTruckStartingAnimation");
-
-		/*cargoDigit2 = cargoDigit2 + 1;
-		if (cargoDigit2 > 3) {
-			cargoDigit2 = 1;
-		}*/
-		/*blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].transform.position = new Vector3 (posAdder, 0);
-		blocks [int.Parse (cargoDigit1 + "" + cargoDigit2)].SetActive (true);*/
 	}
 
-	/*IEnumerator CargoTruckEndingAnimation ()
+	void FlappyBirdSequenceEnd ()
 	{
-		LeanTween.moveLocalX (cargoTruck, 26, 1f, optional);
-		yield return new WaitForSeconds (1f);
-		cargoTruck.transform.localPosition = new Vector3 (-10, cargoTruck.transform.localPosition.y, cargoTruck.transform.localPosition.z);
+		blocks [FindArrayIndex ("d2fb1")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2fb1")].SetActive (true);
+		isFlappyBird = false;
 	}
 
-	IEnumerator CargoTruckStartingAnimation ()
+	void FlappyBirdSequenceStart ()
 	{
-		yield return new WaitForSeconds (0f);
-		LeanTween.moveLocalX (cargoTruck, 16, 2.5f, optional);
+		blocks [FindArrayIndex ("d2fb0")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2fb0")].SetActive (true);
+		isFlappyBird = true;
+	}
 
-	}*/
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{
@@ -179,13 +183,5 @@ public class ObjectPlacer : MonoBehaviour
 		cargoTruck.transform.localPosition = cargoTruckIniPosition;
 		cargoTruck.transform.localEulerAngles = cargoTruckIniRotation;
 	}
-
-
-	void CargoTruckStartThrowingObjects ()
-	{
-		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
-			Instantiate (cargoPrefab, cargoInstantiatePosition.position, Quaternion.identity);
-		}
-	}
-
+		
 }

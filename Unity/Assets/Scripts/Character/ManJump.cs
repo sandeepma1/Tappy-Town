@@ -8,9 +8,11 @@ public class ManJump : MonoBehaviour
 {
 	public float jumpSpeed = 21.0F;
 	public float gravity = 96.0F;
+	float jumpSpeedTemp = 0;
+	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, board, skateboardGO;
+	public GameObject playerMesh, board, skateboardGO, balloonGO;
 	public ParticleSystem playerDieParticle, speedUpParticle;
 	public GameObject playerShadowQuad;
 	public Text counDownText, continueText;
@@ -29,10 +31,17 @@ public class ManJump : MonoBehaviour
 	int diedCounter = 0;
 	int coinsToAsk = 0;
 	int lastBest = 0;
+	bool isEnableFlappy = false;
+	public static ManJump m_instance = null;
 	public Text debugText;
+
 	//public GameObject playerGO
 	void Awake ()
 	{
+		m_instance = this;
+		SwitchBalloon ();
+		jumpSpeedTemp = jumpSpeed;
+		gravityTemp = gravity;
 		c = GetComponent<CharacterController> ();
 		board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 		dieSound = GetComponent<AudioSource> ();
@@ -46,12 +55,6 @@ public class ManJump : MonoBehaviour
 
 	void Start ()
 	{
-		/*foreach (Transform trans in this.transform) {
-			if (trans.name.StartsWith ("chr_")) {
-				playerMesh = trans.gameObject;
-			}
-		}*/
-		//playerMesh = character;
 		controller = GetComponent<CharacterController> ();
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
@@ -60,15 +63,15 @@ public class ManJump : MonoBehaviour
 
 	void Update ()
 	{
-		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
-			//g = gravity;
-			if (controller.isGrounded || inAirJumpBox) {
+		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
+			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
 					jumpCount++;
-					if (jumpCount >= 20) {
-						/*Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
-						});*/			 
-					}
+					/*if (jumpCount >= 20) {
+						Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
+						});			 
+					}*/
+					jumpSpeed = isEnableFlappy ? jumpSpeedTemp / 3 : jumpSpeedTemp; //shortest if
 					moveDirection.y = jumpSpeed;
 					//g = gravity;
 				}
@@ -79,7 +82,6 @@ public class ManJump : MonoBehaviour
 					board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 					jumpCount++;
 					moveDirection.y = jumpSpeed;
-					//g = gravity;
 				}
 				//http://docs.unity3d.com/ScriptReference/CharacterController.Move.html
 				if (controller.velocity.normalized == Vector3.down) {
@@ -87,6 +89,15 @@ public class ManJump : MonoBehaviour
 					//g = gravity / 2;
 				}
 			}
+			/*if (isEnableFlappy) {
+				gravity = gravityTemp/2;
+			}
+			else
+				gravity = gravityTemp;*/
+			
+			gravity = isEnableFlappy ? gravityTemp / 2f : gravityTemp; //shortest if
+
+
 			moveDirection.y -= gravity * Time.deltaTime * 1.1f;
 			controller.Move (moveDirection * Time.deltaTime);
 			transform.localPosition = new Vector3 (1, transform.localPosition.y, 0);
@@ -103,10 +114,10 @@ public class ManJump : MonoBehaviour
 	{
 		for (int i = 0; i < times; i++) {
 			playerMesh.SetActive (false);
-			//skateBoardGO.SetActive (false);
+			skateboardGO.SetActive (false);
 			yield return new WaitForSeconds (0.1f);
 			playerMesh.SetActive (true);
-			//skateBoardGO.SetActive (true);
+			skateboardGO.SetActive (true);
 			yield return new WaitForSeconds (0.1f);
 		}
 	}
@@ -115,6 +126,7 @@ public class ManJump : MonoBehaviour
 	{
 		debugText.text = other.name;
 		if (other.gameObject.tag == "death") {
+			print ("playrt duied");
 			playerPartiallyDied ();
 		}
 		if (other.gameObject.tag == "pickable_coin") {
@@ -129,6 +141,28 @@ public class ManJump : MonoBehaviour
 		}
 		if (other.gameObject.tag == "tutorialTapnHold") {
 			StartCoroutine ("showTurotialTapnHold");
+		}
+		if (other.gameObject.tag == "balloonStart") {			
+			isEnableFlappy = true;
+			other.gameObject.SetActive (false);
+			SwitchBalloon ();
+			print ("FB is " + isEnableFlappy);
+		}
+		if (other.gameObject.tag == "balloonEnd") {
+			isEnableFlappy = false;
+			SwitchBalloon ();
+			print ("FB is " + isEnableFlappy);
+		}
+	}
+
+	void SwitchBalloon ()
+	{
+		if (isEnableFlappy) {
+			balloonGO.SetActive (true);
+			skateboardGO.SetActive (false);
+		} else {
+			balloonGO.SetActive (false);
+			skateboardGO.SetActive (true);
 		}
 	}
 
@@ -195,14 +229,17 @@ public class ManJump : MonoBehaviour
 		/*if (life > 0) {
 			tempJump = true;
 		} else {*/
+		PlayerPrefs.SetInt ("PlayerTotalJumps", PlayerPrefs.GetInt ("PlayerTotalJumps") + jumpCount);
 		SetCharacterControllerCollisionStatus (false);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
 		skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
-		igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
-		//transform.parent.GetComponent<MovingPlatform> ().lastBestFun (false);
+		//igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
+		IGMLogic.m_instance.KillPlayer ();
+		MovingPlatform.m_instance.lastBestFun ();
+		//transform.parent.GetComponent<MovingPlatform> ().lastBestFun ();
 		//}
 	}
 
@@ -250,10 +287,11 @@ public class ManJump : MonoBehaviour
 
 	void playerPartiallyDied ()
 	{
+		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
-		//skateboardGO.SetActive (false);
+		skateboardGO.SetActive (false);
 		playerShadowQuad.SetActive (false);
 
 		lastBest = lastBest / 10;
@@ -283,11 +321,11 @@ public class ManJump : MonoBehaviour
 		/*counDownText.text = "7";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "6";
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds (1);*/
 		counDownText.text = "5";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "4";
-		yield return new WaitForSeconds (1);*/
+		yield return new WaitForSeconds (1);
 		counDownText.text = "3";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "2";
