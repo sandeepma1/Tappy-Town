@@ -12,9 +12,8 @@ public class ManJump : MonoBehaviour
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, board, skateboardGO, balloonGO;
+	public GameObject playerMesh, board, skateboardGO, balloonGO, blobShadowGO;
 	public ParticleSystem playerDieParticle, speedUpParticle;
-	public GameObject playerShadowQuad;
 	public Text counDownText, continueText;
 	Hashtable optional;
 	public GameObject igmLogic;
@@ -126,7 +125,6 @@ public class ManJump : MonoBehaviour
 	{
 		debugText.text = other.name;
 		if (other.gameObject.tag == "death") {
-			print ("playrt duied");
 			playerPartiallyDied ();
 		}
 		if (other.gameObject.tag == "pickable_coin") {
@@ -146,12 +144,10 @@ public class ManJump : MonoBehaviour
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			SwitchBalloon ();
-			print ("FB is " + isEnableFlappy);
 		}
 		if (other.gameObject.tag == "balloonEnd") {
 			isEnableFlappy = false;
 			SwitchBalloon ();
-			print ("FB is " + isEnableFlappy);
 		}
 	}
 
@@ -160,9 +156,11 @@ public class ManJump : MonoBehaviour
 		if (isEnableFlappy) {
 			balloonGO.SetActive (true);
 			skateboardGO.SetActive (false);
+			blobShadowGO.SetActive (false);
 		} else {
 			balloonGO.SetActive (false);
 			skateboardGO.SetActive (true);
+			blobShadowGO.SetActive (true);
 		}
 	}
 
@@ -235,7 +233,7 @@ public class ManJump : MonoBehaviour
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
 		skateboardGO.SetActive (false);
-		playerShadowQuad.SetActive (false);
+		blobShadowGO.SetActive (false);
 		//igmLogic.GetComponent<IGMLogic> ().KillPlayer ();
 		IGMLogic.m_instance.KillPlayer ();
 		MovingPlatform.m_instance.lastBestFun ();
@@ -263,7 +261,6 @@ public class ManJump : MonoBehaviour
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
 		StartCoroutine ("EnablePlayersColliderAfterWait");
-		print (PlayerPrefs.GetInt ("Coins"));
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
 		igmLogic.GetComponent<CoinCalculation> ().UpdateCoinsOnUI ();
 	}
@@ -292,7 +289,7 @@ public class ManJump : MonoBehaviour
 		playerDieParticle.Play ();
 		playerMesh.SetActive (false);
 		skateboardGO.SetActive (false);
-		playerShadowQuad.SetActive (false);
+		blobShadowGO.SetActive (false);
 
 		lastBest = lastBest / 10;
 		lastBest = lastBest * 6;//***************Pay coins to continue appears only if score is > 60% of best score... change 6
@@ -301,7 +298,6 @@ public class ManJump : MonoBehaviour
 		}
 		if (transform.root.position.x >= lastBest && diedCounter < 2) {
 			diedCounter++;
-			print ("Died Times: " + diedCounter);
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
 			StartCoroutine ("PlayerDiedStartTimer");
