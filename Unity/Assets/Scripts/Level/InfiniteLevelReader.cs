@@ -252,6 +252,9 @@ public class InfiniteLevelReader : MonoBehaviour
 						case "lo3":
 							AutoInstantiate (lo [3], new Vector3 (xPos, yPos, zPos));
 							break;
+						case "lo4":
+							AutoInstantiate (lo [4], new Vector3 (xPos, yPos, zPos));
+							break;
 						default:
 							break;
 						}

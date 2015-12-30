@@ -6,7 +6,13 @@ public class CoinCalculation : MonoBehaviour
 {
 	public Text coinsText;
 	int coinAchievement = 0;
+	public static CoinCalculation m_instance = null;
 	//public Animation coinScaler;
+
+	void Awake ()
+	{
+		m_instance = this;
+	}
 
 	void Start ()
 	{

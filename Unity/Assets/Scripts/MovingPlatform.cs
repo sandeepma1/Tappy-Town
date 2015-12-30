@@ -11,7 +11,7 @@ public class MovingPlatform : MonoBehaviour
 	public GameObject man;
 	public GameObject IGM_GO;
 	public Slider progressBarSlider;
-	float lastBest = 0;
+	//float lastBest = 0;
 	public Text percentText;
 	public Text Score;
 	public static MovingPlatform m_instance = null;
@@ -42,10 +42,10 @@ public class MovingPlatform : MonoBehaviour
 		//progressBarSlider.value = transform.position.x;
 		//percentText.text = (101 - (((progressBarSlider.maxValue - transform.position.x) / progressBarSlider.maxValue) * 100)).ToString ("F0");
 		Score.text = transform.position.x.ToString ("F0");
-		if (transform.position.x >= 500) {
-			/*Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
-			});*/
-		}
+		/*if (transform.position.x >= 500) {
+			Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
+			});
+		}*/
 	}
 
 	public void SaveLastBestRunScore ()
@@ -65,12 +65,13 @@ public class MovingPlatform : MonoBehaviour
 		man.transform.position = manPos;
 	}
 
-	public void lastBestFun ()
+	/*public void lastBestFun ()
 	{
+		print (lastBest);
 		if (lastBest > PlayerPrefs.GetFloat ("lastBest")) {
 			PlayerPrefs.SetFloat ("lastBest", lastBest);
 		}
-	}
+	}*/
 
 	public void SpeedUp ()
 	{
