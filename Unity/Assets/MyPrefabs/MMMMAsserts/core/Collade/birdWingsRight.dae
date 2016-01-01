@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+<asset>
+<contributor>
+<author>VoxelShop User</author>
+<authoring_tool>VoxelShop V1.4.44</authoring_tool>
+</contributor>
+<created>2016-01-02T02:05:47</created>
+<modified>2016-01-02T02:05:47</modified>
+<unit meter="1" name="meter"/>
+<up_axis>Z_UP</up_axis>
+</asset>
+<library_images>
+<image id="birdWingsRight_texture0-image" name="birdWingsRight_texture0-image">
+<init_from>birdWingsRight_texture0.png</init_from>
+</image>
+</library_images>
+<library_effects>
+<effect id="lambert0-fx">
+<profile_COMMON>
+<newparam sid="birdWingsRight_texture0-surface">
+<surface type="2D">
+<init_from>birdWingsRight_texture0-image</init_from>
+</surface>
+</newparam>
+<newparam sid="birdWingsRight_texture0-sampler">
+<sampler2D>
+<source>birdWingsRight_texture0-surface</source>
+</sampler2D>
+</newparam>
+<technique sid="common">
+<lambert>
+<emission>
+<color>0 0 0 1</color>
+</emission>
+<ambient>
+<color>0 0 0 1</color>
+</ambient>
+<diffuse>
+<texture texcoord="TEX0" texture="birdWingsRight_texture0-sampler"/>
+</diffuse>
+</lambert>
+</technique>
+</profile_COMMON>
+</effect>
+</library_effects>
+<library_materials>
+<material id="lambert0-material" name="lambert0">
+<instance_effect url="#lambert0-fx"/>
+</material>
+</library_materials>
+<library_geometries>
+<geometry id="Plane-tex-mesh" name="Plane-tex">
+<mesh>
+<source id="Plane-tex-mesh-positions">
+<float_array count="84" id="Plane-tex-mesh-positions-array">-3 -7 3 -3 3 -1 -3 -7 -1 -3 3 3 -1 -7 1 -1 3 -1 -1 -7 -1 -1 3 1 11 1 3 11 3 1 11 1 1 11 3 3 9 -3 3 9 -1 1 9 -3 1 9 -1 3 7 -7 3 7 -5 1 7 -7 1 7 -5 3 5 -5 3 5 -3 1 5 -5 1 5 -3 3 5 -1 3 5 1 1 5 -1 1 5 1 3</float_array>
+<technique_common>
+<accessor count="28" source="#Plane-tex-mesh-positions-array" stride="3">
+<param name="X" type="float"/>
+<param name="Y" type="float"/>
+<param name="Z" type="float"/>
+</accessor>
+</technique_common>
+</source>
+<source id="Plane-tex-mesh-uvs">
+<float_array count="82" id="Plane-tex-mesh-uvs-array">0.33380473 0.33356905 0.66643095 0.6661953 0.66643095 0.33356905 0.33356905 0.33380473 0.33356905 0.66643095 0.6661953 0.66643095 0.6661953 0.33356905 0.33356905 0.33356905 0.33356905 0.6661953 0.66638935 0.6664818 0.5 0.33370313 0.33361068 0.6664818 0.33366665 0.33383334 0.33366665 0.5 0.666 0.66616666 0.33364958 0.33375496 0.33364958 0.44454986 0.6660342 0.6661396 0.6664729 0.33360457 0.33372083 0.4667054 0.6664729 0.6663567 0.666 0.33383334 0.33366665 0.66616666 0.33359364 0.33354157 0.4167708 0.6662502 0.66630226 0.33354157 0.6663663 0.66647553 0.47621778 0.33371565 0.33360642 0.66647553 0.3335894 0.33354673 0.40012804 0.66623986 0.66628253 0.33354673 0.66641057 0.66645324 0.59987193 0.3337601 0.33371744 0.66645324 0.6664818 0.33361068 0.33370313 0.5 0.6664818 0.66638935 0.6664158 0.66644716 0.6188908 0.33377233 0.33374098 0.66644716</float_array>
+<technique_common>
+<accessor count="41" source="#Plane-tex-mesh-uvs-array" stride="2">
+<param name="S" type="float"/>
+<param name="T" type="float"/>
+</accessor>
+</technique_common>
+</source>
+<vertices id="Plane-tex-mesh-vertices">
+<input semantic="POSITION" source="#Plane-tex-mesh-positions"/>
+</vertices>
+<polylist count="52" material="lambert0-material">
+<input offset="0" semantic="VERTEX" source="#Plane-tex-mesh-vertices"/>
+<input offset="1" semantic="TEXCOORD" set="0" source="#Plane-tex-mesh-uvs"/>
+<vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3</vcount>
+<p>0 0 1 1 2 2 0 3 3 4 1 5 5 1 4 0 6 2 7 4 4 3 5 5 9 1 8 0 10 2 11 4 8 3 9 5 13 1 12 0 14 2 15 4 12 3 13 5 17 1 16 0 18 2 19 4 16 3 17 5 21 1 20 0 22 2 23 4 20 3 21 5 25 1 24 0 26 2 27 4 24 3 25 5 1 1 6 0 2 2 5 4 6 3 1 5 10 7 25 6 9 8 25 10 7 9 9 11 25 13 26 12 7 14 26 16 21 15 7 17 21 19 4 18 7 20 26 1 14 0 21 2 22 13 4 21 21 22 13 4 14 3 26 5 22 24 18 23 4 25 17 4 18 3 22 5 27 6 8 7 11 8 3 26 27 27 11 28 24 12 27 13 3 14 23 15 24 16 3 17 0 18 23 19 3 20 12 0 24 1 23 2 0 21 20 13 23 22 12 3 15 4 24 5 16 29 20 30 0 31 16 3 19 4 20 5 14 0 23 1 21 2 14 3 12 4 23 5 4 6 18 7 16 8 0 32 4 33 16 34 2 35 4 36 0 37 2 6 6 7 4 8 10 0 27 1 25 2 10 3 8 4 27 5 24 1 13 0 26 2 15 4 13 3 24 5 20 1 17 0 22 2 19 4 17 3 20 5 9 7 7 6 11 8 7 39 3 38 11 40 7 36 1 35 3 37 5 7 1 6 7 8</p>
+</polylist>
+</mesh>
+</geometry>
+</library_geometries>
+<library_visual_scenes>
+<visual_scene id="Scene" name="Scene">
+<node id="birdWingsRight" name="birdWingsRight" type="NODE">
+<translate sid="location">0 0 0</translate>
+<rotate sid="rotationZ">0 0 1 0</rotate>
+<rotate sid="rotationY">0 1 0 0</rotate>
+<rotate sid="rotationX">1 0 0 0</rotate>
+<scale sid="scale">0.05 0.05 0.05</scale>
+<instance_geometry url="#Plane-tex-mesh">
+<bind_material>
+<technique_common>
+<instance_material symbol="lambert0-material" target="#lambert0-material">
+<bind_vertex_input input_semantic="TEXCOORD" input_set="0" semantic="TEX0"/>
+</instance_material>
+</technique_common>
+</bind_material>
+</instance_geometry>
+</node>
+</visual_scene>
+</library_visual_scenes>
+<scene>
+<instance_visual_scene url="#Scene"/>
+</scene>
+</COLLADA>

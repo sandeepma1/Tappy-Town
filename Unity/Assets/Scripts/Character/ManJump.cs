@@ -12,7 +12,7 @@ public class ManJump : MonoBehaviour
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, board, skateboardGO, balloonGO, blobShadowGO;
+	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobShadowGO;
 	public ParticleSystem playerDieParticle, speedUpParticle;
 	public Text counDownText, continueText;
 	Hashtable optional;
@@ -37,7 +37,9 @@ public class ManJump : MonoBehaviour
 	//public GameObject playerGO
 	void Awake ()
 	{
+		
 		m_instance = this;
+		playerSupport.SetActive (false);
 		SwitchBalloon ();
 		jumpSpeedTemp = jumpSpeed;
 		gravityTemp = gravity;
@@ -102,18 +104,19 @@ public class ManJump : MonoBehaviour
 	IEnumerator BlinkCharacter (int times)
 	{
 		for (int i = 0; i < times; i++) {
-			playerMesh.SetActive (false);
-			skateboardGO.SetActive (false);
+			/*playerMesh.SetActive (false);
+			skateboardGO.SetActive (false);*/
+			SetPlayerObject (false);
 			yield return new WaitForSeconds (0.1f);
-			playerMesh.SetActive (true);
-			skateboardGO.SetActive (true);
+			/*playerMesh.SetActive (true);
+			skateboardGO.SetActive (true);*/
+			SetPlayerObject (true);
 			yield return new WaitForSeconds (0.1f);
 		}
 	}
 
 	void OnTriggerEnter (Collider other)
 	{
-		debugText.text = other.name;
 		if (other.gameObject.tag == "death") {
 			playerPartiallyDied ();
 		}
@@ -170,12 +173,20 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
-
-
 	public void SetCharacterControllerCollisionStatus (bool active)
 	{
 		c.detectCollisions = active;
 		GetComponent<BoxCollider> ().enabled = active;
+	}
+
+	void SetPlayerObject (bool isActive)
+	{
+		playerMesh.SetActive (isActive);
+		skateboardGO.SetActive (isActive);
+		blobShadowGO.SetActive (isActive);
+		if (isEnableFlappy) {
+			balloonGO.SetActive (isActive);
+		}
 	}
 
 	void playerPartiallyDied ()
@@ -184,9 +195,10 @@ public class ManJump : MonoBehaviour
 		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
-		playerMesh.SetActive (false);
+		/*playerMesh.SetActive (false);
 		skateboardGO.SetActive (false);
-		blobShadowGO.SetActive (false);
+		blobShadowGO.SetActive (false);*/
+		SetPlayerObject (false);
 		lastBest = (lastBest / 10) * 3; //***************Pay coins to continue appears only if score is > 60% of best score... change 6
 		if (lastBest < 100) {
 			lastBest = 100;
@@ -208,9 +220,10 @@ public class ManJump : MonoBehaviour
 		SetCharacterControllerCollisionStatus (false);
 		dieSound.Play ();
 		playerDieParticle.Play ();
-		playerMesh.SetActive (false);
+		SetPlayerObject (false);
+		/*playerMesh.SetActive (false);
 		skateboardGO.SetActive (false);
-		blobShadowGO.SetActive (false);
+		blobShadowGO.SetActive (false);*/
 		IGMLogic.m_instance.KillPlayer ();
 	}
 
@@ -262,11 +275,14 @@ public class ManJump : MonoBehaviour
 
 	IEnumerator EnablePlayersColliderAfterWait ()
 	{
+		transform.localPosition = new Vector3 (1, 6f, 0);
+		playerSupport.SetActive (true);
 		StartCoroutine ("BlinkCharacter", 10);
 		SetCharacterControllerCollisionStatus (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		IGMLogic.m_instance.ClosePayToContinueMenu ();
 		yield return new WaitForSeconds (2);
+		playerSupport.SetActive (false);
 		SetCharacterControllerCollisionStatus (true);
 		diedCounter++;
 	}
