@@ -51,6 +51,8 @@ public class MovingPlatform : MonoBehaviour
 	public void SaveLastBestRunScore ()
 	{
 		PlayerPrefs.SetInt ("PlayerDistanceCovered", PlayerPrefs.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
+		PlayerPrefs.SetInt ("Mission_DistanceCount", PlayerPrefs.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
+
 		if (PlayerPrefs.GetInt ("lastBestScore") <= (int)transform.position.x) {
 			PlayerPrefs.SetInt ("lastBestScore", (int)transform.position.x);
 			/*Social.ReportScore (PlayerPrefs.GetInt ("lastBestScore"), "CgkIqM2wutYIEAIQBg", (bool success) => {

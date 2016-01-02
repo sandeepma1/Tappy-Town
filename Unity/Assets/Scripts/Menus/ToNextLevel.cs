@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class ToNextLevel : MonoBehaviour
 {
 	public Image fade;
-	bool startFading = false;
 	public float fadeSpeed = 0.01f;
 	public GameObject mainCanvas;
 	Animator anim;
@@ -20,10 +19,20 @@ public class ToNextLevel : MonoBehaviour
 
 	IEnumerator WaitAndStartlevel ()
 	{
+		SceneManager.LoadSceneAsync ("level");		
+		yield return new WaitForSeconds (3f);
+		anim.Play ("moveToMainLevel");
+		yield return new WaitForSeconds (1f);
+
+	}
+
+	/*IEnumerator WaitAndStartlevel ()
+	{
+
 		yield return new WaitForSeconds (3f);
 		anim.Play ("moveToMainLevel");
 		yield return new WaitForSeconds (1f);
 		SceneManager.LoadSceneAsync ("level");
-	}
+	}*/
 
 }

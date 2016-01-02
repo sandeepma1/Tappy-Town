@@ -32,6 +32,7 @@ public class CoinCalculation : MonoBehaviour
 			});
 		}*/
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") + nos);
+		PlayerPrefs.SetInt ("Mission_CoinCount", PlayerPrefs.GetInt ("Mission_CoinCount") + nos);
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
 		//coinsText.GetComponent<Animation> ().Play ("CoinScale");
 	}

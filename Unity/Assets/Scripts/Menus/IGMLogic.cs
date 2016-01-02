@@ -20,6 +20,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject startGameButton;
 	public GameObject settingsMenuGO;
 	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
+	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
 	public Text jumpText, attemptsText, timeText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
 	public TextMesh lastBestScore;
 	private Vector3 velocity = Vector3.zero;
@@ -28,7 +29,6 @@ public class IGMLogic : MonoBehaviour
 	public Light shadowLight;
 	//******************************
 	public Text t_deaths, t_distance, t_jumps, t_coins, t_coinsSpent, t_secretCoins;
-
 	//*****************************
 	public GameObject tutorialMenu1, tutorialMenu2;
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
@@ -48,7 +48,7 @@ public class IGMLogic : MonoBehaviour
 		m_instance = this;	
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
-		cameraPos = new Vector3 (-10, 16, -31);
+		cameraPos = new Vector3 (-10f, 16.5f, -31f);
 		Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);
@@ -230,6 +230,12 @@ public class IGMLogic : MonoBehaviour
 		}
 	}
 
+	public void CloseUnlockNewCharacterMenu ()
+	{
+		SetMainCameraCanvas (true);
+		unlockNewCharacterMenu.SetActive (false);
+	}
+
 	public void SelectChar ()
 	{
 		print (CharacterSelection.m_instance.scrollValue.x);
@@ -251,6 +257,13 @@ public class IGMLogic : MonoBehaviour
 		SetMainCameraCanvas (false);
 		charSelcMenu.SetActive (true);
 		charSelcLogic.GetComponent<CharacterSelection> ().ScanAllChars ();
+	}
+
+	public void OpenUnlockNewCharacterMenu ()
+	{
+		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+		SetMainCameraCanvas (false);
+		unlockNewCharacterMenu.SetActive (true);
 	}
 
 	public void SetMainCameraCanvas (bool active)
@@ -368,6 +381,7 @@ public class IGMLogic : MonoBehaviour
 		StartCoroutine ("Shake");
 		anim.Play ("PromoStrap1");
 		StartCoroutine ("PlayerDiedMenuWait");
+
 	}
 
 	IEnumerator PlayerDiedMenuWait ()

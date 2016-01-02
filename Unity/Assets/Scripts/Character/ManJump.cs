@@ -66,7 +66,9 @@ public class ManJump : MonoBehaviour
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
-					jumpCount++;
+					if (!isEnableFlappy) {
+						jumpCount++;
+					}
 					/*if (jumpCount >= 20) {
 						Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
 						});			 
@@ -79,7 +81,9 @@ public class ManJump : MonoBehaviour
 					tempJump = false;
 					life--;
 					board.GetComponent<TextureScroll> ().xScrollSpeed = life;
-					jumpCount++;
+					if (!isEnableFlappy) {
+						jumpCount++;
+					}
 					moveDirection.y = jumpSpeed;
 				}
 				//http://docs.unity3d.com/ScriptReference/CharacterController.Move.html
@@ -93,6 +97,11 @@ public class ManJump : MonoBehaviour
 			controller.Move (moveDirection * Time.deltaTime);
 			transform.localPosition = new Vector3 (1, transform.localPosition.y, 0);
 			transform.localRotation = new Quaternion (0, 0, 0, 0);
+			if (transform.localPosition.y < -5) {
+				print ("dued");
+				playerPartiallyDied ();
+			}
+
 			//print ("repo");
 		}
 		if (Input.GetMouseButtonDown (2)) {
@@ -106,11 +115,11 @@ public class ManJump : MonoBehaviour
 		for (int i = 0; i < times; i++) {
 			/*playerMesh.SetActive (false);
 			skateboardGO.SetActive (false);*/
-			SetPlayerObject (false);
+			DisplayPlayerObject (false);
 			yield return new WaitForSeconds (0.1f);
 			/*playerMesh.SetActive (true);
 			skateboardGO.SetActive (true);*/
-			SetPlayerObject (true);
+			DisplayPlayerObject (true);
 			yield return new WaitForSeconds (0.1f);
 		}
 	}
@@ -133,7 +142,9 @@ public class ManJump : MonoBehaviour
 		if (other.gameObject.tag == "tutorialTapnHold") {
 			StartCoroutine ("showTurotialTapnHold");
 		}
-		if (other.gameObject.tag == "balloonStart") {			
+		if (other.gameObject.tag == "balloonStart") {		
+			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
+			print ("BalloonUsed");
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			ReActivateCoins (other.gameObject);
@@ -179,7 +190,7 @@ public class ManJump : MonoBehaviour
 		GetComponent<BoxCollider> ().enabled = active;
 	}
 
-	void SetPlayerObject (bool isActive)
+	void DisplayPlayerObject (bool isActive)
 	{
 		playerMesh.SetActive (isActive);
 		skateboardGO.SetActive (isActive);
@@ -195,10 +206,7 @@ public class ManJump : MonoBehaviour
 		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
-		/*playerMesh.SetActive (false);
-		skateboardGO.SetActive (false);
-		blobShadowGO.SetActive (false);*/
-		SetPlayerObject (false);
+		DisplayPlayerObject (false);
 		lastBest = (lastBest / 10) * 3; //***************Pay coins to continue appears only if score is > 60% of best score... change 6
 		if (lastBest < 100) {
 			lastBest = 100;
@@ -216,15 +224,16 @@ public class ManJump : MonoBehaviour
 	void playerDied ()
 	{
 		PlayerPrefs.SetInt ("PlayerTotalJumps", PlayerPrefs.GetInt ("PlayerTotalJumps") + jumpCount);
-
+		PlayerPrefs.SetInt ("Mission_JumpCount", PlayerPrefs.GetInt ("Mission_JumpCount") + jumpCount);
 		SetCharacterControllerCollisionStatus (false);
 		dieSound.Play ();
 		playerDieParticle.Play ();
-		SetPlayerObject (false);
-		/*playerMesh.SetActive (false);
-		skateboardGO.SetActive (false);
-		blobShadowGO.SetActive (false);*/
+		DisplayPlayerObject (false);
 		IGMLogic.m_instance.KillPlayer ();
+		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {
+			MissionLogic.m_instance.MissionCompleted ();
+			print ("MissionCompleted");
+		}
 	}
 
 	IEnumerator PlayerDiedStartTimer ()
