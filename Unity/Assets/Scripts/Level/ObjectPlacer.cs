@@ -170,10 +170,13 @@ public class ObjectPlacer : MonoBehaviour
 	IEnumerator CargoTruckStartingAnimation ()
 	{
 		yield return new WaitForSeconds (2f);
-		LeanTween.moveLocalZ (cargoTruck, 5, 1.5f, optional);
-		LeanTween.moveLocalX (cargoTruck, 13, 1.5f, optional);
-		yield return new WaitForSeconds (1f);
-		LeanTween.rotateY (cargoTruck, 90, 0.65f, optional);
+		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {	
+			LeanTween.moveLocalZ (cargoTruck, 5, 1.5f, optional);
+			LeanTween.moveLocalX (cargoTruck, 13, 1.5f, optional);
+			yield return new WaitForSeconds (1f);
+			LeanTween.rotateY (cargoTruck, 90, 0.65f, optional);
+		}
+
 	}
 
 	IEnumerator CargoTruckEndingAnimation ()

@@ -30,7 +30,7 @@ public class IGMLogic : MonoBehaviour
 	//******************************
 	public Text t_deaths, t_distance, t_jumps, t_coins, t_coinsSpent, t_secretCoins;
 	//*****************************
-	public GameObject tutorialMenu1, tutorialMenu2;
+	public GameObject helpMenu;
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
 	public GameObject movingPlatform;
 	float timer = 0;
@@ -56,7 +56,6 @@ public class IGMLogic : MonoBehaviour
 		anim = mainCanvas.GetComponent<Animator> ();
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
-		//PauseGame ();
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		GameEventManager.currentLevelAttempts++;
 		//attempts.text = GameEventManager.currentLevelAttempts.ToString ();
@@ -64,12 +63,7 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (false);
 		toggleMuteButton.isOn = PlayerPrefsX.GetBool ("mute");
 		toggleShadowsButton.isOn = PlayerPrefsX.GetBool ("shadow");
-		toggleScreenRotationButton.isOn = PlayerPrefsX.GetBool ("screenRotation");
-		//****************************  Run Once ************************************************
-		if (PlayerPrefs.GetInt ("warningMenu") <= 0) {	
-			PlayerPrefs.SetInt ("warningMenu", 1);	
-			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
-		}//**************************************************************************************
+//		toggleScreenRotationButton.isOn = PlayerPrefsX.GetBool ("screenRotation");
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0) {
 			PlayerPrefs.SetInt ("runOnceTutorial1", 1);
@@ -96,6 +90,7 @@ public class IGMLogic : MonoBehaviour
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
+		SetMainCameraCanvas (true);
 	}
 
 	// Update is called once per frame
@@ -119,6 +114,13 @@ public class IGMLogic : MonoBehaviour
 	{
 		playButton.SetActive (false);
 		StartCoroutine ("StartCountDownAfterResume");
+	}
+
+	void OnApplicationPause (bool pauseStatus)
+	{
+		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game && pauseStatus) {	
+			PauseGame ();
+		}
 	}
 
 	IEnumerator StartCountDownAfterResume ()
@@ -208,16 +210,9 @@ public class IGMLogic : MonoBehaviour
 		resetGameWindow.SetActive (false);
 	}
 
-	public void CloseTutorialMenu1 ()
+	public void CloseHelpMenu ()
 	{
-		tutorialMenu1.SetActive (false);
-		SetMainCameraCanvas (true);
-	}
-
-	public void CloseTutorialMenu2 ()
-	{
-		tutorialMenu2.SetActive (false);
-		SetMainCameraCanvas (true);
+		helpMenu.SetActive (false);
 	}
 
 	public void CloseCharacterSelectionMenu1 ()
@@ -316,6 +311,12 @@ public class IGMLogic : MonoBehaviour
 		payToContinueTextInButton.text = coins.ToString ();
 	}
 
+	public void ShowHelpMenu ()
+	{
+		helpMenu.SetActive (true);
+		SetMainCameraCanvas (false);
+	}
+
 	public void ClosePayToContinueMenu ()
 	{
 		payToContinueMenu.SetActive (false);
@@ -357,8 +358,6 @@ public class IGMLogic : MonoBehaviour
 		jumpText1.text = jumpCount.ToString ();
 		timeText1.text = timer.ToString ("F2");
 		attemptsText1.text = GameEventManager.currentLevelAttempts.ToString ();
-		//}
-
 	}
 
 	public void GameComplete ()
@@ -381,7 +380,6 @@ public class IGMLogic : MonoBehaviour
 		StartCoroutine ("Shake");
 		anim.Play ("PromoStrap1");
 		StartCoroutine ("PlayerDiedMenuWait");
-
 	}
 
 	IEnumerator PlayerDiedMenuWait ()
@@ -392,7 +390,7 @@ public class IGMLogic : MonoBehaviour
 
 	public void ToggleScreenRotation ()
 	{
-		PlayerPrefsX.SetBool ("screenRotation", toggleScreenRotationButton.isOn);
+		//PlayerPrefsX.SetBool ("screenRotation", toggleScreenRotationButton.isOn);
 	}
 
 	public void ToggleMute ()
