@@ -13,7 +13,7 @@ public class ManJump : MonoBehaviour
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
 	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobShadowGO;
-	public ParticleSystem playerDieParticle, speedUpParticle;
+	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
 	public Text counDownText, continueText;
 	Hashtable optional;
 	public GameObject igmLogic;
@@ -33,6 +33,7 @@ public class ManJump : MonoBehaviour
 	bool isEnableFlappy = false;
 	public static ManJump m_instance = null;
 	public Text debugText;
+	bool isDeath = false;
 
 	//public GameObject playerGO
 	void Awake ()
@@ -59,6 +60,8 @@ public class ManJump : MonoBehaviour
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
+		//Vector3 v3Pos = new Vector3 (0.0f, 1.0f, 0.25f);
+		//transform.position = Camera.main.ViewportToWorldPoint (v3Pos);// gui.camera.ViewportToWorldPoint(v3Pos);
 	}
 
 	void Update ()
@@ -126,10 +129,14 @@ public class ManJump : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.tag == "death") {
+		if (other.gameObject.tag == "death" && !isDeath) {
+			print ("playerPartiallyDied");
 			playerPartiallyDied ();
 		}
 		if (other.gameObject.tag == "pickable_coin") {
+			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
+			coinParticle.Play ();
+		
 			CoinCalculation.m_instance.AddCoins (1);
 			ReActivateCoins (other.gameObject);
 		}
@@ -202,6 +209,7 @@ public class ManJump : MonoBehaviour
 
 	void playerPartiallyDied ()
 	{
+		isDeath = true;
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
@@ -211,7 +219,7 @@ public class ManJump : MonoBehaviour
 		if (lastBest < 100) {
 			lastBest = 100;
 		}
-		if (transform.root.position.x >= lastBest && diedCounter <= 2) {
+		if (transform.root.position.x >= lastBest && diedCounter < 1) { //number of time to ask for coins/videoads if dies			
 			diedCounter++;
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
@@ -280,6 +288,16 @@ public class ManJump : MonoBehaviour
 		StartCoroutine ("EnablePlayersColliderAfterWait");
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
 		CoinCalculation.m_instance.UpdateCoinsOnUI ();
+		isDeath = false;
+	}
+
+	public void UserHadWatchedVideoAd ()
+	{
+		StopCoroutine ("PlayerDiedStartTimer");
+		counDownText.gameObject.SetActive (false);
+		continueText.gameObject.SetActive (false);
+		StartCoroutine ("EnablePlayersColliderAfterWait");
+		isDeath = false;
 	}
 
 	IEnumerator EnablePlayersColliderAfterWait ()
@@ -293,7 +311,7 @@ public class ManJump : MonoBehaviour
 		yield return new WaitForSeconds (2);
 		playerSupport.SetActive (false);
 		SetCharacterControllerCollisionStatus (true);
-		diedCounter++;
+		//diedCounter++;
 	}
 
 	void LevelFinished ()

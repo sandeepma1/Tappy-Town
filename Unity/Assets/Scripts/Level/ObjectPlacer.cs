@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 public class ObjectPlacer : MonoBehaviour
 {
+	public static ObjectPlacer m_instance = null;
 	Queue<int> digitQ = new Queue<int> ();
 	int posAdder = 0;
 	GameObject[] blocks;
@@ -21,29 +22,39 @@ public class ObjectPlacer : MonoBehaviour
 	bool isCargoTruckStarted = false;
 	bool isFlappyBird = false;
 	//****************** Player's XP Vars
-	public int playerXP = 0;
+	public int PlayerXP = 0;
 	TextAsset levelData;
 	string[] lines;
 	string[] chars;
-	int charAdder = 0;
+	public int xpDistance;
+	int charAdder = 1;
 
 	//***********************
 	Hashtable optional;
 
 	void ReadPlayerXPFile (int xp)
 	{
-		lines = new string[100];
+		//lines = new string[100];
 		levelData = Resources.Load ("PlayerXP/xp") as TextAsset;
 		lines = Regex.Split (levelData.text, "\r\n");
 		chars = Regex.Split (lines [xp], ",");
+		xpDistance = int.Parse (chars [0]);
+	}
+
+	void Awake ()
+	{
+		m_instance = this;
+		if (PlayerPrefsX.GetBool ("useLevelProgress")) {
+			ReadPlayerXPFile (PlayerPrefs.GetInt ("PlayerXP"));
+		} else {
+			ReadPlayerXPFile (49);
+		}
 	}
 
 	void Start ()
-	{		
-		ReadPlayerXPFile (playerXP);
+	{			
 		cargoTruckIniPosition = cargoTruck.transform.localPosition;
 		cargoTruckIniRotation = cargoTruck.transform.localEulerAngles;
-//		print (cargoTruckIniPosition);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.notUsed);
 		int ran;
@@ -88,42 +99,36 @@ public class ObjectPlacer : MonoBehaviour
 		switch (chars [charAdder]) {
 		case "csS":
 			if (!isCargoTruckStarted) {
-				print ("Cargo Start");
 				CargoTruckSequenceStart ();
 			}
 			break;
 		case "csE":
 			if (isCargoTruckStarted) {
-				print ("Cargo End");
 				CargoTruckSequenceEnd ();
 			}
 			break;
 		case "fbS":
 			if (!isFlappyBird) {
-				//print ("Flappy Bird Start " + isFlappyBird);
 				FlappyBirdSequenceStart ();
 			}
 			break;
 		case "fbE":
 			if (isFlappyBird) {
-				//print ("Flappy Bird End " + isFlappyBird);
 				FlappyBirdSequenceEnd ();
 			}
 			break;
 		default:			
 			calDigit2 ();
 			digit2 = digitQ.Dequeue ();
-//			print (chars [charAdder] + digit2);
 			blocks [FindArrayIndex (chars [charAdder] + digit2)].transform.position = new Vector3 (posAdder, 0);
 			blocks [FindArrayIndex (chars [charAdder] + digit2)].SetActive (true);
 			break;
 		}
-
-		if (charAdder >= chars.Length - 1) {
-			print ("char ended" + Random.Range ((chars.Length / 2), chars.Length));
-			charAdder = Random.Range (1, (chars.Length - 1));
-		}
 		charAdder++;
+		if (charAdder >= chars.Length - 1) {
+			print ("char ended going back to 1");
+			charAdder = 1;
+		}
 	}
 
 	void calDigit2 ()
@@ -166,7 +171,6 @@ public class ObjectPlacer : MonoBehaviour
 		isFlappyBird = true;
 	}
 
-
 	IEnumerator CargoTruckStartingAnimation ()
 	{
 		yield return new WaitForSeconds (2f);
@@ -176,7 +180,6 @@ public class ObjectPlacer : MonoBehaviour
 			yield return new WaitForSeconds (1f);
 			LeanTween.rotateY (cargoTruck, 90, 0.65f, optional);
 		}
-
 	}
 
 	IEnumerator CargoTruckEndingAnimation ()

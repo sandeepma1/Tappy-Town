@@ -9,8 +9,7 @@ public class HelpMenu : MonoBehaviour
 	int i = 0;
 
 	void Start ()
-	{
-		
+	{		
 		numberText.text = (i + 1).ToString () + "/" + tutGO.Length;
 		ShowTutorialImage (tutGO [i]);
 		//this.gameObject.SetActive (false);

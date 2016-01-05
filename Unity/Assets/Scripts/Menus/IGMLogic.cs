@@ -21,11 +21,11 @@ public class IGMLogic : MonoBehaviour
 	public GameObject settingsMenuGO;
 	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
 	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
-	public Text jumpText, attemptsText, timeText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
+	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
 	public TextMesh lastBestScore;
 	private Vector3 velocity = Vector3.zero;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
-	public Toggle toggleMuteButton, toggleScreenRotationButton, toggleShadowsButton;
+	public Toggle toggleMuteButton, toggleShadowsButton, toggleLevel;
 	public Light shadowLight;
 	//******************************
 	public Text t_deaths, t_distance, t_jumps, t_coins, t_coinsSpent, t_secretCoins;
@@ -35,8 +35,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject movingPlatform;
 	float timer = 0;
 	Hashtable optional;
-	Animator anim;
-	Animation an;
+	public Animator anim;
 	Vector3 cameraPos;
 
 	public static IGMLogic m_instance = null;
@@ -46,6 +45,7 @@ public class IGMLogic : MonoBehaviour
 	void Awake ()
 	{	
 		m_instance = this;	
+
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10f, 16.5f, -31f);
@@ -63,10 +63,12 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (false);
 		toggleMuteButton.isOn = PlayerPrefsX.GetBool ("mute");
 		toggleShadowsButton.isOn = PlayerPrefsX.GetBool ("shadow");
+		toggleLevel.isOn = PlayerPrefsX.GetBool ("levelProgression");
 //		toggleScreenRotationButton.isOn = PlayerPrefsX.GetBool ("screenRotation");
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0) {
 			PlayerPrefs.SetInt ("runOnceTutorial1", 1);
+			PlayerPrefs.SetInt ("Coins", 100);
 			//tutorialMenu1.SetActive (true);
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
@@ -91,6 +93,12 @@ public class IGMLogic : MonoBehaviour
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
 		SetMainCameraCanvas (true);
+		if (PlayerPrefsX.GetBool ("useLevelProgress")) {
+			levelText.text = "Level " + PlayerPrefs.GetInt ("PlayerXP").ToString ();
+		} else {
+			levelText.text = "Level " + 50;
+		}
+
 	}
 
 	// Update is called once per frame
@@ -346,13 +354,11 @@ public class IGMLogic : MonoBehaviour
 	{
 		pauseButton.SetActive (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		//if (GameEventManager.currentPlayingLevel <= GameEventManager.maxLevels - 1) {
 		levelCompleteMenuGO.SetActive (true);
 		jumpText.text = jumpCount.ToString ();
 		timeText.text = timer.ToString ("F2");
 		attemptsText.text = GameEventManager.currentLevelAttempts.ToString ();
 		LevelCompleteManager ();
-		//} else {
 		print ("game complete");
 		gameCompleteMenuGO.SetActive (true);
 		jumpText1.text = jumpCount.ToString ();
@@ -388,10 +394,6 @@ public class IGMLogic : MonoBehaviour
 		//anim.Play ("playerDiedButtonComeUp");
 	}
 
-	public void ToggleScreenRotation ()
-	{
-		//PlayerPrefsX.SetBool ("screenRotation", toggleScreenRotationButton.isOn);
-	}
 
 	public void ToggleMute ()
 	{
@@ -410,6 +412,16 @@ public class IGMLogic : MonoBehaviour
 			shadowLight.shadows = LightShadows.None;
 		} else {
 			shadowLight.shadows = LightShadows.Hard;
+		}
+	}
+
+	public void ToggleLevel ()
+	{
+		PlayerPrefsX.SetBool ("levelProgression", toggleLevel.isOn);
+		if (PlayerPrefsX.GetBool ("levelProgression")) {
+			PlayerPrefsX.SetBool ("useLevelProgress", false);//on
+		} else {
+			PlayerPrefsX.SetBool ("useLevelProgress", true);//off
 		}
 	}
 

@@ -53,6 +53,9 @@ public class MovingPlatform : MonoBehaviour
 		PlayerPrefs.SetInt ("PlayerDistanceCovered", PlayerPrefs.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
 		PlayerPrefs.SetInt ("Mission_DistanceCount", PlayerPrefs.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
 
+		PlayerPrefs.SetInt ("Progression_DistanceCount", PlayerPrefs.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
+
+		Progression.m_instance.UpdatePlayerXP ();
 		if (PlayerPrefs.GetInt ("lastBestScore") <= (int)transform.position.x) {
 			PlayerPrefs.SetInt ("lastBestScore", (int)transform.position.x);
 			/*Social.ReportScore (PlayerPrefs.GetInt ("lastBestScore"), "CgkIqM2wutYIEAIQBg", (bool success) => {
