@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class MissionLogic : MonoBehaviour
 {
 	public static MissionLogic m_instance = null;
-	public Text currentMissionText;
+	public TextMesh currentMissionText;
+	//public TextMesh
 	public int currentMissionSelected = 0;
 
 	//bool isCurrentMissionCompleted = false;
@@ -13,6 +14,7 @@ public class MissionLogic : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+		currentMissionText.text = "text";
 		m_instance = this;
 		//****************************  Run Once ************************************************
 		if (PlayerPrefs.GetInt ("SetMissionOnce") <= 0) {
@@ -56,6 +58,7 @@ public class MissionLogic : MonoBehaviour
 		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
 		case 0:
 			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_DistanceCount") + "/100]";
+		
 			break;
 		case 1:
 			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_BalloonCount") + "/2]";

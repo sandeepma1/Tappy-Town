@@ -130,7 +130,6 @@ public class ManJump : MonoBehaviour
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.gameObject.tag == "death" && !isDeath) {
-			print ("playerPartiallyDied");
 			playerPartiallyDied ();
 		}
 		if (other.gameObject.tag == "pickable_coin") {
