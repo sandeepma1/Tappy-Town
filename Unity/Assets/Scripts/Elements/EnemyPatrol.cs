@@ -5,43 +5,66 @@ public class EnemyPatrol : MonoBehaviour
 {
 	//http://answers.unity3d.com/questions/14279/make-an-object-move-from-point-a-to-point-b-then-b.html
 	public Vector3 pointB;
+	Vector3 pointA, iniRot;
+	bool isMoving = false;
 	bool side = false;
 	public float speed = 0.1f;
+	float i = 0;
 
-	IEnumerator Start ()
+	void Start ()
 	{
-		Vector3 pointA = transform.position;
-		while (true) {
-			yield return StartCoroutine (MoveObject (transform, pointA, pointB, 1));
-			//yield return StartCoroutine (RotateObject (transform));
-			yield return StartCoroutine (MoveObject (transform, pointB, pointA, 1));
-			//yield return StartCoroutine (RotateObject (transform));
+		pointA = transform.localPosition;
+		iniRot = transform.localEulerAngles;
+		StartCoroutine (MoveObjectA ());
+		if (pointB.x <= -1) {
+			side = true;
+		}
+		if (pointB.x <= -1) {
+			side = false;
 		}
 	}
 
-	IEnumerator MoveObject (Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
+	void OnTriggerEnter (Collider other)
 	{
-		float i = 0.0f;
-		//speed = 1.0f / time;
+		if (other.CompareTag ("Player") && !isMoving) {
+			isMoving = true;
+			StartCoroutine (MoveObjectA ());
+		}
+	}
+
+	IEnumerator MoveObjectA ()
+	{
+		i = 0;
 		while (i < 1.0f) {
-			i += Time.deltaTime * (speed / time);
-			thisTransform.position = Vector3.Lerp (startPos, endPos, i);
-			yield return null; 
+			i += Time.deltaTime * (speed / 1);
+			transform.localPosition = Vector3.Lerp (pointA, pointB, i);	
+			yield return null;
 		}
+		StartCoroutine ("RotateObject");
+		StartCoroutine ("MoveObjectB");
 	}
 
-	IEnumerator RotateObject (Transform thisTransform)
+	IEnumerator MoveObjectB ()
+	{
+		i = 0;
+		while (i < 1.0f) {
+			i += Time.deltaTime * (speed / 1);
+			transform.localPosition = Vector3.Lerp (pointB, pointA, i);	
+			yield return null;
+		}
+		StartCoroutine ("RotateObject");
+		StartCoroutine ("MoveObjectA");
+	}
+
+	IEnumerator RotateObject ()
 	{
 		side = !side;
 		if (side) {
-			thisTransform.Rotate (thisTransform.eulerAngles.x, thisTransform.eulerAngles.y, -180, Space.Self);
-			//transform.RotateAround (transform.position, transform.up, -90);
-			//transform.rotation = Quaternion.Slerp (Quaternion.identity, Quaternion.identity, 0);
+			transform.localEulerAngles = new Vector3 (iniRot.x, 0, iniRot.z);
 		} else {
-			thisTransform.Rotate (thisTransform.eulerAngles.x, thisTransform.eulerAngles.y, 0, Space.Self);
-			//transform.RotateAround (transform.position, transform.up, 90f);
-			//transform.rotation = Quaternion.Slerp (Quaternion.identity, Quaternion.identity, 0);
+			transform.localEulerAngles = new Vector3 (iniRot.x, 180, iniRot.z);
 		}
 		yield return null;
 	}
+
 }

@@ -18,7 +18,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	string[] chars;
 	int xPos = 0, yPos = 0, zPos = 0, zPosTemp = 0;
 	GameObject[] objToSpawn;
-	public int numberOfFiles = 11;
+	public int numberOfFiles = 0;
 	GameObject[] blocks;
 	public TextAsset[] levelData;
 	float setLastBestBoardPosition;
@@ -27,13 +27,14 @@ public class InfiniteLevelReader : MonoBehaviour
 	//I used this to keep track of the number of objects I spawned in the scene.
 	public static int numSpawned = 0;
 	public static InfiniteLevelReader m_instance = null;
+	int ctr = 0;
 
 	public Text debugText;
 
 	void CreateAllEmptyGOs ()
 	{
 		objToSpawn = new GameObject[sectionHeight * numberOfFiles];
-		int ctr = 0;
+
 		for (int i = 0; i < numberOfFiles; i++) {
 			for (int j = 0; j < sectionHeight; j++) {
 				objToSpawn [ctr] = new GameObject (levelData [i].name + j.ToString ());
@@ -114,6 +115,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
+		print (ctr);
 		for (int i = 0; i < levelData.Length; i++) {
 			lines = Regex.Split (levelData [i].text, "\r\n");
 			totalSections = lines.Length / sectionHeight;
@@ -177,7 +179,7 @@ public class InfiniteLevelReader : MonoBehaviour
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c":
-							int cars = Random.Range (0, 2);
+							int cars = Random.Range (0, 4);
 							AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c2":							
@@ -280,6 +282,7 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void AutoInstantiate (GameObject aa, Vector3 posaa)
 	{
+
 		GameObject objectInstance;
 		objectInstance = Instantiate (aa, posaa, aa.transform.rotation) as GameObject;
 		objectInstance.name = aa.name;

@@ -30,6 +30,16 @@ public class MovingPlatform : MonoBehaviour
 		//lastBestText.text = PlayerPrefs.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel).ToString ("F0") + "%";
 	}
 
+	public void SpeedStopper (float speed)
+	{
+		moveInSeconds = speed;
+		if (moveInSeconds <= 0) {
+			moveInSeconds = 0;
+		}
+		//print (moveInSeconds);
+	}
+
+
 	void Update ()
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {

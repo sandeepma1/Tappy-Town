@@ -34,6 +34,11 @@ public class ManJump : MonoBehaviour
 	public static ManJump m_instance = null;
 	public Text debugText;
 	bool isDeath = false;
+	bool isInCar = false;
+	bool isBlinking = false;
+
+	float speed = 10, s = 3.4f, iniSpeed;
+
 
 	//public GameObject playerGO
 	void Awake ()
@@ -60,26 +65,40 @@ public class ManJump : MonoBehaviour
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
+		iniSpeed = MovingPlatform.m_instance.moveInSeconds;
 		//Vector3 v3Pos = new Vector3 (0.0f, 1.0f, 0.25f);
 		//transform.position = Camera.main.ViewportToWorldPoint (v3Pos);// gui.camera.ViewportToWorldPoint(v3Pos);
 	}
 
 	void Update ()
 	{
+		//*************************************  Car mMechanics ******************************
+		if (Input.GetMouseButtonUp (0) && isInCar) {
+			s = iniSpeed;
+			MovingPlatform.m_instance.SpeedStopper (iniSpeed);
+			return;
+		}
+		if (Input.GetMouseButton (0) && isInCar) {
+			if (s >= 0) {
+				debugText.text = s.ToString ();
+				s -= Time.deltaTime * speed;
+				MovingPlatform.m_instance.SpeedStopper (s);
+			}
+			return;
+		}
+		//*************************************  Car mMechanics ******************************
+
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
-			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {
-				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
+			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
+				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
 					if (!isEnableFlappy) {
 						jumpCount++;
 					}
-					/*if (jumpCount >= 20) {
-						Social.ReportProgress ("CgkIqM2wutYIEAIQBA", 20, (bool success) => {
-						});			 
-					}*/
 					jumpSpeed = isEnableFlappy ? jumpSpeedTemp / 3 : jumpSpeedTemp; //shortest if
 					moveDirection.y = jumpSpeed;
 				}
-				if (tempJump == true) {
+
+				if (tempJump == true) {// double balloon or pro skate
 					StartCoroutine ("BlinkCharacter");
 					tempJump = false;
 					life--;
@@ -134,20 +153,19 @@ public class ManJump : MonoBehaviour
 		}
 		if (other.gameObject.tag == "pickable_coin") {
 			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			coinParticle.Play ();
-		
+			coinParticle.Play ();		
 			CoinCalculation.m_instance.AddCoins (1);
 			ReActivateCoins (other.gameObject);
 		}
-		if (other.gameObject.tag == "levelEnd") {
+		/*if (other.gameObject.tag == "levelEnd") {
 			LevelFinished ();
-		}
+		}*/
 		if (other.gameObject.tag == "speedUp") {
 			SpeedUpPlayer ();
 		}
-		if (other.gameObject.tag == "tutorialTapnHold") {
+		/*	if (other.gameObject.tag == "tutorialTapnHold") {
 			StartCoroutine ("showTurotialTapnHold");
-		}
+		}*/
 		if (other.gameObject.tag == "balloonStart") {		
 			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
 			print ("BalloonUsed");
@@ -159,6 +177,11 @@ public class ManJump : MonoBehaviour
 		if (other.gameObject.tag == "balloonEnd") {
 			isEnableFlappy = false;
 			SwitchBalloon ();
+		}
+		if (other.gameObject.tag == "miniCar") {
+			isInCar = true;
+			print ("incar");
+			MiniCarSequenceStart (other.gameObject);
 		}
 	}
 
@@ -173,8 +196,19 @@ public class ManJump : MonoBehaviour
 	{
 		if (other.gameObject.tag == "airJump") {
 			inAirJumpBox = false;
-			print (inAirJumpBox);
 		}
+	}
+
+	void MiniCarSequenceStart (GameObject miniCar)
+	{
+		miniCar.GetComponent<BoxCollider> ().enabled = false;
+		miniCar.transform.parent = transform;
+		float view = 15;
+		while (view <= 18) {			
+			view += Time.deltaTime * 1;
+			print ("while");
+		}
+		Camera.main.fieldOfView = view;
 	}
 
 	void SwitchBalloon ()
@@ -208,6 +242,9 @@ public class ManJump : MonoBehaviour
 
 	void playerPartiallyDied ()
 	{
+		if (isBlinking) {
+			return;
+		}
 		isDeath = true;
 		lastBest = PlayerPrefs.GetInt ("lastBestScore");
 		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
@@ -232,7 +269,7 @@ public class ManJump : MonoBehaviour
 	{
 		PlayerPrefs.SetInt ("PlayerTotalJumps", PlayerPrefs.GetInt ("PlayerTotalJumps") + jumpCount);
 		PlayerPrefs.SetInt ("Mission_JumpCount", PlayerPrefs.GetInt ("Mission_JumpCount") + jumpCount);
-		SetCharacterControllerCollisionStatus (false);
+		//SetCharacterControllerCollisionStatus (false);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
@@ -304,12 +341,14 @@ public class ManJump : MonoBehaviour
 		transform.localPosition = new Vector3 (1, 6f, 0);
 		playerSupport.SetActive (true);
 		StartCoroutine ("BlinkCharacter", 10);
-		SetCharacterControllerCollisionStatus (false);
+		isBlinking = true;
+		//SetCharacterControllerCollisionStatus (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		IGMLogic.m_instance.ClosePayToContinueMenu ();
 		yield return new WaitForSeconds (2);
 		playerSupport.SetActive (false);
-		SetCharacterControllerCollisionStatus (true);
+		isBlinking = false;
+		//SetCharacterControllerCollisionStatus (true);
 		//diedCounter++;
 	}
 
