@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UnityVideoAds : MonoBehaviour
 {
-	public void ShowVideoAds ()
+	/*public void ShowVideoAds ()
 	{
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
@@ -37,5 +37,5 @@ public class UnityVideoAds : MonoBehaviour
 			Debug.LogError ("The ad failed to be shown.");
 			break;
 		}
-	}
+	}*/
 }

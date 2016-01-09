@@ -251,7 +251,17 @@ public class ManJump : MonoBehaviour
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
-		lastBest = (lastBest / 10) * 3; //***************Pay coins to continue appears only if score is > 60% of best score... change 6
+		// ******************************************* For Monday build remove this
+		if (transform.root.position.x >= 50) {
+			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+			StopCoroutine ("PlayerDiedStartTimer");
+			StartCoroutine ("PlayerDiedStartTimer");
+		} else {
+			playerDied ();
+		}		
+		// ******************************************* For Monday build remove this
+
+		/*lastBest = (lastBest / 10) * 3; //***************Pay coins to continue appears only if score is > 60% of best score... change 6
 		if (lastBest < 100) {
 			lastBest = 100;
 		}
@@ -262,7 +272,7 @@ public class ManJump : MonoBehaviour
 			StartCoroutine ("PlayerDiedStartTimer");
 		} else {
 			playerDied ();
-		}
+		}*/
 	}
 
 	void playerDied ()

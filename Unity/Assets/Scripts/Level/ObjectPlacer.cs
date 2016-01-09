@@ -36,7 +36,7 @@ public class ObjectPlacer : MonoBehaviour
 	{
 		//lines = new string[100];
 		levelData = Resources.Load ("PlayerXP/xp") as TextAsset;
-		lines = Regex.Split (levelData.text, "\r\n");
+		lines = Regex.Split (levelData.text, "\n");
 		chars = Regex.Split (lines [xp], ",");
 		xpDistance = int.Parse (chars [0]);
 	}

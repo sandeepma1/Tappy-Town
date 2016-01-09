@@ -48,7 +48,7 @@ public class IGMLogic : MonoBehaviour
 
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
-		cameraPos = new Vector3 (-10f, 16.5f, -31f);
+		cameraPos = new Vector3 (-10f, 16.5f, -32.5f);
 		Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);

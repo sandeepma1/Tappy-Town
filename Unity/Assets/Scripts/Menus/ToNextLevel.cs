@@ -18,11 +18,11 @@ public class ToNextLevel : MonoBehaviour
 	}
 
 	IEnumerator WaitAndStartlevel ()
-	{
-		SceneManager.LoadSceneAsync ("level");		
+	{		
 		yield return new WaitForSeconds (3f);
 		anim.Play ("moveToMainLevel");
 		yield return new WaitForSeconds (1f);
+		SceneManager.LoadSceneAsync ("level");		
 
 	}
 

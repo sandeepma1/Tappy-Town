@@ -115,9 +115,8 @@ public class InfiniteLevelReader : MonoBehaviour
 		lines = new string[100];
 		objToSpawn = new GameObject[numberOfFiles];
 		CreateAllEmptyGOs ();
-		print (ctr);
 		for (int i = 0; i < levelData.Length; i++) {
-			lines = Regex.Split (levelData [i].text, "\r\n");
+			lines = Regex.Split (levelData [i].text, "\n");
 			totalSections = lines.Length / sectionHeight;
 			foreach (string line in lines) {
 				if (line != "") {
@@ -178,8 +177,11 @@ public class InfiniteLevelReader : MonoBehaviour
 						case "d0":
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
+						case "d1":
+							AutoInstantiate (d [1], new Vector3 (xPos, yPos, zPos));
+							break;
 						case "c":
-							int cars = Random.Range (0, 4);
+							int cars = Random.Range (0, 5);
 							AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c2":							

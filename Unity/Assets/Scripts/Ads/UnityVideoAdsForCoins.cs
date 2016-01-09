@@ -4,7 +4,7 @@ using UnityEngine.Advertisements;
 
 public class UnityVideoAdsForCoins : MonoBehaviour
 {
-	public void ShowAd ()
+	/*	public void ShowAd ()
 	{
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
@@ -39,6 +39,6 @@ public class UnityVideoAdsForCoins : MonoBehaviour
 	{
 		CoinCalculation.m_instance.AddCoins (30);
 	}
-
+*/
 
 }
