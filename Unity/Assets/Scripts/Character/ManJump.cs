@@ -12,7 +12,7 @@ public class ManJump : MonoBehaviour
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobShadowGO;
+	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO;
 	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
 	public Text counDownText, continueText;
 	Hashtable optional;
@@ -90,7 +90,8 @@ public class ManJump : MonoBehaviour
 
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
-				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
+				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
+					
 					if (!isEnableFlappy) {
 						jumpCount++;
 					}
@@ -98,7 +99,7 @@ public class ManJump : MonoBehaviour
 					moveDirection.y = jumpSpeed;
 				}
 
-				if (tempJump == true) {// double balloon or pro skate
+				/*if (tempJump == true) {// double balloon or pro skate
 					StartCoroutine ("BlinkCharacter");
 					tempJump = false;
 					life--;
@@ -112,22 +113,19 @@ public class ManJump : MonoBehaviour
 				if (controller.velocity.normalized == Vector3.down) {
 					//StartCoroutine ("small");
 					//g = gravity / 2;
-				}
+				}*/
 			}			
 			gravity = isEnableFlappy ? gravityTemp / 2f : gravityTemp; //shortest if
-			moveDirection.y -= gravity * Time.deltaTime * 1.1f;
+
+			moveDirection.y -= gravity * Time.deltaTime * 1f;
 			controller.Move (moveDirection * Time.deltaTime);
 			transform.localPosition = new Vector3 (1, transform.localPosition.y, 0);
 			transform.localRotation = new Quaternion (0, 0, 0, 0);
 			if (transform.localPosition.y < -5) {
-				print ("dued");
 				playerPartiallyDied ();
 			}
-
-			//print ("repo");
 		}
 		if (Input.GetMouseButtonDown (2)) {
-			//Application.LoadLevel (Application.loadedLevel);
 			SceneManager.LoadSceneAsync ("level");
 		}
 	}
@@ -148,7 +146,44 @@ public class ManJump : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.tag == "death" && !isDeath) {
+		switch (other.gameObject.tag) {
+		case "death":			
+			if (!isDeath) {
+				playerPartiallyDied ();
+			}
+			break;
+		case "pickable_coin":
+			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
+			coinParticle.Play ();		
+			CoinCalculation.m_instance.AddCoins (1);
+			ReActivateCoins (other.gameObject);
+			break;
+		case "speedUp":
+			SpeedUpPlayer ();
+			break;
+		case "balloonStart":
+			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
+			isEnableFlappy = true;
+			other.gameObject.SetActive (false);
+			ReActivateCoins (other.gameObject);
+			SwitchBalloon ();
+			break;
+		case "balloonEnd":
+			isEnableFlappy = false;
+			SwitchBalloon ();
+			break;
+		case "miniCarStart":
+			isInCar = true;
+			MiniCarSequenceStart (other.gameObject);
+			break;
+		case "miniCarEnd":			
+			isInCar = false;
+			MiniCarSequenceEnd ();
+			break;
+		default:
+			break;
+		}
+		/*if (other.gameObject.tag == "death" && !isDeath) {
 			playerPartiallyDied ();
 		}
 		if (other.gameObject.tag == "pickable_coin") {
@@ -157,18 +192,11 @@ public class ManJump : MonoBehaviour
 			CoinCalculation.m_instance.AddCoins (1);
 			ReActivateCoins (other.gameObject);
 		}
-		/*if (other.gameObject.tag == "levelEnd") {
-			LevelFinished ();
-		}*/
 		if (other.gameObject.tag == "speedUp") {
 			SpeedUpPlayer ();
 		}
-		/*	if (other.gameObject.tag == "tutorialTapnHold") {
-			StartCoroutine ("showTurotialTapnHold");
-		}*/
 		if (other.gameObject.tag == "balloonStart") {		
 			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
-			print ("BalloonUsed");
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			ReActivateCoins (other.gameObject);
@@ -180,9 +208,8 @@ public class ManJump : MonoBehaviour
 		}
 		if (other.gameObject.tag == "miniCar") {
 			isInCar = true;
-			print ("incar");
 			MiniCarSequenceStart (other.gameObject);
-		}
+		}*/
 	}
 
 	void OnTriggerStay (Collider other)
@@ -203,12 +230,22 @@ public class ManJump : MonoBehaviour
 	{
 		miniCar.GetComponent<BoxCollider> ().enabled = false;
 		miniCar.transform.parent = transform;
-		float view = 15;
-		while (view <= 18) {			
-			view += Time.deltaTime * 1;
-			print ("while");
+		/*float view = 15;
+		Camera.main.fieldOfView = view;*/
+	}
+
+	void MiniCarSequenceEnd ()
+	{
+		/*GameObject miniCarStartBlock = null;
+		miniCarStartBlock = GameObject.Find ("d2mc0");
+		print (miniCarStartBlock.name);*/
+		//miniCar.transform.parent = transform;
+		foreach (Transform miniCar in transform) {
+			if (miniCar.CompareTag ("miniCarStart")) {
+				miniCar.gameObject.SetActive (false);
+				//miniCar.transform.parent = miniCarStartBlock.transform;
+			}
 		}
-		Camera.main.fieldOfView = view;
 	}
 
 	void SwitchBalloon ()
@@ -216,11 +253,11 @@ public class ManJump : MonoBehaviour
 		if (isEnableFlappy) {
 			balloonGO.SetActive (true);
 			skateboardGO.SetActive (false);
-			blobShadowGO.SetActive (false);
+			//blobShadowGO.SetActive (false);
 		} else {
 			balloonGO.SetActive (false);
 			skateboardGO.SetActive (true);
-			blobShadowGO.SetActive (true);
+			//blobShadowGO.SetActive (true);
 		}
 	}
 
@@ -230,11 +267,12 @@ public class ManJump : MonoBehaviour
 		GetComponent<BoxCollider> ().enabled = active;
 	}
 
+
+
 	void DisplayPlayerObject (bool isActive)
 	{
 		playerMesh.SetActive (isActive);
 		skateboardGO.SetActive (isActive);
-		blobShadowGO.SetActive (isActive);
 		if (isEnableFlappy) {
 			balloonGO.SetActive (isActive);
 		}
@@ -335,6 +373,7 @@ public class ManJump : MonoBehaviour
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
 		CoinCalculation.m_instance.UpdateCoinsOnUI ();
 		isDeath = false;
+		IGMLogic.m_instance.pauseButton.SetActive (true);
 	}
 
 	public void UserHadWatchedVideoAd ()

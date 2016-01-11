@@ -21,6 +21,7 @@ public class ObjectPlacer : MonoBehaviour
 	public Transform cargoInstantiatePosition;
 	bool isCargoTruckStarted = false;
 	bool isFlappyBird = false;
+	bool isMiniCar = false;
 	//****************** Player's XP Vars
 	public int PlayerXP = 0;
 	TextAsset levelData;
@@ -79,6 +80,7 @@ public class ObjectPlacer : MonoBehaviour
 			if (MovingPlatform.m_instance.transform.position.x >= posAdder) {
 				posAdder = posAdder + 30;
 				NewEnvGenerator ();
+
 			}
 		}
 	}
@@ -115,6 +117,16 @@ public class ObjectPlacer : MonoBehaviour
 		case "fbE":
 			if (isFlappyBird) {
 				FlappyBirdSequenceEnd ();
+			}
+			break;
+		case "mcS":
+			if (!isMiniCar) {
+				MiniCarSequenceStart ();
+			}
+			break;
+		case "mcE":
+			if (isMiniCar) {
+				MiniCarSequenceEnd ();
 			}
 			break;
 		default:			
@@ -170,6 +182,21 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [FindArrayIndex ("d2fb0")].SetActive (true);
 		isFlappyBird = true;
 	}
+
+	void MiniCarSequenceEnd ()
+	{
+		blocks [FindArrayIndex ("d2mc1")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2mc1")].SetActive (true);
+		isMiniCar = false;
+	}
+
+	void MiniCarSequenceStart ()
+	{
+		blocks [FindArrayIndex ("d2mc0")].transform.position = new Vector3 (posAdder, 0);
+		blocks [FindArrayIndex ("d2mc0")].SetActive (true);
+		isMiniCar = true;
+	}
+
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{

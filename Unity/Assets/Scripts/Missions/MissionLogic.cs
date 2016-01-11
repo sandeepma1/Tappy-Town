@@ -8,7 +8,8 @@ public class MissionLogic : MonoBehaviour
 	public TextMesh currentMissionText;
 	//public TextMesh
 	public int currentMissionSelected = 0;
-
+	//lesser the value faster the blink
+	float blinkRate = 0.5f;
 	//bool isCurrentMissionCompleted = false;
 	string[] mission = new string[4];
 	// Use this for initialization
@@ -31,6 +32,29 @@ public class MissionLogic : MonoBehaviour
 		mission [2] = "Jump";
 		mission [3] = "Collect Coins";
 		DisplayCurrentMission ();
+		StartCoroutine ("FadeToTransprent");
+	}
+
+	IEnumerator FadeToTransprent ()
+	{
+		float alpha = currentMissionText.color.a;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / blinkRate) {
+			Color newColor = new Color (1, 1, 1, Mathf.Lerp (alpha, 0, t));
+			currentMissionText.color = newColor;
+			yield return null;
+		}
+		StartCoroutine ("FadeToOpaque");
+	}
+
+	IEnumerator FadeToOpaque ()
+	{
+		float alpha = currentMissionText.color.a;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / blinkRate) {
+			Color newColor = new Color (1, 1, 1, Mathf.Lerp (alpha, 1, t));
+			currentMissionText.color = newColor;
+			yield return null;
+		}
+		StartCoroutine ("FadeToTransprent");
 	}
 
 	void SetCurrentMission ()

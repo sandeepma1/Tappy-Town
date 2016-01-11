@@ -18,7 +18,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject pauseButton, playButton;
 	public GameObject startGameGO;
 	public GameObject startGameButton;
-	public GameObject settingsMenuGO;
+	public GameObject settingsMenuGO, missionBanner;
 	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
 	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
 	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
@@ -81,8 +81,6 @@ public class IGMLogic : MonoBehaviour
 	void Start ()
 	{
 		PlayerPrefs.SetInt ("levelAttempts", PlayerPrefs.GetInt ("levelAttempts") + 1);
-		//totalAttempts.text = PlayerPrefs.GetInt ("levelAttempts").ToString ();
-
 		/*if (PlayerPrefs.GetInt ("levelAttempts") >= 10) {
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAw", 10, (bool success) => {
 			});			 
@@ -91,23 +89,13 @@ public class IGMLogic : MonoBehaviour
 		StartCoroutine ("BlankScreen");
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
-		optional.Add ("ease", LeanTweenType.easeOutBack);
+		optional.Add ("ease", LeanTweenType.easeInOutQuart);
 		SetMainCameraCanvas (true);
 		if (PlayerPrefsX.GetBool ("useLevelProgress")) {
 			levelText.text = "Level " + PlayerPrefs.GetInt ("PlayerXP").ToString ();
 		} else {
 			levelText.text = "Level " + 50;
 		}
-
-	}
-
-	// Update is called once per frame
-	void LateUpdate ()
-	{
-		/*if (!stopTimer && GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
-			timer += Time.deltaTime;
-		}*/
-		//debugText.text = GameEventManager.GetState ().ToString ();
 	}
 
 	public void PauseGame ()
@@ -314,6 +302,7 @@ public class IGMLogic : MonoBehaviour
 
 	public void ShowPayToContinueMenu (int coins)
 	{
+		pauseButton.SetActive (false);
 		payToContinueMenu.SetActive (true);
 		payToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
 		payToContinueTextInButton.text = coins.ToString ();
@@ -347,9 +336,18 @@ public class IGMLogic : MonoBehaviour
 		freeGiftGO.SetActive (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		pauseButton.SetActive (true);
-		//startGameButton.SetActive (false);
+		LeanTween.moveX (missionBanner, -25, 0.5f, optional);
+
 	}
 
+	/*IEnumerator MoveMissionBanner ()
+	{
+		float moveIn = 0.5f;
+
+		yield return new WaitForSeconds (moveIn);
+		missionBanner.SetActive (false);
+	}
+*/
 	public void ShowLevelCompleteMenu (int jumpCount)
 	{
 		pauseButton.SetActive (false);
