@@ -19,9 +19,9 @@ public class IGMLogic : MonoBehaviour
 	public GameObject startGameGO;
 	public GameObject startGameButton;
 	public GameObject settingsMenuGO, missionBanner;
-	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
+	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu;
 	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
-	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton;
+	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton, newHighScoreText;
 	public GameObject coinMono, tokenMono;
 	public TextMesh lastBestScore;
 	private Vector3 velocity = Vector3.zero;
@@ -71,6 +71,7 @@ public class IGMLogic : MonoBehaviour
 		if (PlayerPrefs.GetInt ("runOnceTutorial1") <= 0) {
 			PlayerPrefs.SetInt ("runOnceTutorial1", 1);
 			PlayerPrefs.SetInt ("Coins", 100);
+			PlayerPrefsX.SetBool ("useLevelProgress", true);
 			//tutorialMenu1.SetActive (true);
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
@@ -83,12 +84,6 @@ public class IGMLogic : MonoBehaviour
 	void Start ()
 	{
 		PlayerPrefs.SetInt ("levelAttempts", PlayerPrefs.GetInt ("levelAttempts") + 1);
-		/*if (PlayerPrefs.GetInt ("levelAttempts") >= 10) {
-			Social.ReportProgress ("CgkIqM2wutYIEAIQAw", 10, (bool success) => {
-			});			 
-		}*/
-		//coinsText.text = "0";
-		StartCoroutine ("BlankScreen");
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeInOutQuart);
@@ -142,7 +137,6 @@ public class IGMLogic : MonoBehaviour
 		watchAdsGO.SetActive (false);
 		rateUsGO.SetActive (false);
 		freeGiftGO.SetActive (false);
-
 		//playerDiedButtons.SetActive (false);
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
@@ -167,23 +161,8 @@ public class IGMLogic : MonoBehaviour
 		pauseMenuGO.SetActive (false);
 	}
 
-	public void GoToHome ()
-	{
-		watchAdsGO.SetActive (false);
-		rateUsGO.SetActive (false);
-		freeGiftGO.SetActive (false);
-		anim.Play ("LevelEndAnimation");
-		StartCoroutine ("GotoMainMenuWait");
-	}
-
-	IEnumerator GotoMainMenuWait ()
-	{
-		yield return new WaitForSeconds (1f);
-	}
-
 	public void SettingsButtonPressed ()
 	{
-		//GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		settingsMenuGO.SetActive (true);
 	}
 
@@ -191,7 +170,6 @@ public class IGMLogic : MonoBehaviour
 	{
 		settingsMenuGO.SetActive (false);
 		SetMainCameraCanvas (true);
-		//GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 	}
 
 	public void CloseStatssmenu ()
@@ -245,7 +223,6 @@ public class IGMLogic : MonoBehaviour
 	{
 		if (GameEventManager.isNightMode) {
 			shadowLight.gameObject.SetActive (true);
-			//light2.gameObject.SetActive (true);
 		}
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		SetMainCameraCanvas (false);
@@ -319,14 +296,6 @@ public class IGMLogic : MonoBehaviour
 		payCoinsToContinueTextInButton.text = coins.ToString ();
 	}
 
-	/*public void ShowPayTokenToContinueMenu (int token)
-	{
-		pauseButton.SetActive (false);
-		payToContinueMenu.SetActive (true);
-		payTokenToContinueText.text = "Pay " + token.ToString () + " Token to CONTINUE";
-		payTokenToContinueTextInButton.text = token.ToString ();
-	}*/
-
 	public void ShowHelpMenu ()
 	{
 		helpMenu.SetActive (true);
@@ -356,17 +325,8 @@ public class IGMLogic : MonoBehaviour
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		pauseButton.SetActive (true);
 		LeanTween.moveX (missionBanner, -25, 0.5f, optional);
-
 	}
 
-	/*IEnumerator MoveMissionBanner ()
-	{
-		float moveIn = 0.5f;
-
-		yield return new WaitForSeconds (moveIn);
-		missionBanner.SetActive (false);
-	}
-*/
 	public void ShowLevelCompleteMenu (int jumpCount)
 	{
 		pauseButton.SetActive (false);
@@ -395,22 +355,37 @@ public class IGMLogic : MonoBehaviour
 		}*/
 	}
 
-	public void KillPlayer ()
-	{
-		movingPlatform.GetComponent<MovingPlatform> ().SaveLastBestRunScore ();
-		pauseButton.SetActive (false);
-		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		StartCoroutine ("Shake");
+	public void ShowPromoBanner ()
+	{		
 		anim.Play ("PromoStrap1");
-		StartCoroutine ("PlayerDiedMenuWait");
 	}
 
-	IEnumerator PlayerDiedMenuWait ()
+	public void ShowNewHighScoreMenu ()
 	{
-		yield return new WaitForSeconds (1F);
-		//anim.Play ("playerDiedButtonComeUp");
+		newHighScoreText.text = PlayerPrefs.GetInt ("lastBestScore").ToString ();
+		newHighScoreMenu.SetActive (true);
 	}
 
+	public void CloseNewHighScoreMenu ()
+	{
+		newHighScoreMenu.SetActive (false);
+	}
+
+	public void ShowMissionCompleteMenu ()
+	{
+		//newHighScoreText.text = PlayerPrefs.GetInt ("lastBestScore").ToString ();
+		missionCompleteMenu.SetActive (true);
+	}
+
+	public void CloseMissionCompleteMenu ()
+	{
+		missionCompleteMenu.SetActive (false);
+	}
+
+	public void ShowMissionPrizeRedeemMenu ()
+	{
+		missionPrizeRedeemMenu.SetActive (false);
+	}
 
 	public void ToggleMute ()
 	{
@@ -442,15 +417,7 @@ public class IGMLogic : MonoBehaviour
 		}
 	}
 
-	IEnumerator BlankScreen ()
-	{
-		//yield return new WaitForSeconds (0.45f);
-		//blankLogo.gameObject.SetActive (false);		
-		yield return new WaitForSeconds (0.25f);
-		//gameName.gameObject.SetActive (false);
-	}
-
-	IEnumerator Shake ()
+	public IEnumerator Shake ()
 	{
 		float elapsed = 0.0f;
 		Vector3 originalCamPos = Camera.main.transform.localPosition;

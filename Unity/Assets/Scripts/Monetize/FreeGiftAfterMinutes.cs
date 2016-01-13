@@ -79,7 +79,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		giftButton1.GetComponent<Image> ().color = Color.white;
 		AddDate ();
 		StartCoroutine ("PlayerGetCoinsAnimation");
-
 	}
 
 	IEnumerator PlayerGetCoinsAnimation ()
@@ -95,7 +94,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		PlayerPrefs.SetInt ("Coins", coinsInGift + PlayerPrefs.GetInt ("Coins"));
 		gotCoinText.text = "+" + coinsInGift;
 		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
-
 		yield return new WaitForSeconds (3);
 		SceneManager.LoadSceneAsync ("level");
 		CloseRedeemMenu ();

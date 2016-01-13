@@ -6,52 +6,45 @@ using UnityEngine.SceneManagement;
 
 public class ManJump : MonoBehaviour
 {
+	public static ManJump m_instance = null;
 	public float jumpSpeed = 21.0F;
 	public float gravity = 96.0F;
+	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector;
+	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
+	public Text counDownText, continueText;
+	public Text debugText;
+	public GameObject igmLogic;
+	public AudioSource dieSound;
+	public GameObject tapnHoldText;
 	float jumpSpeedTemp = 0;
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector;
-	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
-	public Text counDownText, continueText;
-	Hashtable optional;
-	public GameObject igmLogic;
-	public AudioSource dieSound;
 	int jumpCount = 0;
 	bool inAirJumpBox = false;
 	GameObject character;
-	bool tempJump = false;
-	int life = 0;
-	public GameObject tapnHoldText;
+	Hashtable optional;
 	Vector3 iniScale;
 	int coinMultipler = 0;
 	int[] coinAskList;
 	CharacterController c;
-	int diedCounter = 0;
 	int coinsToAsk = 0;
-	int lastBest = 0;
+	//int lastBest = 0;
 	bool isEnableFlappy = false;
-	public static ManJump m_instance = null;
-	public Text debugText;
 	bool isDeath = false;
 	bool isInCar = false;
 	bool isBlinking = false;
-
 	float speed = 10, s = 3.4f, iniSpeed;
-
-
 	//public GameObject playerGO
+
 	void Awake ()
-	{
-		
+	{		
 		m_instance = this;
 		playerSupport.SetActive (false);
 		SwitchBalloon ();
 		jumpSpeedTemp = jumpSpeed;
 		gravityTemp = gravity;
 		c = GetComponent<CharacterController> ();
-		board.GetComponent<TextureScroll> ().xScrollSpeed = life;
 		dieSound = GetComponent<AudioSource> ();
 		string charName = PlayerPrefs.GetString ("currentCharacterSelected", "chr_mailman");
 		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
@@ -130,7 +123,7 @@ public class ManJump : MonoBehaviour
 			transform.localPosition = new Vector3 (1, transform.localPosition.y, 0);
 			transform.localRotation = new Quaternion (0, 0, 0, 0);
 			if (transform.localPosition.y < -5) {
-				playerPartiallyDied ();
+				PlayerPartiallyDied ();
 			}
 		}
 		if (Input.GetMouseButtonDown (2)) {
@@ -153,7 +146,7 @@ public class ManJump : MonoBehaviour
 		switch (other.gameObject.tag) {
 		case "death":			
 			if (!isDeath) {
-				playerPartiallyDied ();
+				PlayerPartiallyDied ();
 			}
 			break;
 		case "pickable_coin":
@@ -193,33 +186,6 @@ public class ManJump : MonoBehaviour
 		default:
 			break;
 		}
-		/*if (other.gameObject.tag == "death" && !isDeath) {
-			playerPartiallyDied ();
-		}
-		if (other.gameObject.tag == "pickable_coin") {
-			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			coinParticle.Play ();		
-			CoinCalculation.m_instance.AddCoins (1);
-			ReActivateCoins (other.gameObject);
-		}
-		if (other.gameObject.tag == "speedUp") {
-			SpeedUpPlayer ();
-		}
-		if (other.gameObject.tag == "balloonStart") {		
-			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
-			isEnableFlappy = true;
-			other.gameObject.SetActive (false);
-			ReActivateCoins (other.gameObject);
-			SwitchBalloon ();
-		}
-		if (other.gameObject.tag == "balloonEnd") {
-			isEnableFlappy = false;
-			SwitchBalloon ();
-		}
-		if (other.gameObject.tag == "miniCar") {
-			isInCar = true;
-			MiniCarSequenceStart (other.gameObject);
-		}*/
 	}
 
 	void OnTriggerStay (Collider other)
@@ -288,54 +254,56 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
-	void playerPartiallyDied ()
+	void PlayerPartiallyDied ()
 	{
 		if (isBlinking) {
 			return;
 		}
+		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
-		lastBest = PlayerPrefs.GetInt ("lastBestScore");
+		//lastBest = PlayerPrefs.GetInt ("lastBestScore");
 		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
-		// ******************************************* For Monday build remove this
+
 		if (transform.root.position.x >= 50) {
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
 			StartCoroutine ("PlayerDiedStartTimer");
 		} else {
-			playerDied ();
-		}		
-		// ******************************************* For Monday build remove this
-
-		/*lastBest = (lastBest / 10) * 3; //***************Pay coins to continue appears only if score is > 60% of best score... change 6
-		if (lastBest < 100) {
-			lastBest = 100;
+			PlayerDiedCalculateStats ();
 		}
-		if (transform.root.position.x >= lastBest && diedCounter < 1) { //number of time to ask for coins/videoads if dies			
-			diedCounter++;
-			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-			StopCoroutine ("PlayerDiedStartTimer");
-			StartCoroutine ("PlayerDiedStartTimer");
-		} else {
-			playerDied ();
-		}*/
 	}
 
-	void playerDied ()
+	public void PlayerDiedCalculateStats ()
 	{
+		DisplayPlayerObject (false);
+		IGMLogic.m_instance.pauseButton.SetActive (false);
 		PlayerPrefs.SetInt ("PlayerTotalJumps", PlayerPrefs.GetInt ("PlayerTotalJumps") + jumpCount);
 		PlayerPrefs.SetInt ("Mission_JumpCount", PlayerPrefs.GetInt ("Mission_JumpCount") + jumpCount);
-		//SetCharacterControllerCollisionStatus (false);
-		dieSound.Play ();
-		playerDieParticle.Play ();
-		DisplayPlayerObject (false);
-		IGMLogic.m_instance.KillPlayer ();
+		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+
+		if (MovingPlatform.m_instance.isHighScore ()) {
+			IGMLogic.m_instance.ShowNewHighScoreMenu ();
+		} else {
+			CheckIfMissionComplete ();
+		}			
+	}
+
+	public void CheckIfMissionComplete ()
+	{
 		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {
 			MissionLogic.m_instance.MissionCompleted ();
-			print ("MissionCompleted");
+			IGMLogic.m_instance.ShowMissionCompleteMenu ();
+		} else {
+			ShowPromoBanner ();
 		}
+	}
+
+	public void ShowPromoBanner ()
+	{
+		IGMLogic.m_instance.ShowPromoBanner ();//********************************************** End session
 	}
 
 	IEnumerator PlayerDiedStartTimer ()
@@ -345,12 +313,14 @@ public class ManJump : MonoBehaviour
 
 		if (coinMultipler < coinAskList.Length) {
 			coinsToAsk = coinAskList [coinMultipler];
-			coinMultipler++;
+
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
 		} else {
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (5);
 		}
 
+		counDownText.text = "5";
+		yield return new WaitForSeconds (1);
 		counDownText.text = "4";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "3";
@@ -363,7 +333,7 @@ public class ManJump : MonoBehaviour
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
 		IGMLogic.m_instance.ClosePayToContinueMenu ();
-		playerDied ();
+		PlayerDiedCalculateStats ();
 	}
 
 	public void UserPayingForCoins ()
@@ -390,6 +360,7 @@ public class ManJump : MonoBehaviour
 
 	void UserHadAndPaidCoins ()
 	{
+		coinMultipler++;
 		StopCoroutine ("PlayerDiedStartTimer");
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
@@ -449,7 +420,11 @@ public class ManJump : MonoBehaviour
 	IEnumerator ActivateCoin (GameObject coinGo)
 	{
 		yield return new WaitForSeconds (2.5f);
-		coinGo.SetActive (true);
+		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
+			coinGo.SetActive (true);
+		} else {
+			StartCoroutine ("ActivateCoin", coinGo);
+		}
 	}
 
 	IEnumerator showTurotialTapnHold ()

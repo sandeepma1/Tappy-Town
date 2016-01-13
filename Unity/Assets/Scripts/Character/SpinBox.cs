@@ -23,14 +23,15 @@ public class SpinBox : MonoBehaviour
 		public const int coins = 1;
 		public const int token = 2;
 		//public const int enemyShield = 3;		//public const int doubleBalloon = 4;
+
 	}
 
 	void Awake ()
 	{
 		weights = new int[3];
-		weights [things.characters] = 25;
+		weights [things.characters] = 13;
 		weights [things.coins] = 25;
-		weights [things.token] = 25;		//weights [things.doubleBalloon] = 30;		//weights [things.enemyShield] = 30;
+		weights [things.token] = 2;		//weights [things.doubleBalloon] = 30;		//weights [things.enemyShield] = 30;
 		weightTotal = 0;
 
 		foreach (int w in weights) {

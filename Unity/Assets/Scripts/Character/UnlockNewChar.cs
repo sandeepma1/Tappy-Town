@@ -19,7 +19,6 @@ public class UnlockNewChar : MonoBehaviour
 	void Awake ()
 	{
 		weights = new int[4]; //number of things
-
 		//weighting of each thing, high number means more occurrance
 		weights [things.aThing] = 1;
 		weights [things.anotherThing] = 2;

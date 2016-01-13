@@ -6,8 +6,7 @@ public class MissionLogic : MonoBehaviour
 {
 	public static MissionLogic m_instance = null;
 	public TextMesh currentMissionText;
-	//public TextMesh
-	public int currentMissionSelected = 0;
+	//public int currentMissionSelected = 0;
 	//lesser the value faster the blink
 	float blinkRate = 0.5f;
 	//bool isCurrentMissionCompleted = false;
@@ -57,6 +56,29 @@ public class MissionLogic : MonoBehaviour
 		StartCoroutine ("FadeToTransprent");
 	}
 
+	/*public void RedeemedButtonClicked ()
+	{
+		StartCoroutine ("PlayerGetCoinsAnimation");
+	}
+
+	IEnumerator PlayerGetCoinsAnimation ()
+	{
+		particle.SetActive (false);
+		backButton.SetActive (false);
+		redeemButton.SetActive (false);
+		anim.Play ("binRumbleAnimation");
+		yield return new WaitForSeconds (1.25f);
+		//********************************************************* Random Coin Logic
+		int coinsInGift = UnityEngine.Random.Range (2, 5) * 20;    
+		//**************************************************************************************************
+		PlayerPrefs.SetInt ("Coins", coinsInGift + PlayerPrefs.GetInt ("Coins"));
+		gotCoinText.text = "+" + coinsInGift;
+		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		yield return new WaitForSeconds (3);
+		SceneManager.LoadSceneAsync ("level");
+		CloseRedeemMenu ();
+	}*/
+
 	void SetCurrentMission ()
 	{
 		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
@@ -81,8 +103,7 @@ public class MissionLogic : MonoBehaviour
 	{
 		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
 		case 0:
-			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_DistanceCount") + "/100]";
-		
+			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_DistanceCount") + "/100]";		
 			break;
 		case 1:
 			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_BalloonCount") + "/2]";
@@ -100,7 +121,8 @@ public class MissionLogic : MonoBehaviour
 	}
 
 	public bool CheckIfMissionCompleted ()
-	{		
+	{
+		//print (PlayerPrefs.GetInt ("CurrentMissionID"));
 		bool retunStatus = false;
 		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
 		case 0:			
@@ -125,7 +147,6 @@ public class MissionLogic : MonoBehaviour
 	bool CheckJumpMission ()
 	{
 		if (PlayerPrefs.GetInt ("Mission_JumpCount") >= 100) {
-			//isCurrentMissionCompleted = true;
 			return true;
 		}
 		return false;
@@ -134,7 +155,6 @@ public class MissionLogic : MonoBehaviour
 	bool CheckDistanceMission ()
 	{
 		if (PlayerPrefs.GetInt ("Mission_DistanceCount") >= 100) {
-			//isCurrentMissionCompleted = true;
 			return true;
 		}
 		return false;
@@ -143,7 +163,6 @@ public class MissionLogic : MonoBehaviour
 	bool CheckBalloonMission ()
 	{
 		if (PlayerPrefs.GetInt ("Mission_BalloonCount") >= 2) {
-			//isCurrentMissionCompleted = true;
 			return true;
 		}
 		return false;
@@ -151,8 +170,7 @@ public class MissionLogic : MonoBehaviour
 
 	bool CheckCoinMission ()
 	{
-		if (PlayerPrefs.GetInt ("Mission_CoinCount") >= 10) {
-			//isCurrentMissionCompleted = true;
+		if (PlayerPrefs.GetInt ("Mission_CoinCount") >= 20) {
 			return true;
 		}
 		return false;
@@ -160,6 +178,8 @@ public class MissionLogic : MonoBehaviour
 
 	public void MissionCompleted ()
 	{
+		PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") + 5);
+		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		PlayerPrefs.SetInt ("CurrentMissionID", (PlayerPrefs.GetInt ("CurrentMissionID") + 1));
 		if (PlayerPrefs.GetInt ("CurrentMissionID") >= mission.Length) {
 			PlayerPrefs.SetInt ("CurrentMissionID", 0);

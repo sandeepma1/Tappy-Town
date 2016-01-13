@@ -4,8 +4,8 @@ using UnityEngine.Advertisements;
 
 public class UnityVideoAdsForContinue : MonoBehaviour
 {
-
-	/*	public void ShowAd ()
+	/*
+	public void ShowAd ()
 	{
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
@@ -39,6 +39,5 @@ public class UnityVideoAdsForContinue : MonoBehaviour
 	private void ContinueAfterDeath ()
 	{
 		ManJump.m_instance.UserHadWatchedVideoAd ();
-	}
-*/
+	}*/
 }
