@@ -174,11 +174,17 @@ public class InfiniteLevelReader : MonoBehaviour
 						case "b3":
 							AutoInstantiate (b [3], new Vector3 (xPos, yPos, zPos));
 							break;
+						case "b4":
+							AutoInstantiate (b [4], new Vector3 (xPos, yPos, zPos));
+							break;
 						case "d0":
 							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "d1":
 							AutoInstantiate (d [1], new Vector3 (xPos, yPos, zPos));
+							break;
+						case "d2":
+							AutoInstantiate (d [2], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "c":
 							int cars = Random.Range (0, 5);
@@ -236,7 +242,7 @@ public class InfiniteLevelReader : MonoBehaviour
 							AutoInstantiate (p [12], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "p13":							
-							AutoInstantiate (p [14], new Vector3 (xPos, yPos, zPos));
+							AutoInstantiate (p [13], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "p14":							
 							AutoInstantiate (p [14], new Vector3 (xPos, yPos, zPos));

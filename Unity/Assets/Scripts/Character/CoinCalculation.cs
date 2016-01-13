@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CoinCalculation : MonoBehaviour
 {
-	public Text coinsText;
+	public Text coinsText, tokenText;
 	int coinAchievement = 0;
 	public static CoinCalculation m_instance = null;
 	//public Animation coinScaler;
@@ -17,24 +17,36 @@ public class CoinCalculation : MonoBehaviour
 	void Start ()
 	{
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
 	}
 
-	public void UpdateCoinsOnUI ()
+	public void UpdateCurrencyOnUI ()
 	{
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
 	}
 
 	public void AddCoins (int nos)
 	{
-		coinAchievement++;
-		/*if (coinAchievement >= 10) {
+		/*coinAchievement++;
+		if (coinAchievement >= 10) {
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
 		}*/
 		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") + nos);
 		PlayerPrefs.SetInt ("Mission_CoinCount", PlayerPrefs.GetInt ("Mission_CoinCount") + nos);
 		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
-		//coinsText.GetComponent<Animation> ().Play ("CoinScale");
+	}
+
+	public void AddToken (int nos)
+	{
+		/*coinAchievement++;
+		if (coinAchievement >= 10) {
+			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
+			});
+		}*/
+		PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") + nos);
+		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
 	}
 
 	IEnumerator ScaleCoinText ()
@@ -45,7 +57,13 @@ public class CoinCalculation : MonoBehaviour
 
 	public void add100Coins ()
 	{
-		AddCoins (100);
-		UpdateCoinsOnUI ();
+		AddCoins (1000);
+		UpdateCurrencyOnUI ();
+	}
+
+	public void add100Token ()
+	{
+		AddToken (100);
+		UpdateCurrencyOnUI ();
 	}
 }

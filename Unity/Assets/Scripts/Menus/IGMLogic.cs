@@ -21,7 +21,8 @@ public class IGMLogic : MonoBehaviour
 	public GameObject settingsMenuGO, missionBanner;
 	public GameObject levelCompleteMenuGO, gameCompleteMenuGO, charSelcMenu, charSelcLogic, payToContinueMenu;
 	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
-	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payToContinueText, payToContinueTextInButton;
+	public Text jumpText, attemptsText, timeText, levelText, jumpText1, attemptsText1, timeText1, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton;
+	public GameObject coinMono, tokenMono;
 	public TextMesh lastBestScore;
 	private Vector3 velocity = Vector3.zero;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
@@ -45,7 +46,8 @@ public class IGMLogic : MonoBehaviour
 	void Awake ()
 	{	
 		m_instance = this;	
-
+		coinMono.SetActive (false);
+		tokenMono.SetActive (false);
 		SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10f, 16.5f, -32.5f);
@@ -140,9 +142,11 @@ public class IGMLogic : MonoBehaviour
 		watchAdsGO.SetActive (false);
 		rateUsGO.SetActive (false);
 		freeGiftGO.SetActive (false);
+
 		//playerDiedButtons.SetActive (false);
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
+		SetMainCameraCanvas (true);
 		anim.Play ("LevelEndAnimation");
 		StartCoroutine ("LevelRestartWithWait");
 	}
@@ -151,7 +155,6 @@ public class IGMLogic : MonoBehaviour
 	{
 		yield return new WaitForSeconds (1.2f);
 		SceneManager.LoadSceneAsync ("level");
-
 	}
 
 	public void ShowIGM ()
@@ -251,7 +254,7 @@ public class IGMLogic : MonoBehaviour
 	}
 
 	public void OpenUnlockNewCharacterMenu ()
-	{
+	{		
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		SetMainCameraCanvas (false);
 		unlockNewCharacterMenu.SetActive (true);
@@ -300,13 +303,29 @@ public class IGMLogic : MonoBehaviour
 		resetGameWindow.SetActive (true);
 	}
 
-	public void ShowPayToContinueMenu (int coins)
+	public void ShowPayCoinToContinueMenu (int coins)
 	{
 		pauseButton.SetActive (false);
 		payToContinueMenu.SetActive (true);
-		payToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
-		payToContinueTextInButton.text = coins.ToString ();
+		if (coins <= 5) {
+			payCoinsToContinueText.text = "Pay " + coins.ToString () + " Tokens to CONTINUE";
+			coinMono.SetActive (false);
+			tokenMono.SetActive (true);
+		} else {
+			payCoinsToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
+			coinMono.SetActive (true);
+			tokenMono.SetActive (false);
+		}
+		payCoinsToContinueTextInButton.text = coins.ToString ();
 	}
+
+	/*public void ShowPayTokenToContinueMenu (int token)
+	{
+		pauseButton.SetActive (false);
+		payToContinueMenu.SetActive (true);
+		payTokenToContinueText.text = "Pay " + token.ToString () + " Token to CONTINUE";
+		payTokenToContinueTextInButton.text = token.ToString ();
+	}*/
 
 	public void ShowHelpMenu ()
 	{

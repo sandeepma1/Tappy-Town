@@ -12,7 +12,7 @@ public class ManJump : MonoBehaviour
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO;
+	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector;
 	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
 	public Text counDownText, continueText;
 	Hashtable optional;
@@ -26,6 +26,7 @@ public class ManJump : MonoBehaviour
 	public GameObject tapnHoldText;
 	Vector3 iniScale;
 	int coinMultipler = 0;
+	int[] coinAskList;
 	CharacterController c;
 	int diedCounter = 0;
 	int coinsToAsk = 0;
@@ -66,6 +67,14 @@ public class ManJump : MonoBehaviour
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
 		iniSpeed = MovingPlatform.m_instance.moveInSeconds;
+		coinAskList = new int[6];
+		coinAskList [0] = 100;
+		coinAskList [1] = 300;
+		coinAskList [2] = 500;
+		coinAskList [3] = 700;
+		coinAskList [4] = 1000;
+		coinAskList [5] = 5;
+
 		//Vector3 v3Pos = new Vector3 (0.0f, 1.0f, 0.25f);
 		//transform.position = Camera.main.ViewportToWorldPoint (v3Pos);// gui.camera.ViewportToWorldPoint(v3Pos);
 	}
@@ -90,8 +99,7 @@ public class ManJump : MonoBehaviour
 
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
-				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {
-					
+				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
 					if (!isEnableFlappy) {
 						jumpCount++;
 					}
@@ -133,12 +141,8 @@ public class ManJump : MonoBehaviour
 	IEnumerator BlinkCharacter (int times)
 	{
 		for (int i = 0; i < times; i++) {
-			/*playerMesh.SetActive (false);
-			skateboardGO.SetActive (false);*/
 			DisplayPlayerObject (false);
 			yield return new WaitForSeconds (0.1f);
-			/*playerMesh.SetActive (true);
-			skateboardGO.SetActive (true);*/
 			DisplayPlayerObject (true);
 			yield return new WaitForSeconds (0.1f);
 		}
@@ -156,6 +160,12 @@ public class ManJump : MonoBehaviour
 			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
 			coinParticle.Play ();		
 			CoinCalculation.m_instance.AddCoins (1);
+			ReActivateCoins (other.gameObject);
+			break;
+		case "pickable_token":
+			//IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
+			coinParticle.Play ();		
+			CoinCalculation.m_instance.AddToken (1);
 			ReActivateCoins (other.gameObject);
 			break;
 		case "speedUp":
@@ -267,14 +277,14 @@ public class ManJump : MonoBehaviour
 		GetComponent<BoxCollider> ().enabled = active;
 	}
 
-
-
 	void DisplayPlayerObject (bool isActive)
 	{
 		playerMesh.SetActive (isActive);
+		blobProjector.gameObject.SetActive (isActive);
 		skateboardGO.SetActive (isActive);
 		if (isEnableFlappy) {
 			balloonGO.SetActive (isActive);
+			skateboardGO.SetActive (false);
 		}
 	}
 
@@ -332,9 +342,15 @@ public class ManJump : MonoBehaviour
 	{
 		counDownText.gameObject.SetActive (true);
 		continueText.gameObject.SetActive (true);
-		coinMultipler++;
-		coinsToAsk = coinMultipler * 20;
-		IGMLogic.m_instance.ShowPayToContinueMenu (coinsToAsk);
+
+		if (coinMultipler < coinAskList.Length) {
+			coinsToAsk = coinAskList [coinMultipler];
+			coinMultipler++;
+			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
+		} else {
+			IGMLogic.m_instance.ShowPayCoinToContinueMenu (5);
+		}
+
 		counDownText.text = "4";
 		yield return new WaitForSeconds (1);
 		counDownText.text = "3";
@@ -352,16 +368,24 @@ public class ManJump : MonoBehaviour
 
 	public void UserPayingForCoins ()
 	{
-		if (coinsToAsk <= PlayerPrefs.GetInt ("Coins")) {
-			UserHadAndPaidCoins ();
+		if (coinsToAsk <= 5) {
+			if (coinsToAsk <= PlayerPrefs.GetInt ("Token")) {
+				UserHadAndPaidCoins ();
+			} else {
+				AskForMoreCoins ();
+			}
 		} else {
-			AskForMoreCoins ();
+			if (coinsToAsk <= PlayerPrefs.GetInt ("Coins")) {
+				UserHadAndPaidCoins ();
+			} else {
+				AskForMoreCoins ();
+			}
 		}
 	}
 
 	void AskForMoreCoins ()
 	{
-
+		// In App Purchase window
 	}
 
 	void UserHadAndPaidCoins ()
@@ -370,8 +394,12 @@ public class ManJump : MonoBehaviour
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
 		StartCoroutine ("EnablePlayersColliderAfterWait");
-		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
-		CoinCalculation.m_instance.UpdateCoinsOnUI ();
+		if (coinsToAsk <= 5) {
+			PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") - coinsToAsk);
+		} else {
+			PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
+		}
+		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		isDeath = false;
 		IGMLogic.m_instance.pauseButton.SetActive (true);
 	}
