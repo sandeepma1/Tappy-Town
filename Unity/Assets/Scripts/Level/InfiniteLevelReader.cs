@@ -47,10 +47,12 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void SetupGameEnvironment ()
 	{
-		if ((PlayerPrefs.GetString ("currentCharacterSelected")) == "") {
-			PlayerPrefs.SetString ("currentCharacterSelected", "chr_mailman");
-		}		
-		switch (PlayerPrefs.GetString ("currentCharacterSelected")) {		
+//		Character currentCharacter = CharacterManager.CurrentCharacterSelected;
+//		NightModeON(currentCharacter.IsNightModeOn);
+//		worldName = currentCharacter.WorldName;
+//		StartItemsMaker(world0);
+
+		switch (CharacterManager.CurrentCharacterSelected.PrefabName) {		
 		case "chr_goth1": // Dark world
 		case "chr_thief":
 			NightModeON (true);

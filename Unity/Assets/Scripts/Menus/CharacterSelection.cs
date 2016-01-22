@@ -38,7 +38,7 @@ public class CharacterSelection : MonoBehaviour
 
 	public void SetCharName ()
 	{
-		PlayerPrefs.SetString ("currentCharacterSelected", charNameTemp);
+		CharacterManager.ChangeCharacter(charNameTemp);
 	}
 	
 	// Update is called once per frame
