@@ -6,86 +6,50 @@ using UnityEngine.UI;
 
 public class InfiniteLevelReader : MonoBehaviour
 {
-	public GameObject[] a, b, c, d, g, p, h, cs, lo;
+	public static InfiniteLevelReader m_instance = null;
 	public Light mainLightWithShadow, nightLight, spotLight;
 	public GameObject lastBestBoard;
-	public GameObject world0, world1, world2, world3;
-	//string[] text;
-	int totalSections = 0;
+	public int numberOfFiles = 0;
+	public TextAsset[] levelData;
+
+	public GameObject[] a, b, c, d, f, p, h, cs, lo;
+	TextAsset worldData;
+	int countOfBlank = 0;
+	//int totalSections = 0;
 	static int sectionHeight = 10;
 	int count = 0, lineCount = 0;
 	string[] lines;
 	string[] chars;
 	int xPos = 0, yPos = 0, zPos = 0, zPosTemp = 0;
 	GameObject[] objToSpawn;
-	public int numberOfFiles = 0;
-	GameObject[] blocks;
-	public TextAsset[] levelData;
-	float setLastBestBoardPosition;
-	string worldName = "";
-	public static GameObject[] myObjects;
-	//I used this to keep track of the number of objects I spawned in the scene.
-	public static int numSpawned = 0;
-	public static InfiniteLevelReader m_instance = null;
 	int ctr = 0;
 
-	public Text debugText;
+	void Awake ()
+	{	
+		m_instance = this;
 
-	void CreateAllEmptyGOs ()
-	{
-		objToSpawn = new GameObject[sectionHeight * numberOfFiles];
+		SetupGameEnvironment ();
 
-		for (int i = 0; i < numberOfFiles; i++) {
-			for (int j = 0; j < sectionHeight; j++) {
-				objToSpawn [ctr] = new GameObject (levelData [i].name + j.ToString ());
-				objToSpawn [ctr].transform.position = new Vector3 (0, 0, zPosTemp);
-				zPosTemp = zPosTemp + sectionHeight;
-				ctr++;
-			}
-		}
+		levelData = Resources.LoadAll <TextAsset> ("LevelBlocks");
+		numberOfFiles = levelData.Length;
+		yPos = sectionHeight - 1;// *********** adjusted value
+		lines = new string[100];
+		objToSpawn = new GameObject[numberOfFiles];
+
+		ReadGamePlayElementsFromWorldCSV ();
+
+		CreateAllEmptyGOs ();
+
+		FillGameObjectsInBlocks ();
+
+		SetLastBestMarker ();
 	}
 
 	void SetupGameEnvironment ()
 	{
-//		Character currentCharacter = CharacterManager.CurrentCharacterSelected;
-//		NightModeON(currentCharacter.IsNightModeOn);
-//		worldName = currentCharacter.WorldName;
-//		StartItemsMaker(world0);
-
-		switch (CharacterManager.CurrentCharacterSelected.PrefabName) {		
-		case "chr_goth1": // Dark world
-		case "chr_thief":
-			NightModeON (true);
-			worldName = "town";
-			StartItemsMaker (world0);
-			break;
-		case "chr_bridget":// City World
-			NightModeON (false);
-			worldName = "city";
-			StartItemsMaker (world1);
-			break;
-		case "alien_engi3":// Alien World
-		case "alien_eye1c":
-			NightModeON (false);
-			worldName = "alien";
-			StartItemsMaker (world2);
-			break;			
-		case "chr_riotcop":// Cop World
-			NightModeON (false);
-			worldName = "cop";
-			StartItemsMaker (world3);
-			break;
-		default:			// Town World - DEFAULT GREEN
-			NightModeON (false); 
-			worldName = "town";
-			StartItemsMaker (world0);
-			break;
-		}
-	}
-
-	void StartItemsMaker (GameObject startItem)
-	{
-		Instantiate (startItem, Vector3.zero, Quaternion.identity);
+		Character currentCharacter = CharacterManager.CurrentCharacterSelected;
+		NightModeON (currentCharacter.IsNightModeOn);
+		Instantiate (Resources.Load ("Prefabs/StartBlock/" + CharacterManager.CurrentCharacterSelected.WorldName, typeof(GameObject)), Vector3.zero, Quaternion.identity);	
 	}
 
 	void NightModeON (bool active)
@@ -100,26 +64,80 @@ public class InfiniteLevelReader : MonoBehaviour
 		spotLight.gameObject.SetActive (active);
 	}
 
-	void BlocksMaker (string value)
+	void ReadGamePlayElementsFromWorldCSV ()
 	{
-		for (int i = 0; i < value.Length; i++) {
-			
+		worldData = Resources.Load ("Worlds/" + CharacterManager.CurrentCharacterSelected.WorldName) as TextAsset;
+//		print ("Worlds/" + CharacterManager.CurrentCharacterSelected.WorldName);
+		lines = Regex.Split (worldData.text, "\n");
+		for (int i = 0; i < lines.Length - 1; i++) {
+			if (lines [i] != "") {
+				chars = Regex.Split (lines [i], ",");
+				switch (chars [0]) {
+				case "a":
+					FillArray (chars, ref a);
+					break;
+				case "b":					
+					FillArray (chars, ref b);
+					break;
+				case "c":					
+					FillArray (chars, ref c);
+					break;
+				case "d":					
+					FillArray (chars, ref d);
+					break;
+				case "f":					
+					FillArray (chars, ref f);
+					break;
+				case "p":					
+					FillArray (chars, ref p);
+					break;
+				case "h":					
+					FillArray (chars, ref h);
+					break;
+				case "cs":					
+					FillArray (chars, ref cs);
+					break;
+				case "lo":					
+					FillArray (chars, ref lo);
+					break;
+				default:
+					break;
+				}
+			}
 		}
 	}
 
-	void Awake ()
-	{	
-		m_instance = this;
-		SetupGameEnvironment ();
-		levelData = Resources.LoadAll <TextAsset> ("Levels/" + worldName);
-		numberOfFiles = levelData.Length;
-		yPos = sectionHeight - 1;// *********** adjusted value
-		lines = new string[100];
-		objToSpawn = new GameObject[numberOfFiles];
-		CreateAllEmptyGOs ();
+	void FillArray (string[] array, ref GameObject[] elements)
+	{
+		countOfBlank = 0;
+		foreach (var s in array) {
+			if (s != "") {
+				countOfBlank++;
+			}
+		}
+		elements = new GameObject[countOfBlank - 2];
+		for (int x = 0; x < elements.Length; x++) {
+			elements [x] = Resources.Load ("Prefabs/" + array [x + 1]) as GameObject;
+		}
+	}
+
+	void CreateAllEmptyGOs ()
+	{
+		objToSpawn = new GameObject[sectionHeight * numberOfFiles];
+		for (int i = 0; i < numberOfFiles; i++) {
+			for (int j = 0; j < sectionHeight; j++) {
+				objToSpawn [ctr] = new GameObject (levelData [i].name + j.ToString ());
+				objToSpawn [ctr].transform.position = new Vector3 (0, 0, zPosTemp);
+				zPosTemp = zPosTemp + sectionHeight;
+				ctr++;
+			}
+		}
+	}
+
+	void FillGameObjectsInBlocks ()
+	{
 		for (int i = 0; i < levelData.Length; i++) {
 			lines = Regex.Split (levelData [i].text, "\n");
-			totalSections = lines.Length / sectionHeight;
 			foreach (string line in lines) {
 				if (line != "") {
 					lineCount++;
@@ -198,11 +216,11 @@ public class InfiniteLevelReader : MonoBehaviour
 						case "c3":							
 							AutoInstantiate (c [3], new Vector3 (xPos, yPos, zPos));
 							break;
-						case "g0":
-							AutoInstantiate (g [0], new Vector3 (xPos, yPos, zPos));
+						case "f0":
+							AutoInstantiate (f [0], new Vector3 (xPos, yPos, zPos));
 							break;
-						case "g1":
-							AutoInstantiate (g [1], new Vector3 (xPos, yPos, zPos));
+						case "f1":
+							AutoInstantiate (f [1], new Vector3 (xPos, yPos, zPos));
 							break;
 						case "p0":
 							AutoInstantiate (p [0], new Vector3 (xPos, yPos, zPos));
@@ -287,24 +305,24 @@ public class InfiniteLevelReader : MonoBehaviour
 				}
 			}
 		}
-		SetLastBestMarker ();
-	}
-
-	void SetLastBestMarker ()
-	{
-		if (PlayerPrefs.GetInt ("lastBestScore") <= 30) {
-			lastBestBoard.transform.localPosition = new Vector3 (-100, 0, 0);
-		} else {
-			lastBestBoard.transform.localPosition = new Vector3 (PlayerPrefs.GetInt ("lastBestScore"), 0, 1.25f);
-		}
 	}
 
 	void AutoInstantiate (GameObject aa, Vector3 posaa)
 	{
-
 		GameObject objectInstance;
 		objectInstance = Instantiate (aa, posaa, aa.transform.rotation) as GameObject;
 		objectInstance.name = aa.name;
 		objectInstance.transform.parent = objToSpawn [count].transform;
 	}
+
+	void SetLastBestMarker ()
+	{
+		if (June.LocalStore.Instance.GetInt ("lastBestScore") <= 30) {
+			lastBestBoard.transform.localPosition = new Vector3 (-100, 0, 0);
+		} else {
+			lastBestBoard.transform.localPosition = new Vector3 (June.LocalStore.Instance.GetInt ("lastBestScore"), 0, 1.25f);
+		}
+	}
+
+
 }

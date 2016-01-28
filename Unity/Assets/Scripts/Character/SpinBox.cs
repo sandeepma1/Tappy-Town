@@ -43,8 +43,8 @@ public class SpinBox : MonoBehaviour
 
 	public void PerformSpin ()
 	{
-		if (PlayerPrefs.GetInt ("Coins") >= 100) {
-			PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - 100);
+		if (June.LocalStore.Instance.GetInt ("coins") >= 100) {
+			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - 100);
 
 			StartCoroutine ("ShowTapToContinuePrompt");
 		} else {
@@ -116,7 +116,7 @@ public class SpinBox : MonoBehaviour
 	{
 		int i = 0;
 		i = 100 * Random.Range (1, 6);
-		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") + i);
+		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + i);
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		prizeString = "You win " + i + " Coins";
 		ChangePrizeMesh ();
@@ -126,7 +126,7 @@ public class SpinBox : MonoBehaviour
 	{
 		int i = 0;
 		i = Random.Range (2, 6);
-		PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") + i);
+		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + i);
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		prizeString = "You win " + i + " Tokens";
 		ChangePrizeMesh ();

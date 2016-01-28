@@ -47,7 +47,8 @@ public class ManJump : MonoBehaviour
 		c = GetComponent<CharacterController> ();
 		dieSound = GetComponent<AudioSource> ();
 		string charName = CharacterManager.CurrentCharacterSelected.PrefabName;
-		playerMesh = Instantiate (Resources.Load ("Characters/" + charName) as GameObject);
+
+		playerMesh = Instantiate (Resources.Load ("Characters/CharactersMesh/" + charName) as GameObject);
 		playerMesh.transform.parent = this.transform;
 		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0.05f);
 		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
@@ -165,7 +166,7 @@ public class ManJump : MonoBehaviour
 			SpeedUpPlayer ();
 			break;
 		case "balloonStart":
-			PlayerPrefs.SetInt ("Mission_BalloonCount", PlayerPrefs.GetInt ("Mission_BalloonCount") + 1);
+			June.LocalStore.Instance.SetInt ("Mission_BalloonCount", June.LocalStore.Instance.GetInt ("Mission_BalloonCount") + 1);
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			ReActivateCoins (other.gameObject);
@@ -261,8 +262,8 @@ public class ManJump : MonoBehaviour
 		}
 		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
-		//lastBest = PlayerPrefs.GetInt ("lastBestScore");
-		PlayerPrefs.SetInt ("PlayerDeath", PlayerPrefs.GetInt ("PlayerDeath") + 1);
+		//lastBest = June.LocalStore.Instance.GetInt ("lastBestScore");
+		June.LocalStore.Instance.SetInt ("PlayerDeath", June.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
@@ -280,8 +281,8 @@ public class ManJump : MonoBehaviour
 	{
 		DisplayPlayerObject (false);
 		IGMLogic.m_instance.pauseButton.SetActive (false);
-		PlayerPrefs.SetInt ("PlayerTotalJumps", PlayerPrefs.GetInt ("PlayerTotalJumps") + jumpCount);
-		PlayerPrefs.SetInt ("Mission_JumpCount", PlayerPrefs.GetInt ("Mission_JumpCount") + jumpCount);
+		June.LocalStore.Instance.SetInt ("PlayerTotalJumps", June.LocalStore.Instance.GetInt ("PlayerTotalJumps") + jumpCount);
+		June.LocalStore.Instance.SetInt ("Mission_JumpCount", June.LocalStore.Instance.GetInt ("Mission_JumpCount") + jumpCount);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 
 		if (MovingPlatform.m_instance.isHighScore ()) {
@@ -339,13 +340,13 @@ public class ManJump : MonoBehaviour
 	public void UserPayingForCoins ()
 	{
 		if (coinsToAsk <= 5) {
-			if (coinsToAsk <= PlayerPrefs.GetInt ("Token")) {
+			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("tokens")) {
 				UserHadAndPaidCoins ();
 			} else {
 				AskForMoreCoins ();
 			}
 		} else {
-			if (coinsToAsk <= PlayerPrefs.GetInt ("Coins")) {
+			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("coins")) {				
 				UserHadAndPaidCoins ();
 			} else {
 				AskForMoreCoins ();
@@ -366,9 +367,9 @@ public class ManJump : MonoBehaviour
 		continueText.gameObject.SetActive (false);
 		StartCoroutine ("EnablePlayersColliderAfterWait");
 		if (coinsToAsk <= 5) {
-			PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") - coinsToAsk);
+			June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") - coinsToAsk);
 		} else {
-			PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") - coinsToAsk);
+			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - coinsToAsk);
 		}
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		isDeath = false;
@@ -400,10 +401,10 @@ public class ManJump : MonoBehaviour
 		//diedCounter++;
 	}
 
-	void LevelFinished ()
+	/*void LevelFinished ()
 	{
 		IGMLogic.m_instance.ShowLevelCompleteMenu (jumpCount);
-	}
+	}*/
 
 	void SpeedUpPlayer ()
 	{

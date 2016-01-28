@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class CoinCalculation : MonoBehaviour
 {
-	public Text coinsText, tokenText;
-	int coinAchievement = 0;
+	public Text coinsText, tokenText, coinsText_1, tokenText_1;
+	//int coinAchievement = 0;
 	public static CoinCalculation m_instance = null;
 	//public Animation coinScaler;
 
@@ -16,14 +16,14 @@ public class CoinCalculation : MonoBehaviour
 
 	void Start ()
 	{
-		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
-		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
+		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+		tokenText_1.text = tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	public void UpdateCurrencyOnUI ()
 	{
-		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
-		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
+		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+		tokenText_1.text = tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	public void AddCoins (int nos)
@@ -33,9 +33,9 @@ public class CoinCalculation : MonoBehaviour
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
 		}*/
-		PlayerPrefs.SetInt ("Coins", PlayerPrefs.GetInt ("Coins") + nos);
-		PlayerPrefs.SetInt ("Mission_CoinCount", PlayerPrefs.GetInt ("Mission_CoinCount") + nos);
-		coinsText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + nos);
+		June.LocalStore.Instance.SetInt ("Mission_CoinCount", June.LocalStore.Instance.GetInt ("Mission_CoinCount") + nos);
+		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
 	}
 
 	public void AddToken (int nos)
@@ -45,8 +45,8 @@ public class CoinCalculation : MonoBehaviour
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
 		}*/
-		PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") + nos);
-		tokenText.text = PlayerPrefs.GetInt ("Token").ToString ();
+		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + nos);
+		tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	IEnumerator ScaleCoinText ()

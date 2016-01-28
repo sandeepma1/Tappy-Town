@@ -17,9 +17,9 @@ public class MissionLogic : MonoBehaviour
 		currentMissionText.text = "text";
 		m_instance = this;
 		//****************************  Run Once ************************************************
-		if (PlayerPrefs.GetInt ("SetMissionOnce") <= 0) {
-			PlayerPrefs.SetInt ("SetMissionOnce", 1);
-			PlayerPrefs.SetInt ("CurrentMissionID", 0);
+		if (June.LocalStore.Instance.GetInt ("SetMissionOnce") <= 0) {
+			June.LocalStore.Instance.SetInt ("SetMissionOnce", 1);
+			June.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
 			SetCurrentMission ();
 		}//**************************************************************************************
 	}
@@ -36,9 +36,9 @@ public class MissionLogic : MonoBehaviour
 
 	IEnumerator FadeToTransprent ()
 	{
-		float alpha = currentMissionText.color.a;
+		float alpha = currentMissionText.color.b;
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / blinkRate) {
-			Color newColor = new Color (1, 1, 1, Mathf.Lerp (alpha, 0, t));
+			Color newColor = new Color (1, 1, Mathf.Lerp (alpha, 0, t), 1);
 			currentMissionText.color = newColor;
 			yield return null;
 		}
@@ -47,9 +47,9 @@ public class MissionLogic : MonoBehaviour
 
 	IEnumerator FadeToOpaque ()
 	{
-		float alpha = currentMissionText.color.a;
+		float alpha = currentMissionText.color.b;
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / blinkRate) {
-			Color newColor = new Color (1, 1, 1, Mathf.Lerp (alpha, 1, t));
+			Color newColor = new Color (1, 1, Mathf.Lerp (alpha, 0, t), 1);
 			currentMissionText.color = newColor;
 			yield return null;
 		}
@@ -71,9 +71,9 @@ public class MissionLogic : MonoBehaviour
 		//********************************************************* Random Coin Logic
 		int coinsInGift = UnityEngine.Random.Range (2, 5) * 20;    
 		//**************************************************************************************************
-		PlayerPrefs.SetInt ("Coins", coinsInGift + PlayerPrefs.GetInt ("Coins"));
+		June.LocalStore.Instance.SetInt("coins"), coinsInGift + June.LocalStore.Instance.GetInt("coins"));
 		gotCoinText.text = "+" + coinsInGift;
-		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		coinText.text = June.LocalStore.Instance.GetInt("coins").ToString ();
 		yield return new WaitForSeconds (3);
 		SceneManager.LoadSceneAsync ("level");
 		CloseRedeemMenu ();
@@ -81,18 +81,18 @@ public class MissionLogic : MonoBehaviour
 
 	void SetCurrentMission ()
 	{
-		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
+		switch (June.LocalStore.Instance.GetInt ("CurrentMissionID")) {
 		case 0:
-			PlayerPrefs.SetInt ("Mission_DistanceCount", 0);
+			June.LocalStore.Instance.SetInt ("Mission_DistanceCount", 0);
 			break;
 		case 1:
-			PlayerPrefs.SetInt ("Mission_BalloonCount", 0);
+			June.LocalStore.Instance.SetInt ("Mission_BalloonCount", 0);
 			break;
 		case 2:
-			PlayerPrefs.SetInt ("Mission_JumpCount", 0);
+			June.LocalStore.Instance.SetInt ("Mission_JumpCount", 0);
 			break;
 		case 3:
-			PlayerPrefs.SetInt ("Mission_CoinCount", 0);
+			June.LocalStore.Instance.SetInt ("Mission_CoinCount", 0);
 			break;
 		default:
 			break;
@@ -101,18 +101,18 @@ public class MissionLogic : MonoBehaviour
 
 	void DisplayCurrentMission ()
 	{
-		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
+		switch (June.LocalStore.Instance.GetInt ("CurrentMissionID")) {
 		case 0:
-			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_DistanceCount") + "/100]";		
+			currentMissionText.text = mission [June.LocalStore.Instance.GetInt ("CurrentMissionID")] + " [" + June.LocalStore.Instance.GetInt ("Mission_DistanceCount") + "/100]";		
 			break;
 		case 1:
-			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_BalloonCount") + "/2]";
+			currentMissionText.text = mission [June.LocalStore.Instance.GetInt ("CurrentMissionID")] + " [" + June.LocalStore.Instance.GetInt ("Mission_BalloonCount") + "/2]";
 			break;
 		case 2:
-			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_JumpCount") + "/100]";
+			currentMissionText.text = mission [June.LocalStore.Instance.GetInt ("CurrentMissionID")] + " [" + June.LocalStore.Instance.GetInt ("Mission_JumpCount") + "/100]";
 			break;
 		case 3:
-			currentMissionText.text = mission [PlayerPrefs.GetInt ("CurrentMissionID")] + " [" + PlayerPrefs.GetInt ("Mission_CoinCount") + "/20]";
+			currentMissionText.text = mission [June.LocalStore.Instance.GetInt ("CurrentMissionID")] + " [" + June.LocalStore.Instance.GetInt ("Mission_CoinCount") + "/20]";
 			break;
 		default:
 			currentMissionText.text = "Invalid";
@@ -122,9 +122,9 @@ public class MissionLogic : MonoBehaviour
 
 	public bool CheckIfMissionCompleted ()
 	{
-		//print (PlayerPrefs.GetInt ("CurrentMissionID"));
+		//print (June.LocalStore.Instance.GetInt ("CurrentMissionID"));
 		bool retunStatus = false;
-		switch (PlayerPrefs.GetInt ("CurrentMissionID")) {
+		switch (June.LocalStore.Instance.GetInt ("CurrentMissionID")) {
 		case 0:			
 			retunStatus = CheckDistanceMission ();
 			break;	
@@ -146,7 +146,7 @@ public class MissionLogic : MonoBehaviour
 
 	bool CheckJumpMission ()
 	{
-		if (PlayerPrefs.GetInt ("Mission_JumpCount") >= 100) {
+		if (June.LocalStore.Instance.GetInt ("Mission_JumpCount") >= 100) {
 			return true;
 		}
 		return false;
@@ -154,7 +154,7 @@ public class MissionLogic : MonoBehaviour
 
 	bool CheckDistanceMission ()
 	{
-		if (PlayerPrefs.GetInt ("Mission_DistanceCount") >= 100) {
+		if (June.LocalStore.Instance.GetInt ("Mission_DistanceCount") >= 100) {
 			return true;
 		}
 		return false;
@@ -162,7 +162,7 @@ public class MissionLogic : MonoBehaviour
 
 	bool CheckBalloonMission ()
 	{
-		if (PlayerPrefs.GetInt ("Mission_BalloonCount") >= 2) {
+		if (June.LocalStore.Instance.GetInt ("Mission_BalloonCount") >= 2) {
 			return true;
 		}
 		return false;
@@ -170,7 +170,7 @@ public class MissionLogic : MonoBehaviour
 
 	bool CheckCoinMission ()
 	{
-		if (PlayerPrefs.GetInt ("Mission_CoinCount") >= 20) {
+		if (June.LocalStore.Instance.GetInt ("Mission_CoinCount") >= 20) {
 			return true;
 		}
 		return false;
@@ -178,11 +178,11 @@ public class MissionLogic : MonoBehaviour
 
 	public void MissionCompleted ()
 	{
-		PlayerPrefs.SetInt ("Token", PlayerPrefs.GetInt ("Token") + 5);
+		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + 5);
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
-		PlayerPrefs.SetInt ("CurrentMissionID", (PlayerPrefs.GetInt ("CurrentMissionID") + 1));
-		if (PlayerPrefs.GetInt ("CurrentMissionID") >= mission.Length) {
-			PlayerPrefs.SetInt ("CurrentMissionID", 0);
+		June.LocalStore.Instance.SetInt ("CurrentMissionID", (June.LocalStore.Instance.GetInt ("CurrentMissionID") + 1));
+		if (June.LocalStore.Instance.GetInt ("CurrentMissionID") >= mission.Length) {
+			June.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
 		}
 		SetCurrentMission ();
 	}

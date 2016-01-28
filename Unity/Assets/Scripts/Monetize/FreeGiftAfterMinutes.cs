@@ -25,24 +25,24 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	{
 		anim = bin.GetComponent<Animator> ();
 		//****************************  Run Once ************************************************
-		if (!PlayerPrefsX.GetBool ("runOnce")) {
-			PlayerPrefsX.SetBool ("runOnce", true);
+		if (!June.LocalStore.Instance.GetBool ("runOnce")) {
+			June.LocalStore.Instance.SetBool ("runOnce", true);
 			currentDate = System.DateTime.Now;
 			addedDate = currentDate.AddHours (0.1f);
-			PlayerPrefs.SetString ("addedDate", addedDate.ToBinary ().ToString ());
+			June.LocalStore.Instance.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 		}//**************************************************************************************
 	}
 
 	void Start ()
 	{
-		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
 		InvokeRepeating ("CalculateTimeDifference", 0f, 59f);
 	}
 
 	void CalculateTimeDifference ()
 	{
 		currentDate = System.DateTime.Now;
-		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (PlayerPrefs.GetString ("addedDate")));
+		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (June.LocalStore.Instance.GetString ("addedDate")));
 		difference = oldDate1.Subtract (currentDate);
 
 		if (difference.Subtract (zeroTime).TotalSeconds >= 0) {
@@ -61,20 +61,20 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		}
 		if (difference.TotalSeconds <= 0) {
 			//print ("less thenxero");
-			PlayerPrefsX.SetBool ("isReady", true);
+			June.LocalStore.Instance.SetBool ("isReady", true);
 		}
 	}
 
 	public void GiftButtonClicked ()
 	{
-		if (PlayerPrefsX.GetBool ("isReady")) {
+		if (June.LocalStore.Instance.GetBool ("isReady")) {
 			OpenRedeemMenu ();
 		}
 	}
 
 	public void RedeemedButtonClicked ()
 	{
-		PlayerPrefsX.SetBool ("isReady", false);
+		June.LocalStore.Instance.SetBool ("isReady", false);
 		giftButton.GetComponent<Image> ().color = Color.white;
 		giftButton1.GetComponent<Image> ().color = Color.white;
 		AddDate ();
@@ -91,9 +91,9 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		//********************************************************* Random Coin Logic
 		int coinsInGift = UnityEngine.Random.Range (2, 5) * 20;    
 		//**************************************************************************************************
-		PlayerPrefs.SetInt ("Coins", coinsInGift + PlayerPrefs.GetInt ("Coins"));
+		June.LocalStore.Instance.SetInt ("coins", coinsInGift + June.LocalStore.Instance.GetInt ("coins"));
 		gotCoinText.text = "+" + coinsInGift;
-		coinText.text = PlayerPrefs.GetInt ("Coins").ToString ();
+		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
 		yield return new WaitForSeconds (3);
 		SceneManager.LoadSceneAsync ("level");
 		CloseRedeemMenu ();
@@ -130,7 +130,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	void AddDate ()
 	{
 		addedDate = currentDate.AddHours (3f);
-		PlayerPrefs.SetString ("addedDate", addedDate.ToBinary ().ToString ());
+		June.LocalStore.Instance.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 	}
 
 }

@@ -1,12 +1,45 @@
 {
-    "Characters": [
-        {
+    "Characters": [        
+		{
             "si": 0,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+		{
+            "si": 1,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+       {
+            "si": 2,
             "ch": "Mail Man",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
             "pr": "chr_mailman",
             "nm": "Mail Mike",
@@ -18,13 +51,63 @@
                 "id": ""
             }
         },
+		{
+            "si": 3,
+            "ch": "Worker",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_worker1",
+            "nm": "Worker",
+            "id": "IGC-010",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 4000,
+                "id": ""
+            }
+        },
+		{
+            "si": 4,
+            "ch": "Robot",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_robot",
+            "nm": "Robot",
+            "id": "IGC-009",
+            "ds": "Collect 10 Gears to unlock this character",
+            "cr": {
+                "ct": "collectibles",
+                "val": 10,
+                "id": "IRP-001"
+            }
+        },
+        {
+            "si": 5,
+            "ch": "Riot Cop",
+			"env":{
+				"wn":"cop",
+				"nm":false
+			},
+            "pr": "chr_riotcop",
+            "nm": "Riot Cop",
+            "id": "IGC-008",
+            "ds": "Collect 20 Shields to unlock this character",
+            "cr": {
+                "ct": "collectibles",
+                "val": 20,
+                "id": "IRP-002"
+            }
+        },
         {
             "si": 6,
             "ch": "Army Man",
 			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"wn":"cop",
+				"nm":false
 			},
             "pr": "chr_army1",
             "nm": "Army Man",
@@ -41,16 +124,15 @@
             "ch": "Beard Man",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
             "pr": "chr_beardo1",
             "nm": "Beard Man",
             "id": "IGC-002",
             "ds": "",
             "cr": {
-                "ct": "coins",
-                "val": 2000,
+                "ct": "fb",
+                "val": 0,
                 "id": ""
             }
         },
@@ -58,9 +140,8 @@
             "si": 8,
             "ch": "Cop",
 			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"wn":"cop",
+				"nm":false
 			},
             "pr": "chr_cop1",
             "nm": "Cop",
@@ -77,10 +158,9 @@
             "ch": "Bunny Girl",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
-            "pr": "alien_eye1c",
+            "pr": "chr_costume4",
             "nm": "Bunny Girl",
             "id": "IGC-004",
             "ds": "",
@@ -95,10 +175,9 @@
             "ch": "Candy Man",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
-            "pr": "chr_butcher",
+            "pr": "chr_costume2",
             "nm": "Candy Man",
             "id": "IGC-005",
             "ds": "",
@@ -112,14 +191,13 @@
             "si": 11,
             "ch": "Mayor",
 			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"wn":"city",
+				"nm":false
 			},
             "pr": "chr_mayor",
             "nm": "Mayor",
             "id": "IGC-006",
-            "ds": "",
+            "ds": "Collect 35 Hats to unlock this character",
             "cr": {
                 "ct": "collectibles",
                 "val": 35,
@@ -131,8 +209,7 @@
             "ch": "Nurse",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
             "pr": "chr_nurse",
             "nm": "Nurse",
@@ -145,107 +222,16 @@
             }
         },
         {
-            "si": 5,
-            "ch": "Riot Cop",
-			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
-			},
-            "pr": "chr_riotcop",
-            "nm": "Riot Cop",
-            "id": "IGC-008",
-            "ds": " ",
-            "cr": {
-                "ct": "collectibles",
-                "val": 20,
-                "id": "IRP-002"
-            }
-        },
-        {
-            "si": 4,
-            "ch": "Robot",
-			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
-			},
-            "pr": "chr_costume2",
-            "nm": "Robot",
-            "id": "IGC-009",
-            "ds": "",
-            "cr": {
-                "ct": "collectibles",
-                "val": 10,
-                "id": "IRP-001"
-            }
-        },
-        {
-            "si": 3,
-            "ch": "Worker",
-			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
-			},
-            "pr": "chr_worker1",
-            "nm": "Worker",
-            "id": "IGC-010",
-            "ds": "",
-            "cr": {
-                "ct": "coins",
-                "val": 4000,
-                "id": ""
-            }
-        },
-        {
-            "si": 2,
-            "ch": "Speedman",
-			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
-			},
-            "pr": "chr_fatkid",
-            "nm": "Speedman",
-            "id": "IGC-011",
-            "ds": "",
-            "cr": {
-                "ct": "usd",
-                "val": 0.99,
-                "id": ""
-            }
-        },
-        {
-            "si": 1,
-            "ch": "Batguy",
-			"env":{
-				"wn":"town",
-				"nm":true,
-				"spr":"world0"
-			},
-            "pr": "chr_hazmat2",
-            "nm": "Batguy",
-            "id": "IGC-012",
-            "ds": "",
-            "cr": {
-                "ct": "usd",
-                "val": 0.99,
-                "id": ""
-            }
-        },
-        {
             "si": 13,
             "ch": "Banana Man",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
             "pr": "chr_bananaman",
             "nm": "Banana Man",
             "id": "IGC-013",
-            "ds": "Collect 50 Bananas to get this",
+            "ds": "Collect 50 Bananas to unlock this character",
             "cr": {
                 "ct": "collectibles",
                 "val": 50,
@@ -257,8 +243,7 @@
             "ch": "Chef",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
             "pr": "chr_chef",
             "nm": "Chino Chef",
@@ -275,17 +260,85 @@
             "ch": "Music Girl",
 			"env":{
 				"wn":"town",
-				"nm":true,
-				"spr":"world0"
+				"nm":false
 			},
-            "pr": "chr_goth1",
+            "pr": "chr_headphones",
             "nm": "Mini Musician",
             "id": "IGC-015",
-            "ds": "",
+            "ds": "Collect 65 Headphones to unlock this character",
             "cr": {
                 "ct": "collectibles",
                 "val": 65,
                 "id": "IRP-005"
+            }
+        },
+		 {
+            "si": 16,
+            "ch": "Speedman",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_super4",
+            "nm": "Speedman",
+            "id": "IGC-011",
+            "ds": "",
+            "cr": {
+                "ct": "usd",
+                "val": 0.99,
+                "id": ""
+            }
+        },
+
+		{
+            "si": 17,
+            "ch": "Batguy",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_super5",
+            "nm": "Batguy",
+            "id": "IGC-012",
+            "ds": "",
+            "cr": {
+                "ct": "usd",
+                "val": 0.99,
+                "id": ""
+            }
+        }
+		{
+            "si": 18,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+		{
+            "si": 19,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
             }
         }
     ]

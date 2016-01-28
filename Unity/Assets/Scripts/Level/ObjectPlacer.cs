@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 public class ObjectPlacer : MonoBehaviour
 {
 	public static ObjectPlacer m_instance = null;
+	public GameObject cargoTruck;
+	public int xpDistance;
+
 	Queue<int> digitQ = new Queue<int> ();
 	int posAdder = 0;
 	GameObject[] blocks;
@@ -14,28 +17,21 @@ public class ObjectPlacer : MonoBehaviour
 	int digit2 = 0;
 	int tempDigit2 = 0;
 	//***************** Cargo Truck Vars
-	public GameObject cargoTruck;
 	Vector3 cargoTruckIniPosition;
 	Vector3 cargoTruckIniRotation;
-	public GameObject cargoPrefab;
-	public Transform cargoInstantiatePosition;
 	bool isCargoTruckStarted = false;
 	bool isFlappyBird = false;
 	bool isMiniCar = false;
 	//****************** Player's XP Vars
-	public int PlayerXP = 0;
 	TextAsset levelData;
 	string[] lines;
 	string[] chars;
-	public int xpDistance;
 	int charAdder = 1;
-
 	//***********************
 	Hashtable optional;
 
 	void ReadPlayerXPFile (int xp)
 	{
-		//lines = new string[100];
 		levelData = Resources.Load ("PlayerXP/xp") as TextAsset;
 		lines = Regex.Split (levelData.text, "\n");
 		chars = Regex.Split (lines [xp], ",");
@@ -45,8 +41,8 @@ public class ObjectPlacer : MonoBehaviour
 	void Awake ()
 	{
 		m_instance = this;
-		if (PlayerPrefsX.GetBool ("useLevelProgress")) {
-			ReadPlayerXPFile (PlayerPrefs.GetInt ("PlayerXP"));
+		if (June.LocalStore.Instance.GetBool ("useLevelProgress")) {
+			ReadPlayerXPFile (June.LocalStore.Instance.GetInt ("PlayerXP"));
 		} else {
 			ReadPlayerXPFile (49);
 		}
@@ -80,7 +76,6 @@ public class ObjectPlacer : MonoBehaviour
 			if (MovingPlatform.m_instance.transform.position.x >= posAdder) {
 				posAdder = posAdder + 30;
 				NewEnvGenerator ();
-
 			}
 		}
 	}

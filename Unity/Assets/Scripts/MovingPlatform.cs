@@ -27,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
 		tempMoveDirection = moveDirection;
 		playerPos = this.transform.position;
 		manPos = man.transform.position;
-		//lastBestText.text = PlayerPrefs.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel).ToString ("F0") + "%";
+		//lastBestText.text = June.LocalStore.Instance.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel).ToString ("F0") + "%";
 	}
 
 	public void SpeedStopper (float speed)
@@ -61,8 +61,8 @@ public class MovingPlatform : MonoBehaviour
 	public bool isHighScore ()
 	{
 		SaveLastBestRunScore ();
-		if (PlayerPrefs.GetInt ("lastBestScore") < (int)transform.position.x) {
-			PlayerPrefs.SetInt ("lastBestScore", (int)transform.position.x);
+		if (June.LocalStore.Instance.GetInt ("lastBestScore") < (int)transform.position.x) {
+			June.LocalStore.Instance.SetInt ("lastBestScore", (int)transform.position.x);
 			return true;
 		} 
 		return false;
@@ -70,9 +70,9 @@ public class MovingPlatform : MonoBehaviour
 
 	public void SaveLastBestRunScore ()
 	{
-		PlayerPrefs.SetInt ("PlayerDistanceCovered", PlayerPrefs.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
-		PlayerPrefs.SetInt ("Mission_DistanceCount", PlayerPrefs.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
-		PlayerPrefs.SetInt ("Progression_DistanceCount", PlayerPrefs.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
+		June.LocalStore.Instance.SetInt ("PlayerDistanceCovered", June.LocalStore.Instance.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
+		June.LocalStore.Instance.SetInt ("Mission_DistanceCount", June.LocalStore.Instance.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
+		June.LocalStore.Instance.SetInt ("Progression_DistanceCount", June.LocalStore.Instance.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
 		Progression.m_instance.UpdatePlayerXP ();
 
 
@@ -87,8 +87,8 @@ public class MovingPlatform : MonoBehaviour
 	/*public void lastBestFun ()
 	{
 		print (lastBest);
-		if (lastBest > PlayerPrefs.GetFloat ("lastBest")) {
-			PlayerPrefs.SetFloat ("lastBest", lastBest);
+		if (lastBest > June.LocalStore.Instance.GetFloat ("lastBest")) {
+			June.LocalStore.Instance.SetFloat ("lastBest", lastBest);
 		}
 	}*/
 

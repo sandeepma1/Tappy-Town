@@ -15,17 +15,17 @@ public class Progression : MonoBehaviour
 
 	public	void UpdatePlayerXP ()
 	{
-		if (PlayerPrefs.GetInt ("Progression_DistanceCount") >= ObjectPlacer.m_instance.xpDistance) {
+		if (June.LocalStore.Instance.GetInt ("Progression_DistanceCount") >= ObjectPlacer.m_instance.xpDistance) {
 			LevelUp ();
 		}
 	}
 
 	void LevelUp ()
 	{
-		PlayerPrefs.SetInt ("Progression_DistanceCount", 0);
-		PlayerPrefs.SetInt ("PlayerXP", PlayerPrefs.GetInt ("PlayerXP") + 1);
-		if (PlayerPrefs.GetInt ("PlayerXP") >= 50) {
-			PlayerPrefs.SetInt ("PlayerXP", 50);
+		June.LocalStore.Instance.SetInt ("Progression_DistanceCount", 0);
+		June.LocalStore.Instance.SetInt ("PlayerXP", June.LocalStore.Instance.GetInt ("PlayerXP") + 1);
+		if (June.LocalStore.Instance.GetInt ("PlayerXP") >= 50) {
+			June.LocalStore.Instance.SetInt ("PlayerXP", 50);
 		}
 	}
 }
