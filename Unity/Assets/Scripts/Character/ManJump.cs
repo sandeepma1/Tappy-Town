@@ -49,6 +49,7 @@ public class ManJump : MonoBehaviour
 		string charName = CharacterManager.CurrentCharacterSelected.PrefabName;
 
 		playerMesh = Instantiate (Resources.Load ("Characters/CharactersMesh/" + charName) as GameObject);
+		playerMesh.GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
 		playerMesh.transform.parent = this.transform;
 		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0.05f);
 		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
@@ -356,7 +357,7 @@ public class ManJump : MonoBehaviour
 
 	void AskForMoreCoins ()
 	{
-		// In App Purchase window
+		IGMLogic.m_instance.ShowInGameStoreMenu ();
 	}
 
 	void UserHadAndPaidCoins ()

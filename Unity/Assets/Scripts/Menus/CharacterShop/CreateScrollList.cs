@@ -278,6 +278,12 @@ public class CreateScrollList : MonoBehaviour
 		}
 	}
 
+	public void CloseMessageMenuGo ()
+	{
+		messageMenuGO.SetActive (false);
+		SetContentPanel (true);
+	}
+
 	public void CloseMessageMenu ()
 	{
 		messageMenuGO.SetActive (false);

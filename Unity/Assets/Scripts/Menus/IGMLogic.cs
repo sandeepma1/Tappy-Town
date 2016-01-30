@@ -19,7 +19,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject startGameButton;
 	public GameObject settingsMenuGO, missionBanner;
 	public GameObject charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu;
-	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu;
+	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu, InGameStoreMenu;
 	public Text levelText, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton, newHighScoreText;
 	public GameObject coinMono, tokenMono;
 	public TextMesh lastBestScore;
@@ -389,6 +389,20 @@ public class IGMLogic : MonoBehaviour
 	{
 		missionPrizeRedeemMenu.SetActive (false);
 	}
+
+	public void ShowInGameStoreMenu ()
+	{		
+		SetMainCameraCanvas (false);
+		InGameStoreMenu.SetActive (true);
+	}
+
+	public void CloseInGameStoreMenu ()
+	{
+		InGameStoreMenu.SetActive (false);
+		SetMainCameraCanvas (true);
+	}
+
+
 
 	public void ToggleMute ()
 	{
