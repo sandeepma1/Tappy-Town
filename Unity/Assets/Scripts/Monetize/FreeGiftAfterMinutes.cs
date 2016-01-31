@@ -105,11 +105,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (false);
 			//IGMLogic.m_instance.light2.gameObject.SetActive (false);
-		}
-		mainCamera.SetActive (true);
-		mainCanvas.SetActive (true);
-		menuCamera.SetActive (false);
-		menuCanvas.SetActive (false);
+		}	
 		redeemMenu.SetActive (false);
 	}
 
@@ -119,10 +115,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (true);
 			//IGMLogic.m_instance.light2.gameObject.SetActive (true);
 		}
-		mainCamera.SetActive (false);
-		mainCanvas.SetActive (false);
-		menuCamera.SetActive (true);
-		menuCanvas.SetActive (true);
 		particle.SetActive (true);
 		redeemMenu.SetActive (true);
 	}

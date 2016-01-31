@@ -38,9 +38,11 @@ public class CreateScrollList : MonoBehaviour
 	public Transform contentPanel;
 	public Text characterName;
 	public Text characterDescription;
-	public GameObject characterPreviewMesh;
+	//public GameObject characterPreviewParent;
 	public List<Item> itemList;
+	GameObject[] unlockedCharactersMesh = new GameObject[100];
 	SampleCharacter currentCharacterVisible;
+	public GameObject mesh;
 
 	//Unlock Button
 	public Text value;
@@ -55,7 +57,6 @@ public class CreateScrollList : MonoBehaviour
 	string currValueToAsk = "";
 	string currTypeToAsk = "";
 	string currentCharID = "";
-	//bool isFacebookAsked = false;
 
 	//Menus
 	public GameObject messageMenuGO, newCharacterUnlockedMenuGO;
@@ -63,8 +64,8 @@ public class CreateScrollList : MonoBehaviour
 	//others
 	Hashtable optional;
 	Vector3 charMeshSize = new Vector3 (0.75f, 0.75f, 0.75f);
-	Vector3 charZoomInSize = new Vector3 (250, 250, 250);
-	Vector3 charZoomOutSize = new Vector3 (75, 75, 75);
+	Vector3 charBigSize = new Vector3 (250, 250, 250);
+	Vector3 charSmallSize = new Vector3 (75, 75, 75);
 
 	public static CreateScrollList m_instance = null;
 	//public string[] unlockedCharacters;
@@ -81,17 +82,9 @@ public class CreateScrollList : MonoBehaviour
 		optional.Add ("ease", LeanTweenType.notUsed);
 		FillList ();
 		PopulateList ();
-		StartCoroutine ("EnableCollider");	
+//		characterPreviewParent.transform.localRotation = new Quaternion (1, 0, 0, 0);
+		StartCoroutine ("EnableCollider");			
 	}
-
-	/*void Start ()
-	{		
-		optional = new Hashtable ();
-		optional.Add ("ease", LeanTweenType.notUsed);
-		FillList ();
-		PopulateList ();
-		StartCoroutine ("EnableCollider");	
-	}*/
 
 	IEnumerator EnableCollider () // This is for issue where character fails to zoom at start
 	{
@@ -102,11 +95,16 @@ public class CreateScrollList : MonoBehaviour
 	void LateUpdate ()
 	{	
 		if (isCharacterUnlocked) {			
-			characterPreviewMesh.transform.Rotate (0, 0, 60 * Time.deltaTime);
+			mesh.transform.Rotate (0, 0, 60 * Time.deltaTime);
 		} else {
-			characterPreviewMesh.transform.localRotation = new Quaternion (270, 0, 0, 0);
+			mesh.transform.localRotation = new Quaternion (270, 0, 0, 0);
 		}
 
+		for (int i = 0; i < unlockedCharactersMesh.Length; i++) {
+			if (unlockedCharactersMesh [i] != null) {
+				unlockedCharactersMesh [i].transform.Rotate (0, 0, 60 * Time.deltaTime);
+			}
+		}
 	}
 
 	void FillList ()
@@ -124,76 +122,77 @@ public class CreateScrollList : MonoBehaviour
 				CharacterManager.AllCharacters [i].Currency ["val"].ToString (), 
 				CharacterManager.AllCharacters [i].Currency ["id"].ToString (), 
 				SaveStringArray.CheckIfIDContains (CharacterManager.AllCharacters [i].Id),
-				SaveStringArray.CheckIfIsSelected (CharacterManager.AllCharacters [i].Id)
-			)
+				SaveStringArray.CheckIfIsSelected (CharacterManager.AllCharacters [i].Id))
 			);
 		}
 	}
 
 	void PopulateList ()
-	{				
-		foreach (var item in itemList) {
+	{	
+		for (int i = 0; i < itemList.Count; i++) {
+			
 			GameObject character = Instantiate (sampleCharacter) as GameObject;
 			SampleCharacter c = character.GetComponent <SampleCharacter> ();
+			character.transform.SetParent (contentPanel);
+			character.transform.localScale = charMeshSize;
+			character.transform.localPosition = new Vector3 (character.transform.localPosition.x, character.transform.localPosition.y, -278);
+			character.transform.localRotation = new Quaternion (0, 0, 0, 0);
 					
-			c.transform.GetChild (0).GetComponent<MeshFilter> ().sharedMesh = item.charMesh.GetComponent<MeshFilter> ().sharedMesh;
-			c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial = item.charMesh.GetComponent<MeshRenderer> ().sharedMaterial;
+			c.transform.GetChild (0).GetComponent<MeshFilter> ().sharedMesh = itemList [i].charMesh.GetComponent<MeshFilter> ().sharedMesh;
+			c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial = itemList [i].charMesh.GetComponent<MeshRenderer> ().sharedMaterial;
 
-			c.isUnlocked = item.isUnlocked;
-			c.isSelected = item.isSelected;
-			c.charName = item.charName;
-			c.charID = item.charID;
+			c.isUnlocked = itemList [i].isUnlocked;
+			c.isSelected = itemList [i].isSelected;
+			c.charName = itemList [i].charName;
+			c.charID = itemList [i].charID;
 
 			if (c.isUnlocked == false) {				
 				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (50, 50, 50, 255));
-				c.charDesc = item.charDesc;
-				c.currValue = item.currValue;
-				c.currType = item.currType;
-				c.currID = item.currID;
-
+				c.charDesc = itemList [i].charDesc;
+				c.currValue = itemList [i].currValue;
+				c.currType = itemList [i].currType;
+				c.currID = itemList [i].currID;
 			} else {
 				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
 				c.charDesc = "";
 				c.currValue = "";
 				c.currType = "";
 				c.currID = "";
+				unlockedCharactersMesh [i] = character.transform.Find ("mesh").gameObject;
 				if (c.isSelected) {
 					c.currType = "selected";
 				}
 			}
-			character.transform.SetParent (contentPanel);
-			character.transform.localScale = charMeshSize;
 		}
+
 	}
 
 	void OnTriggerEnter (Collider other)
 	{		
-		currentCharacterVisible = other.transform.parent.GetComponent<SampleCharacter> ();
+		currentCharacterVisible = other.transform.GetComponent<SampleCharacter> ();
 
-		other.gameObject.GetComponent<MeshRenderer> ().enabled = false;
-
-		characterPreviewMesh.gameObject.transform.localScale = charZoomOutSize;
-		LeanTween.scale (characterPreviewMesh, charZoomInSize, 0.15f, optional);	
-
-		characterPreviewMesh.GetComponent<MeshFilter> ().sharedMesh = other.GetComponent<MeshFilter> ().sharedMesh;
-		characterPreviewMesh.GetComponent<MeshRenderer> ().sharedMaterial = other.GetComponent<MeshRenderer> ().sharedMaterial;
+		mesh.GetComponent<MeshFilter> ().sharedMesh =	other.transform.FindChild ("mesh").gameObject.GetComponent<MeshFilter> ().sharedMesh;
+		mesh.GetComponent<MeshRenderer> ().sharedMaterial = other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().sharedMaterial;
 
 		characterName.text = currentCharacterVisible.charName;
 		characterDescription.text = currentCharacterVisible.charDesc;
-
 		isCharacterUnlocked = currentCharacterVisible.isUnlocked;
-		currValueToAsk = currentCharacterVisible.currValue.ToString ();
-		currTypeToAsk = currentCharacterVisible.currType.ToString ();
+		currValueToAsk = currentCharacterVisible.currValue;
+		currTypeToAsk = currentCharacterVisible.currType;
 		currentCharID = currentCharacterVisible.charID;
-
 		FillButtonDetails (currentCharacterVisible.currValue.ToString (), currentCharacterVisible.currType.ToString ());
+
+		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = false;
+		//mesh.gameObject.transform.localScale = charSmallSize;
+		//LeanTween.scale (mesh, charBigSize, 0.05f, optional);	
 	}
 
 	void OnTriggerExit (Collider other)
-	{		
-		characterPreviewMesh.gameObject.transform.localScale = charZoomInSize;
-		LeanTween.scale (characterPreviewMesh, charZoomOutSize, 0.15f, optional);
-		other.gameObject.GetComponent<MeshRenderer> ().enabled = true;
+	{
+		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = true;
+		//mesh.gameObject.transform.localScale = charBigSize;
+		//LeanTween.scale (mesh, charSmallSize, 0.05f, optional);
+
 	}
 
 	void FillButtonDetails (string t_Value, string t_Type)
@@ -243,13 +242,15 @@ public class CreateScrollList : MonoBehaviour
 
 	public void SelectButtonPressed ()
 	{
-		print (currTypeToAsk);
 		switch (currTypeToAsk) {
 		case "coins":
 			CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
 			break;
 		case "tokens":
 			CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
+			break;
+		case "usd":
+			IGMLogic.m_instance.ShowinAppStoreMenu ();
 			break;
 		default:
 			break;
@@ -259,7 +260,6 @@ public class CreateScrollList : MonoBehaviour
 			PlayerPrefs.SetString ("currentCharacterSelectedID", CharacterManager.GetCharacterWithId (currentCharID).PrefabName);
 			ResetCharacterSelectionLogic ();
 		}
-
 	}
 
 	void CheckIfPlayerHaveResources (string currTypePrefs, int currencyToAsk)
@@ -300,12 +300,12 @@ public class CreateScrollList : MonoBehaviour
 	void SetContentPanel (bool flag)
 	{
 		contentPanel.gameObject.SetActive (flag);
-		characterPreviewMesh.gameObject.SetActive (flag);
+		mesh.gameObject.SetActive (flag);
 	}
 
 	void ResetCharacterSelectionLogic ()
 	{		
-		characterPreviewMesh.gameObject.transform.localScale = charZoomInSize;
+		//mesh.gameObject.transform.localScale = charBigSize;
 		foreach (Transform child in contentPanel) {
 			Destroy (child.gameObject);
 		}

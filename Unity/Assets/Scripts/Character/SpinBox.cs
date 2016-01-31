@@ -2,11 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SpinBox : MonoBehaviour
 {
-	public Button redeemButton, tapToContinue, backButton;
-	public GameObject spinBox;
+	public Button redeemButton, backButton;
+	public GameObject tapToContinue;
+	public GameObject spinBox, gatchaMenu;
 	public Animator anim;
 	public GameObject prizeMesh;
 	public Text prizeInfo;
@@ -23,7 +25,6 @@ public class SpinBox : MonoBehaviour
 		public const int coins = 1;
 		public const int token = 2;
 		//public const int enemyShield = 3;		//public const int doubleBalloon = 4;
-
 	}
 
 	void Awake ()
@@ -43,23 +44,27 @@ public class SpinBox : MonoBehaviour
 
 	public void PerformSpin ()
 	{
-		if (June.LocalStore.Instance.GetInt ("coins") >= 100) {
-			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - 100);
-
+		if (June.LocalStore.Instance.GetInt ("coins") >= 500) {
+			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - 500);
+			CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 			StartCoroutine ("ShowTapToContinuePrompt");
 		} else {
+			IGMLogic.m_instance.ShowInGameStoreMenu ();
 			//Show Buy Coins menu
 		}
 	}
 
 	IEnumerator ShowTapToContinuePrompt ()
 	{
+		prizeInfo.text = "";
+		tapToContinue.gameObject.SetActive (false);
 		redeemButton.gameObject.SetActive (true);
 		backButton.gameObject.SetActive (true);
 		anim.PlayInFixedTime ("OpenBox");
 		RandomWeighted ();
 		yield return new WaitForSeconds (3.0f);
 		prizeInfo.text = prizeString;
+		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		yield return new WaitForSeconds (1.0f);
 		tapToContinue.gameObject.SetActive (true);
 	}
@@ -69,7 +74,7 @@ public class SpinBox : MonoBehaviour
 	{
 		redeemButton.gameObject.SetActive (false);
 		backButton.gameObject.SetActive (false);
-		IGMLogic.m_instance.unlockNewCharacterButton.gameObject.SetActive (false);
+		//IGMLogic.m_instance.unlockNewCharacterButton.gameObject.SetActive (false);
 		result = 0;
 		total = 0;
 		int randVal = Random.Range (0, weightTotal + 1);
@@ -117,7 +122,7 @@ public class SpinBox : MonoBehaviour
 		int i = 0;
 		i = 100 * Random.Range (1, 6);
 		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + i);
-		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
+
 		prizeString = "You win " + i + " Coins";
 		ChangePrizeMesh ();
 	}
@@ -127,7 +132,7 @@ public class SpinBox : MonoBehaviour
 		int i = 0;
 		i = Random.Range (2, 6);
 		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + i);
-		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
+
 		prizeString = "You win " + i + " Tokens";
 		ChangePrizeMesh ();
 	}
@@ -140,6 +145,32 @@ public class SpinBox : MonoBehaviour
 	void ShowEnemyShieldUnlocked ()
 	{
 		print ("ShiledUnlocked");
+	}
+
+	public void OpenGatchaMenu ()
+	{		
+		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+		redeemButton.gameObject.SetActive (true);
+		prizeMesh.GetComponent<MeshFilter> ().mesh = null;
+		tapToContinue.gameObject.SetActive (false);
+		prizeInfo.text = "";
+		backButton.gameObject.SetActive (true);
+		//SetMainCameraCanvas (false);
+		gatchaMenu.SetActive (true);
+		IGMLogic.m_instance.isTextMeshesVisible (false);
+	}
+
+	public void CloseBackGatchaMenu ()
+	{
+		gatchaMenu.SetActive (false);
+		IGMLogic.m_instance.isTextMeshesVisible (true);
+	}
+
+	public void CloseGatchaMenu ()
+	{
+		tapToContinue.gameObject.SetActive (false);
+		gatchaMenu.SetActive (false);
+		IGMLogic.m_instance.isTextMeshesVisible (true);
 	}
 
 }

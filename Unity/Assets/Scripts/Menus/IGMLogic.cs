@@ -10,7 +10,8 @@ public class IGMLogic : MonoBehaviour
 	public float magnitude = 0;
 	public bool isGamePause = false;
 	public GameObject pauseMenuGO;
-	public Camera mainCamera, menuCamera;
+	public Camera mainCamera;
+	//, menuCamera;
 	public Image blankLogo;
 	public GameObject gameName;
 	public GameObject UI;
@@ -18,11 +19,11 @@ public class IGMLogic : MonoBehaviour
 	public GameObject startGameGO;
 	public GameObject startGameButton;
 	public GameObject settingsMenuGO, missionBanner;
-	public GameObject charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu;
-	public GameObject unlockNewCharacterButton, unlockNewCharacterMenu, InGameStoreMenu;
+	public GameObject charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu, previewMesh, scrollView;
+	public GameObject unlockNewCharacterButton, gatchaMenu, InGameStoreMenu, inAppStoreMenu;
 	public Text levelText, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton, newHighScoreText;
 	public GameObject coinMono, tokenMono;
-	public TextMesh lastBestScore;
+	public TextMesh lastBestScore, highScore, highScoreText, mission1;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
 	public Toggle toggleMuteButton, toggleShadowsButton, toggleLevel;
 	public Light shadowLight;
@@ -44,13 +45,13 @@ public class IGMLogic : MonoBehaviour
 		m_instance = this;	
 		coinMono.SetActive (false);
 		tokenMono.SetActive (false);
-		SetMainCameraCanvas (true);
+		//SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10f, 16.5f, -32.5f);
 		Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);
-		menuCamera.gameObject.SetActive (false);
+		//menuCamera.gameObject.SetActive (false);
 		anim = mainCanvas.GetComponent<Animator> ();
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
@@ -79,6 +80,7 @@ public class IGMLogic : MonoBehaviour
 				ids [i] = "";
 			}
 			ids [0] = "IGC-000";
+			ids [1] = "IGC-ZZZ";
 			//ids [1] = "IGC-010";
 			June.LocalStore.Instance.SetStringArray ("unlockedCharacters", ids);
 			//tutorialMenu2.SetActive (true);
@@ -91,12 +93,22 @@ public class IGMLogic : MonoBehaviour
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeInOutQuart);
-		SetMainCameraCanvas (true);
+		//SetMainCameraCanvas (true);
 		if (June.LocalStore.Instance.GetBool ("useLevelProgress")) {
 			levelText.text = "Level " + June.LocalStore.Instance.GetInt ("PlayerXP").ToString ();
 		} else {
 			levelText.text = "Level " + 50;
 		}
+		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+
+	}
+
+	public void isTextMeshesVisible (bool isActive)
+	{		
+		mission1.gameObject.SetActive (isActive);
+		lastBestScore.gameObject.SetActive (isActive);
+		highScore.gameObject.SetActive (isActive);
+		highScoreText.gameObject.SetActive (isActive);
 	}
 
 	public void PauseGame ()
@@ -144,7 +156,7 @@ public class IGMLogic : MonoBehaviour
 		//playerDiedButtons.SetActive (false);
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
-		SetMainCameraCanvas (true);
+		//SetMainCameraCanvas (true);
 		anim.Play ("LevelEndAnimation");
 		StartCoroutine ("LevelRestartWithWait");
 	}
@@ -173,7 +185,7 @@ public class IGMLogic : MonoBehaviour
 	public void CloseSettingsMenu ()
 	{
 		settingsMenuGO.SetActive (false);
-		SetMainCameraCanvas (true);
+		//SetMainCameraCanvas (true);
 	}
 
 	public void CloseStatssmenu ()
@@ -196,67 +208,63 @@ public class IGMLogic : MonoBehaviour
 		helpMenu.SetActive (false);
 	}
 
-	public void CloseCharacterSelectionMenu ()
-	{
-		SetMainCameraCanvas (true);
-		charSelcMenu.SetActive (false);
-		if (GameEventManager.isNightMode) {
-			shadowLight.gameObject.SetActive (false);
-			//light2.gameObject.SetActive (false);
-		}
-		SceneManager.LoadScene ("level");
-	}
-
-	public void CloseUnlockNewCharacterMenu ()
-	{
-		SetMainCameraCanvas (true);
-		unlockNewCharacterMenu.SetActive (false);
-	}
-
-	public void SelectChar ()
-	{
-//		print (CharacterSelection.m_instance.scrollValue.x);
-		June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
-		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
-		SceneManager.LoadSceneAsync ("level");
-	}
-
 	public void OpenCharacterSelectionMenu ()
 	{
 		if (GameEventManager.isNightMode) {
 			shadowLight.gameObject.SetActive (true);
 		}
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		SetMainCameraCanvas (false);
 		charSelcMenu.SetActive (true);
-		//charSelcLogic.GetComponent<CharacterSelection> ().ScanAllChars ();
+		isTextMeshesVisible (false);
 	}
 
-	public void OpenUnlockNewCharacterMenu ()
+	public void CloseCharacterSelectionMenu ()
+	{				
+		if (GameEventManager.isNightMode) {
+			shadowLight.gameObject.SetActive (false);
+		}
+		//charSelcMenu.SetActive (false);
+		//isTextMeshesVisible (true);
+		SceneManager.LoadScene ("level");
+	}
+
+
+
+
+
+	public void SelectChar ()
+	{
+		June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
+		SceneManager.LoadSceneAsync ("level");
+	}
+
+	public void OpenGatchaMenu ()
 	{		
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		SetMainCameraCanvas (false);
-		unlockNewCharacterMenu.SetActive (true);
+		//SetMainCameraCanvas (false);
+		gatchaMenu.SetActive (true);
+		isTextMeshesVisible (false);
 	}
 
-	public void SetMainCameraCanvas (bool active)
-	{
-		mainCamera.gameObject.SetActive (active);
-		mainCanvas.gameObject.SetActive (active);
-		menuCamera.gameObject.SetActive (!active);
-		menuCanvas.gameObject.SetActive (!active);
-	}
+	//public void SetMainCameraCanvas (bool active)
+	//{
+	//mainCamera.gameObject.SetActive (active);
+	//mainCanvas.gameObject.SetActive (active);
+	//menuCamera.gameObject.SetActive (!active);
+	//menuCanvas.gameObject.SetActive (!active);
+	//}
 
 	public void ShowSettingsMenu ()
 	{
-		SetMainCameraCanvas (false);
+		//SetMainCameraCanvas (false);
 		settingsMenuGO.SetActive (true);
 	}
 
 	public void ShowStatsMenu ()
 	{		
-		SetMainCameraCanvas (false);
+		//SetMainCameraCanvas (false);
 		PopulateStatsValues ();
 		statsWindow.SetActive (true);
 	}
@@ -273,13 +281,13 @@ public class IGMLogic : MonoBehaviour
 
 	public void ShowCreditsMenu ()
 	{
-		SetMainCameraCanvas (false);
+		//SetMainCameraCanvas (false);
 		creditsWindow.SetActive (true);
 	}
 
 	public void ShowResetGameMenu ()
 	{
-		SetMainCameraCanvas (false);
+		//SetMainCameraCanvas (false);
 		resetGameWindow.SetActive (true);
 	}
 
@@ -302,7 +310,7 @@ public class IGMLogic : MonoBehaviour
 	public void ShowHelpMenu ()
 	{
 		helpMenu.SetActive (true);
-		SetMainCameraCanvas (false);
+		//SetMainCameraCanvas (false);
 	}
 
 	public void ClosePayToContinueMenu ()
@@ -391,18 +399,37 @@ public class IGMLogic : MonoBehaviour
 	}
 
 	public void ShowInGameStoreMenu ()
-	{		
-		SetMainCameraCanvas (false);
+	{
+		mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		InGameStoreMenu.SetActive (true);
+		CharMeshesOnCanvas (false);
 	}
 
 	public void CloseInGameStoreMenu ()
 	{
+		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		InGameStoreMenu.SetActive (false);
-		SetMainCameraCanvas (true);
+		CharMeshesOnCanvas (true);
 	}
 
+	public void ShowinAppStoreMenu ()
+	{				
+		inAppStoreMenu.SetActive (true);
+		CharMeshesOnCanvas (false);
+	}
 
+	public void CloseinAppStoreMenu ()
+	{
+		inAppStoreMenu.SetActive (false);
+		CharMeshesOnCanvas (true);
+	}
+
+	void CharMeshesOnCanvas (bool isActive)
+	{
+		
+		previewMesh.SetActive (isActive);
+		scrollView.SetActive (isActive);
+	}
 
 	public void ToggleMute ()
 	{
