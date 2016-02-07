@@ -121,7 +121,7 @@ public class CreateScrollList : MonoBehaviour
 				CharacterManager.AllCharacters [i].Currency ["ct"].ToString (), 
 				CharacterManager.AllCharacters [i].Currency ["val"].ToString (), 
 				CharacterManager.AllCharacters [i].Currency ["id"].ToString (), 
-				SaveStringArray.CheckIfIDContains (CharacterManager.AllCharacters [i].Id),
+				SaveStringArray.CheckIfIDContains (CharacterManager.AllCharacters [i].Id), 
 				SaveStringArray.CheckIfIsSelected (CharacterManager.AllCharacters [i].Id))
 			);
 		}

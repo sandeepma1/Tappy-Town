@@ -55,6 +55,11 @@ public class CharacterManager : BaseConfig<CharacterManager,Character>
 		return Util.FirstOrDefault (AllCharacters, c => c.Id == id);
 	}
 
+	/*public static Character GetCharacterWithPrefabna]= (string id)
+	{
+		return Util.FirstOrDefault (AllCharacters, c => c.Id == id);
+	}*/
+
 	public static Character DefaultCharacter {
 		get {
 			return GetCharacterWithId ("IGC-000");
