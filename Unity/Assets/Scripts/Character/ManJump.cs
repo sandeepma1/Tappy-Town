@@ -35,6 +35,7 @@ public class ManJump : MonoBehaviour
 	bool isInCar = false;
 	bool isBlinking = false;
 	float speed = 10, s = 3.4f, iniSpeed;
+	bool isDiedOnce = false;
 	//public GameObject playerGO
 
 	void Awake ()
@@ -149,6 +150,7 @@ public class ManJump : MonoBehaviour
 		case "death":			
 			if (!isDeath) {
 				PlayerPartiallyDied ();
+				isDiedOnce = true;
 			}
 			break;
 		case "pickable_coin":
@@ -263,13 +265,12 @@ public class ManJump : MonoBehaviour
 		}
 		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
-		//lastBest = June.LocalStore.Instance.GetInt ("lastBestScore");
+		print (isDiedOnce);
 		June.LocalStore.Instance.SetInt ("PlayerDeath", June.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
-
-		if (transform.root.position.x >= 50) {
+		if (transform.root.position.x >= 50 && isDiedOnce == false) {			
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
 			StartCoroutine ("PlayerDiedStartTimer");
@@ -314,8 +315,7 @@ public class ManJump : MonoBehaviour
 		continueText.gameObject.SetActive (true);
 
 		if (coinMultipler < coinAskList.Length) {
-			coinsToAsk = coinAskList [coinMultipler];
-
+			coinsToAsk = 1000;//coinAskList [coinMultipler];
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
 		} else {
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (5);

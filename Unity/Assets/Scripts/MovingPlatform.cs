@@ -10,9 +10,9 @@ public class MovingPlatform : MonoBehaviour
 	public static Vector3 playerPos, manPos;
 	public GameObject man;
 	public GameObject IGM_GO;
-	public Slider progressBarSlider;
+	//public Slider progressBarSlider;
 	//float lastBest = 0;
-	public Text percentText;
+	//public Text percentText;
 	public Text Score;
 	public static MovingPlatform m_instance = null;
 
@@ -27,7 +27,6 @@ public class MovingPlatform : MonoBehaviour
 		tempMoveDirection = moveDirection;
 		playerPos = this.transform.position;
 		manPos = man.transform.position;
-		//lastBestText.text = June.LocalStore.Instance.GetFloat ("lastBest" + GameEventManager.currentPlayingLevel).ToString ("F0") + "%";
 	}
 
 	public void SpeedStopper (float speed)
@@ -36,7 +35,6 @@ public class MovingPlatform : MonoBehaviour
 		if (moveInSeconds <= 0) {
 			moveInSeconds = 0;
 		}
-		//print (moveInSeconds);
 	}
 
 
@@ -48,9 +46,7 @@ public class MovingPlatform : MonoBehaviour
 	}
 
 	void LateUpdate ()
-	{
-		//progressBarSlider.value = transform.position.x;
-		//percentText.text = (101 - (((progressBarSlider.maxValue - transform.position.x) / progressBarSlider.maxValue) * 100)).ToString ("F0");
+	{		
 		Score.text = transform.position.x.ToString ("F0");
 		/*if (transform.position.x >= 500) {
 			Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
@@ -74,8 +70,6 @@ public class MovingPlatform : MonoBehaviour
 		June.LocalStore.Instance.SetInt ("Mission_DistanceCount", June.LocalStore.Instance.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
 		June.LocalStore.Instance.SetInt ("Progression_DistanceCount", June.LocalStore.Instance.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
 		Progression.m_instance.UpdatePlayerXP ();
-
-
 	}
 
 	public void ResetPosition ()
