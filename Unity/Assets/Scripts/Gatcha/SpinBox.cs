@@ -56,9 +56,13 @@ public class SpinBox : MonoBehaviour
 
 	float CalculateProbability (float[] probs)
 	{
+		
 		redeemButton.gameObject.SetActive (false);
 		backButton.gameObject.SetActive (false);
 		float total = GatchaManager.AllGatchas.Count;
+		foreach (float elem in probs) {
+			total += elem;
+		}
 		float randomPoint = Random.value * total;
 		for (int i = 0; i < probs.Length; i++) {
 			if (randomPoint < probs [i]) {
@@ -72,16 +76,38 @@ public class SpinBox : MonoBehaviour
 
 	void RandomWeighted (int probResult)
 	{
-		print (result);
 		if (result == 0) {
 			ShowCoinsUnlocked ();
 		} else if (result == 1) {
 			ShowTokensUnlocked ();
-		} else if (result >= 2 || result <= 16) {
+		} else if (result >= 2 && result <= 16) {
 			ShowCharacterUnlocked (result);
-		} else if (result >= 17 || result <= 21) {
+		} else if (result >= 17 && result <= 21) {
 			ShowCharTokenUnlocked (result);
 		}
+	}
+
+	void ShowCharTokenUnlocked (int resultNo)
+	{	
+		if (!SaveStringArray.isCharacterTokenFull (GatchaManager.AllGatchas [result].ID)) {			
+			SaveStringArray.AddCharTokenIDtoUnlock (GatchaManager.AllGatchas [resultNo].ID);
+			prizeString = "New Character Token Unlocked";
+		} else {
+			prizeString = "Try Again";
+		}
+		ChangePrizeMesh ();
+	}
+
+	void ShowCharacterUnlocked (int resultNo)
+	{		
+		if (SaveStringArray.IsCharacterUnlocked (GatchaManager.AllGatchas [result].ID) == false) {
+			SaveStringArray.AddCharIDtoUnlock (GatchaManager.AllGatchas [result].ID);
+			prizeString = "New Character Unlocked";
+		} else {
+			prizeString = "Try Again";
+		}
+
+		ChangePrizeMesh ();
 	}
 
 	void ShowCoinsUnlocked ()
@@ -95,25 +121,6 @@ public class SpinBox : MonoBehaviour
 	{
 		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + 10);
 		prizeString = "You win " + 10 + " Tokens";
-		ChangePrizeMesh ();
-	}
-
-	void ShowCharacterUnlocked (int resultNo)
-	{
-		if (SaveStringArray.CheckIfIDContains (result.ToString ())) {
-			SaveStringArray.AddCharIDtoUnlock (GatchaManager.AllGatchas [result].Item);
-			prizeString = "New Character Unlocked";
-		} else {
-			prizeString = "Try Again";
-		}
-
-		ChangePrizeMesh ();
-	}
-
-	void ShowCharTokenUnlocked (int resultNo)
-	{
-		prizeString = "New Character Token Unlocked";
-		print ("ShiledUnlocked");
 		ChangePrizeMesh ();
 	}
 

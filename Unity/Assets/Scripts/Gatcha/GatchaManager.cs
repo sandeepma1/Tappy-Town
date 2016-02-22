@@ -49,9 +49,9 @@ public class Gatcha : BaseModel
 		}
 	}
 
-	public string Item {
+	public string ID {
 		get {
-			return GetString (GatchaJSONFields.Item);
+			return GetString (GatchaJSONFields.ID);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class GatchaJSONFields
 	public const string JSONFileName = "JSONs/Gatcha";
 	public const string RootKey = "Gatcha";
 	public const string number = "no";
-	public const string Item = "it";
+	public const string ID = "id";
 	public const string Quantity = "qu";
 	public const string Probability = "pr";
 }     

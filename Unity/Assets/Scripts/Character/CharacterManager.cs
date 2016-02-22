@@ -155,14 +155,14 @@ public class Character : BaseModel
 	public float CurrencyValue {
 		get { 
 			if (Currency.ContainsKey (CharacterJSONFields.CurrencyFields.Value))
-				return (float)Currency [CharacterJSONFields.CurrencyFields.Value];
+				return float.Parse (Currency [CharacterJSONFields.CurrencyFields.Value].ToString ());
 			return 0.0f;
 		} 
 	}
 
 	public string CurrencyCollectibleId {
 		get { 
-			if (Currency.ContainsKey (CharacterJSONFields.CurrencyFields.CollectibleId) && CurrencyType.Equals ("collectible"))
+			if (Currency.ContainsKey (CharacterJSONFields.CurrencyFields.CollectibleId) && CurrencyType.Equals ("collectibles"))
 				return Currency [CharacterJSONFields.CurrencyFields.CollectibleId] as string;
 			return string.Empty;
 		} 

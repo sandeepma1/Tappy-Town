@@ -78,10 +78,10 @@
             "pr": "chr_robot",
             "nm": "Robot",
             "id": "IGC-009",
-            "ds": "Collect 10 Gears to unlock this character",
+            "ds": "Collect 10 Chips to unlock this character",
             "cr": {
                 "ct": "collectibles",
-                "val": 10,
+                "val": "10",
                 "id": "IRP-001"
             }
         },
@@ -98,7 +98,7 @@
             "ds": "Collect 20 Shields to unlock this character",
             "cr": {
                 "ct": "collectibles",
-                "val": 20,
+                "val": "20",
                 "id": "IRP-002"
             }
         },
@@ -200,7 +200,7 @@
             "ds": "Collect 35 Hats to unlock this character",
             "cr": {
                 "ct": "collectibles",
-                "val": 35,
+                "val": "35",
                 "id": "IRP-003"
             }
         },
@@ -234,7 +234,7 @@
             "ds": "Collect 50 Bananas to unlock this character",
             "cr": {
                 "ct": "collectibles",
-                "val": 50,
+                "val": "50",
                 "id": "IRP-004"
             }
         },
@@ -268,7 +268,7 @@
             "ds": "Collect 65 Headphones to unlock this character",
             "cr": {
                 "ct": "collectibles",
-                "val": 65,
+                "val": "65",
                 "id": "IRP-005"
             }
         },

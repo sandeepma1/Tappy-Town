@@ -13,11 +13,12 @@ public class Item
 	public string charID;
 	public string currType;
 	public string currValue;
+	public string currValueUnlocked;
 	public string currID;
 	public bool isUnlocked;
 	public bool isSelected;
 
-	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cID, bool isUnlck, bool isSelect)
+	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, bool isUnlck, bool isSelect)
 	{
 		charMesh = mesh;
 		charName = name;
@@ -25,6 +26,7 @@ public class Item
 		charID = id;
 		currType = cType;
 		currValue = cValue;
+		currValueUnlocked = cValueUnlocked;
 		currID = cID;
 		isUnlocked = isUnlck;
 		isSelected = isSelect;
@@ -95,7 +97,7 @@ public class CreateScrollList : MonoBehaviour
 	void LateUpdate ()
 	{	
 		//if (isCharacterUnlocked) {			
-			mesh.transform.Rotate (0, 0, 60 * Time.deltaTime);
+		mesh.transform.Rotate (0, 0, 60 * Time.deltaTime);
 		/*} else {
 			mesh.transform.localRotation = new Quaternion (270, 0, 0, 0);
 		}*/
@@ -119,9 +121,10 @@ public class CreateScrollList : MonoBehaviour
 				CharacterManager.AllCharacters [i].Description, 
 				CharacterManager.AllCharacters [i].Id,
 				CharacterManager.AllCharacters [i].Currency ["ct"].ToString (), 
-				CharacterManager.AllCharacters [i].Currency ["val"].ToString (), 
+				CharacterManager.AllCharacters [i].Currency ["val"].ToString (),
+				SaveStringArray.GetCharacterTokenCount (CharacterManager.AllCharacters [i].CurrencyCollectibleId).ToString (),
 				CharacterManager.AllCharacters [i].Currency ["id"].ToString (), 
-				SaveStringArray.CheckIfIDContains (CharacterManager.AllCharacters [i].Id), 
+				SaveStringArray.IsCharacterUnlocked (CharacterManager.AllCharacters [i].Id), 
 				SaveStringArray.CheckIfIsSelected (CharacterManager.AllCharacters [i].Id))
 			);
 		}
@@ -145,16 +148,17 @@ public class CreateScrollList : MonoBehaviour
 			c.isSelected = itemList [i].isSelected;
 			c.charName = itemList [i].charName;
 			c.charID = itemList [i].charID;
-
+			c.currValueUnlocked = itemList [i].currValueUnlocked;
+			byte brightness = 150;
 			if (c.isUnlocked == false) {				
-				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
+				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
 				c.charDesc = itemList [i].charDesc;
 				c.currValue = itemList [i].currValue;
 				c.currType = itemList [i].currType;
 				c.currID = itemList [i].currID;
 
 			} else {
-				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
+				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
 				c.charDesc = "";
 				c.currValue = "";
 				c.currType = "";
@@ -181,22 +185,18 @@ public class CreateScrollList : MonoBehaviour
 		currValueToAsk = currentCharacterVisible.currValue;
 		currTypeToAsk = currentCharacterVisible.currType;
 		currentCharID = currentCharacterVisible.charID;
-		FillButtonDetails (currentCharacterVisible.currValue.ToString (), currentCharacterVisible.currType.ToString ());
+		FillButtonDetails (currentCharacterVisible.currValue.ToString (), currentCharacterVisible.currValueUnlocked.ToString (), currentCharacterVisible.currType.ToString ());
 
 		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = false;
-		//mesh.gameObject.transform.localScale = charSmallSize;
-		//LeanTween.scale (mesh, charBigSize, 0.05f, optional);	
 	}
 
 	void OnTriggerExit (Collider other)
 	{
 		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = true;
-		//mesh.gameObject.transform.localScale = charBigSize;
-		//LeanTween.scale (mesh, charSmallSize, 0.05f, optional);
 
 	}
 
-	void FillButtonDetails (string t_Value, string t_Type)
+	void FillButtonDetails (string t_Value, string t_ValueUnlocked, string t_Type)
 	{		
 		switch (t_Type) {
 		case "coins":			
@@ -212,7 +212,7 @@ public class CreateScrollList : MonoBehaviour
 			FillButtonValues ("$" + t_Value, "", "Buy Now", iconBank [3]);
 			break;
 		case "collectibles":
-			FillButtonValues ("Find", "", "0/" + t_Value, iconBank [4]);
+			FillButtonValues ("Find", "", t_ValueUnlocked + "/" + t_Value, iconBank [4]);
 			break;		
 		case "":
 			FillButtonValues ("", "Select", "", iconBank [3]);

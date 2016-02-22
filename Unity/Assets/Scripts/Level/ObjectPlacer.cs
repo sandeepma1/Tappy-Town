@@ -64,7 +64,7 @@ public class ObjectPlacer : MonoBehaviour
 		for (int i = 0; i < InfiniteLevelReader.m_instance.numberOfFiles; i++) {
 			for (int j = 0; j < 10; j++) {
 				blocks [ctr] = GameObject.Find (InfiniteLevelReader.m_instance.levelData [i].name + j.ToString ());
-				blocks [ctr].gameObject.SetActive (false);
+				blocks [ctr].gameObject.SetActive (false); // disables all GOs
 				ctr++;
 			}
 		}
