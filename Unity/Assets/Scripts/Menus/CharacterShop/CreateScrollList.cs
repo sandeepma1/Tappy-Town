@@ -94,17 +94,17 @@ public class CreateScrollList : MonoBehaviour
 
 	void LateUpdate ()
 	{	
-		if (isCharacterUnlocked) {			
+		//if (isCharacterUnlocked) {			
 			mesh.transform.Rotate (0, 0, 60 * Time.deltaTime);
-		} else {
+		/*} else {
 			mesh.transform.localRotation = new Quaternion (270, 0, 0, 0);
-		}
+		}*/
 
-		for (int i = 0; i < unlockedCharactersMesh.Length; i++) {
+		/*for (int i = 0; i < unlockedCharactersMesh.Length; i++) {
 			if (unlockedCharactersMesh [i] != null) {
 				unlockedCharactersMesh [i].transform.Rotate (0, 0, 60 * Time.deltaTime);
 			}
-		}
+		}*/
 	}
 
 	void FillList ()
@@ -147,11 +147,12 @@ public class CreateScrollList : MonoBehaviour
 			c.charID = itemList [i].charID;
 
 			if (c.isUnlocked == false) {				
-				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (50, 50, 50, 255));
+				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
 				c.charDesc = itemList [i].charDesc;
 				c.currValue = itemList [i].currValue;
 				c.currType = itemList [i].currType;
 				c.currID = itemList [i].currID;
+
 			} else {
 				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
 				c.charDesc = "";

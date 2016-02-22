@@ -315,7 +315,7 @@ public class ManJump : MonoBehaviour
 		continueText.gameObject.SetActive (true);
 
 		if (coinMultipler < coinAskList.Length) {
-			coinsToAsk = 1000;//coinAskList [coinMultipler];
+			coinsToAsk = 20;//coinAskList [coinMultipler];
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
 		} else {
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (5);
