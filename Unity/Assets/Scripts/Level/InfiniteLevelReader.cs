@@ -111,11 +111,11 @@ public class InfiniteLevelReader : MonoBehaviour
 	{
 		countOfBlank = 0;
 		foreach (var s in array) {
-			if (s != "") {
+			if (!s.Equals("")) {
 				countOfBlank++;
 			}
 		}
-		elements = new GameObject[countOfBlank - 2];
+		elements = new GameObject[countOfBlank - 1];
 		for (int x = 0; x < elements.Length; x++) {
 			elements [x] = Resources.Load ("Prefabs/" + array [x + 1]) as GameObject;
 		}
