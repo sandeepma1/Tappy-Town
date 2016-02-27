@@ -3,9 +3,8 @@ using System.Collections;
 
 public class CoinRotation : MonoBehaviour
 {
-	
 	void LateUpdate ()
 	{
-		transform.Rotate (Vector3.forward, 360.0f * Time.deltaTime);
+		this.gameObject.GetComponent<RectTransform> ().Rotate (new Vector3 (1, 1, 1), Time.deltaTime);
 	}
 }

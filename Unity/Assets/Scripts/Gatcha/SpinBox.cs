@@ -16,9 +16,11 @@ public class SpinBox : MonoBehaviour
 	string prizeString = "";
 	public float[] weights;
 	int result = 0;
+	public static SpinBox m_instance = null;
 
 	void Awake ()
 	{		
+		m_instance = this;
 		anim = spinBox.GetComponent<Animator> ();
 		tapToContinue.gameObject.SetActive (false);
 		weights = new float[GatchaManager.AllGatchas.Count];
@@ -131,7 +133,8 @@ public class SpinBox : MonoBehaviour
 	}
 
 	public void OpenGatchaMenu ()
-	{		
+	{
+		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		redeemButton.gameObject.SetActive (true);
 		prizeMesh.GetComponent<MeshFilter> ().mesh = null;
@@ -147,6 +150,7 @@ public class SpinBox : MonoBehaviour
 	{
 		gatchaMenu.SetActive (false);
 		IGMLogic.m_instance.isTextMeshesVisible (true);
+		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 	}
 
 	public void CloseGatchaMenu ()

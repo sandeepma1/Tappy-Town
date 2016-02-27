@@ -92,7 +92,6 @@ public class ManJump : MonoBehaviour
 			return;
 		}
 		//*************************************  Car mMechanics ******************************
-
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
@@ -144,12 +143,25 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
+	void SpeedTest ()
+	{
+		StartCoroutine ("IncreaseSpeed");
+	}
+
+	IEnumerator IncreaseSpeed ()
+	{
+		MovingPlatform.m_instance.moveInSeconds = 2f;
+		yield return new WaitForSeconds (1);
+		MovingPlatform.m_instance.moveInSeconds = 3.4f;
+	}
+
 	void OnTriggerEnter (Collider other)
 	{
 		switch (other.gameObject.tag) {
 		case "death":			
 			if (!isDeath) {
 				PlayerPartiallyDied ();
+				//SpeedTest ();
 				//isDiedOnce = true;
 			}
 			break;
@@ -421,12 +433,15 @@ public class ManJump : MonoBehaviour
 
 	IEnumerator ActivateCoin (GameObject coinGo)
 	{
+		//yield return new WaitForSeconds (0.25f);
+		//coinParticle.Stop ();
 		yield return new WaitForSeconds (2.5f);
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			coinGo.SetActive (true);
 		} else {
 			StartCoroutine ("ActivateCoin", coinGo);
 		}
+
 	}
 
 	IEnumerator showTurotialTapnHold ()
