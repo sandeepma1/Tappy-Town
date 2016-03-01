@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using June;
+using June.Core;
 
 public class CharacterManager : BaseConfig<CharacterManager,Character>
 {
-	public override System.Func<IDictionary<string, object>, Character> ItemConverter {
+	public override System.Converter<IDictionary<string, object>, Character> ItemConverter {
 		get {
 			return (doc) => new Character (doc);
 		}

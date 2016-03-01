@@ -72,6 +72,7 @@ public class CreateScrollList : MonoBehaviour
 	public static CreateScrollList m_instance = null;
 	//public string[] unlockedCharacters;
 	//string[] unlockedCharsIDs = new string[10];
+
 	void Awake ()
 	{
 		StartLogic ();
@@ -85,8 +86,9 @@ public class CreateScrollList : MonoBehaviour
 		FillList ();
 		PopulateList ();
 //		characterPreviewParent.transform.localRotation = new Quaternion (1, 0, 0, 0);
-		StartCoroutine ("EnableCollider");			
+		StartCoroutine ("EnableCollider");		
 	}
+
 
 	IEnumerator EnableCollider () // This is for issue where character fails to zoom at start
 	{
@@ -206,7 +208,10 @@ public class CreateScrollList : MonoBehaviour
 			FillButtonValues (t_Value, "", "", iconBank [1]);
 			break;
 		case "fb":
-			FillButtonValues ("Log In", "", "", iconBank [2]);
+			if( FacebookSDK.Instance.IsLoggedIn)
+				FillButtonValues ("", "", t_ValueUnlocked, iconBank [2]);
+			else
+				FillButtonValues ("Log In", "", "", iconBank [2]);		
 			break;
 		case "usd":			
 			FillButtonValues ("$" + t_Value, "", "Buy Now", iconBank [3]);
@@ -253,6 +258,8 @@ public class CreateScrollList : MonoBehaviour
 		case "usd":
 			IGMLogic.m_instance.ShowinAppStoreMenu ();
 			break;
+		case "fb":		
+			break;
 		default:
 			break;
 		}
@@ -261,7 +268,7 @@ public class CreateScrollList : MonoBehaviour
 			PlayerPrefs.SetString ("currentCharacterSelectedID", CharacterManager.GetCharacterWithId (currentCharID).PrefabName);
 			ResetCharacterSelectionLogic ();
 		}
-	}
+	}	
 
 	void CheckIfPlayerHaveResources (string currTypePrefs, int currencyToAsk)
 	{

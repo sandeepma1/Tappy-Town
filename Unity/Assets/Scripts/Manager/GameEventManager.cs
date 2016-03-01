@@ -3,6 +3,36 @@ using System.Collections;
 
 public static class GameEventManager
 {
+
+
+	#if UNITY_IOS
+
+	//public static string FacebookAppId 	= "??";
+	public static string FacebookAppId 		= "955508744536243";
+
+	public static string AmplitudeAPIKey 	= "??";
+
+	public static string BundleVersion 		= "0.1";
+	public static string FlurryApiKey 		= "WCTPRDVKT2Q4HGGQWHXT";
+	public static string TappyTownApp_URL 	= "https://itunes.apple.com/app/id1065763162?mt=8";
+
+	public static string fyberAppId 				= "41195";
+	public static string fyberSecurityToken 		= "758aa4b685a9441b0041b48df61d60ad";
+	public static string fyberCustomCurrencyName 	= "hint";
+
+	public class InAppProductIds
+	{
+		public static string Package_1 =  "com.junesoftware.tappytown.package1";
+
+	}
+	#else
+	public static string BundleVersion 		= "0.1";
+	public static string FlurryApiKey 		= "J5CS7CZ548VFSK4F2K4R";
+	public const string TappyTownApp_URL 	= "https://play.google.com/store/apps/details?id=com.pooch.crossytown";
+
+	#endif
+
+
 	//Global Variables
 	static public string gameVersion = "0.8_alfa";
 	

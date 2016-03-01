@@ -8,22 +8,22 @@ using System.Security.Cryptography;
 using System.Collections;
 using System.Threading;
 
-
-public class Util 
+namespace June {
+	public static partial class Util 
 	{
-		private readonly static Func<string, string> JSON_ENCODER_DECODER = ROT47Str;
+		//private readonly static Func<string, string> JSON_ENCODER_DECODER = ROT47Str;
 		private static int _RequestNumber = 0;
 		
 		public static int GetRequestNumber() {
 			return Interlocked.Increment(ref _RequestNumber);
 		}
 
-		private static bool _IsInternetReachable = true;
+		//private static bool _IsInternetReachable = true;
 		/// <summary>
 		/// Gets a value indicating is internet reachable.
 		/// </summary>
 		/// <value><c>true</c> if is internet reachable; otherwise, <c>false</c>.</value>
-		public static bool IsInternetReachable {
+		/*public static bool IsInternetReachable {
 			get {
 				return _IsInternetReachable;
 			}
@@ -55,20 +55,20 @@ public class Util
 			}
 			return shuffleList;
 		}
-		
+		*/
 		/// <summary>
 		/// Gets the current UTC timestamp.
 		/// </summary>
 		/// <value>
 		/// The current UTC timestamp.
 		/// </value>
-		public static int CurrentUTCTimestamp {
+		/*public static int CurrentUTCTimestamp {
 			get {
 				return (int)ToUnixTimestamp (DateTime.UtcNow);
 			}
-		}
+		}*/
 		
-
+		/*
 		/// <summary>
 		/// Convert from the unix timestamp.
 		/// </summary>
@@ -82,7 +82,7 @@ public class Util
 		{
 			DateTime unixRef = new DateTime (1970, 1, 1, 0, 0, 0);
 			return unixRef.AddSeconds (timestamp);
-		}
+		}*/
 		/// <summary>
 		/// Gets the current UTC time.
 		/// </summary>
@@ -94,7 +94,7 @@ public class Util
 			}
 		}
 		
-		/// <summary>
+	/*	/// <summary>
 		/// Convert to unix timestamp.
 		/// </summary>
 		/// <returns>
@@ -108,7 +108,8 @@ public class Util
 			DateTime unixRef = new DateTime (1970, 1, 1, 0, 0, 0);
 			return (dt.Ticks - unixRef.Ticks) / 10000000;
 		}
-
+		*/
+		/*
 		/// <summary>
 		/// Gets the time zone.
 		/// </summary>
@@ -116,7 +117,7 @@ public class Util
 		public static double GetTimeZone() {
 			var date = DateTime.Now;
 			return Math.Round((date - date.ToUniversalTime()).TotalHours, 1, MidpointRounding.AwayFromZero);
-		}
+		}*/
 		
 		public static string DeviceId {
 			get {
@@ -130,7 +131,7 @@ public class Util
 			}
 		}
 		
-		
+		/*
 		/// <summary>
 		/// Contains the specified data and value.
 		/// </summary>
@@ -184,7 +185,7 @@ public class Util
 		public static int Count<T> (IEnumerable<T> list, Func<T, bool> comparator)
 		{
 			return FilterList<T> (list, comparator).Count;
-		}
+		}*/
 
 
 		/// <summary>
@@ -202,7 +203,7 @@ public class Util
 			}
 		}
 		
-		
+		/*
 		/// <summary>
 		/// SHA1 encode.
 		/// </summary>
@@ -218,8 +219,8 @@ public class Util
 			return hashValue.ToString ();
 		}
 		
-
-
+		*/
+		/*
 		/// <summary>
 		/// Executes the post command.
 		/// </summary>
@@ -251,7 +252,8 @@ public class Util
 				}		
 			}
 		}
-
+		*/
+		/*
 		/// <summary>
 		/// Executes the get command.
 		/// </summary>
@@ -275,7 +277,7 @@ public class Util
 				}
 				yield break;
 			}
-			
+
 			using (WWW www = new WWW(url)) {
 				
 				yield return www;
@@ -284,7 +286,7 @@ public class Util
 					callback (www);
 				}
 			}
-		}
+		}*/
 
 		/// <summary>
 		/// ROT47 the string
@@ -307,7 +309,7 @@ public class Util
 			}
 			return value;
 		}
-
+		/*
 		/// <summary>
 		/// Reads the text from resource.
 		/// </summary>
@@ -340,7 +342,7 @@ public class Util
 			}
 			return filteredList;
 		}
-
+		*/
 
 		/// <summary>
 		/// Filters the list.
@@ -358,7 +360,7 @@ public class Util
 			return filteredList;
 		}
 
-
+		/*
 		/// <summary>
 		/// Firsts the or default.
 		/// </summary>
@@ -375,7 +377,7 @@ public class Util
 			}
 			return default(T);
 		}
-		
+
 		/// <summary>
 		/// Find if any element in the list matches the predicate specified
 		/// </summary>
@@ -394,7 +396,7 @@ public class Util
 			}
 			return false;
 		}
-		
+
 		/// <summary>
 		/// Select the specified list and selector.
 		/// </summary>
@@ -434,7 +436,7 @@ public class Util
 				return char.ToUpper (word [0]) + word.Substring (1);
 			
 			return word.ToUpper ();
-		}
+		}*/
 
 		/// <summary>
 		/// Updates the vector3.
@@ -451,7 +453,7 @@ public class Util
 			v.z = z;
 			return v;
 		}
-
+		/*
 		/// <summary>
 		/// Adds the element to array.
 		/// </summary>
@@ -469,7 +471,7 @@ public class Util
 			Array.Resize (ref array, array.Length + 1);
 			array [array.Length - 1] = newItem;
 			//Log("AddElementToArray" + newItem);
-		}
+		}*/
 
 
 
@@ -478,9 +480,8 @@ public class Util
 		/// </summary>
 		/// <param name="message">Message.</param>
 		public static void Log (object message)
-		{
-			
-			//Debug.Log(message);
+		{			
+			Debug.Log(message);
 		}
 		
 		public static void LogError(object message, UnityEngine.Object context = null)
@@ -523,7 +524,7 @@ public class Util
 				Log(obj);
 			
 		}
-
+		/*
 		/// <summary>
 		/// Medians the specified list.
 		/// </summary>
@@ -544,9 +545,9 @@ public class Util
 			
 			return result;
 		}
-		
+		*/
 		#region JSON File de/serialize
-		
+		/*
 		/// <summary>
 		/// Serializes the json document to file.
 		/// </summary>
@@ -556,7 +557,7 @@ public class Util
 		public static bool SerializeJsonDocToFile(string filePath, IDictionary<string, object> jsonDoc) {
 			return SerializeJsonDocToFile(filePath, jsonDoc, JSON_ENCODER_DECODER);
 		}
-		
+
 		/// <summary>
 		/// Serializes the json document to file.
 		/// </summary>
@@ -591,7 +592,7 @@ public class Util
 			}
 			return result;
 		}
-		
+
 		/// <summary>
 		/// DeSerialize json document from file.
 		/// </summary>
@@ -600,7 +601,7 @@ public class Util
 		public static IDictionary<string, object> DeSerializeJsonDocFromFile(string filePath) {
 			return DeSerializeJsonDocFromFile(filePath, JSON_ENCODER_DECODER);
 		}
-		
+
 		/// <summary>
 		/// DeSerialize json document from file.
 		/// </summary>
@@ -619,7 +620,7 @@ public class Util
 			}
 			return result;
 		}
-		
+
 		/// <summary>
 		/// Deserialize json document from resource.
 		/// </summary>
@@ -669,7 +670,7 @@ public class Util
 		public static IDictionary<string, object> DeSerializeJSON (string jsonStr) {
 			return (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject (jsonStr);
 		}
-		
+		*/
 		
 		#endregion
 		public static void SetLayer(int newLayer, Transform trans)
@@ -684,4 +685,5 @@ public class Util
 				}
 			}
 		}
+	}
 	}

@@ -355,6 +355,34 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
+	public void UserPayingForWatchAds ()
+	{
+		print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
+
+		June.MessageBroker.Publish(June.Messages.ResumeWatchAdTap, null);
+
+		//#if !UNITY_EDITOR
+		print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
+		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
+			print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
+		//	AudioListener.pause = false;
+			if (status) {
+				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
+				UserHadWatchedVideoAd ();
+				print(" status : " + status);
+			}  else {
+				//Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
+				print(" status : " + status);
+			}
+		} );
+
+		//if (showingAd)
+		//	AudioListener.pause = true;
+
+		//#endif
+
+	}
+
 	void AskForMoreCoins ()
 	{
 		IGMLogic.m_instance.ShowInGameStoreMenu ();

@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using June;
+using June.Core;
 
 public class GatchaManager : BaseConfig<GatchaManager,Gatcha>
 {
-	public override System.Func<IDictionary<string, object>, Gatcha> ItemConverter {
+	public override System.Converter<IDictionary<string, object>, Gatcha> ItemConverter {
 		get {
 			return (doc) => new Gatcha (doc);
 		}

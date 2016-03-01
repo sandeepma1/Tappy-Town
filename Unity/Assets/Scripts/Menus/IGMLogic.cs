@@ -38,6 +38,8 @@ public class IGMLogic : MonoBehaviour
 
 	public static IGMLogic m_instance = null;
 
+	public FacebookConnectScript _FacebookConnectObject;
+
 	// Use this for initialization
 
 	void Awake ()
@@ -100,6 +102,9 @@ public class IGMLogic : MonoBehaviour
 			levelText.text = "Level " + 50;
 		}
 		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+
+		_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
+
 
 	}
 
@@ -228,9 +233,24 @@ public class IGMLogic : MonoBehaviour
 		SceneManager.LoadScene ("level");
 	}
 
+	public void FaceBookButtonOnTap()
+	{
+	
+	
+	}
 
+	void HandleFacebookConnection (bool isConnected)
+	{
+		if (isConnected) 
+		{
+			SaveStringArray.AddCharIDtoUnlock ("IGC-002");
+			Etcetera.ShowAlert("Facebook", "Facebook login Done.", "OK");
 
-
+		} else 
+		{
+			Etcetera.ShowAlert("Facebook", "You need to connect to facebook to get your free character.", "OK");
+		}
+	}
 
 	public void SelectChar ()
 	{
@@ -320,7 +340,8 @@ public class IGMLogic : MonoBehaviour
 
 	public void RateUs ()
 	{
-		Application.OpenURL ("https://play.google.com/store/apps/details?id=com.pooch.crossytown");
+		June.MessageBroker.Publish (June.Messages.RateUsOk);
+		Application.OpenURL(GameEventManager.TappyTownApp_URL);
 	}
 
 	public void OpenSandeepTwitterPage ()
