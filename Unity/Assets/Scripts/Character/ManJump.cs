@@ -50,7 +50,7 @@ public class ManJump : MonoBehaviour
 		string charName = CharacterManager.CurrentCharacterSelected.PrefabName;
 
 		playerMesh = Instantiate (Resources.Load ("Characters/CharactersMesh/" + charName) as GameObject);
-		playerMesh.GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (203, 203, 203, 255));
+		playerMesh.GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (200, 200, 200, 255));
 		playerMesh.transform.parent = this.transform;
 		playerMesh.transform.localPosition = new Vector3 (0, -0.5f, 0.05f);
 		playerMesh.transform.localEulerAngles = new Vector3 (270, 315, 0);
@@ -64,12 +64,12 @@ public class ManJump : MonoBehaviour
 		optional.Add ("ease", LeanTweenType.easeOutBack);
 		iniSpeed = MovingPlatform.m_instance.moveInSeconds;
 		coinAskList = new int[6];
-		coinAskList [0] = 100;
-		coinAskList [1] = 300;
-		coinAskList [2] = 500;
-		coinAskList [3] = 700;
-		coinAskList [4] = 1000;
-		coinAskList [5] = 5;
+		coinAskList [0] = GameEventManager.coinAskList1;
+		coinAskList [1] = GameEventManager.coinAskList2;
+		coinAskList [2] = GameEventManager.coinAskList3;
+		coinAskList [3] = GameEventManager.coinAskList4;
+		coinAskList [4] = GameEventManager.coinAskList5;
+		coinAskList [5] = GameEventManager.coinAskList6;
 
 		//Vector3 v3Pos = new Vector3 (0.0f, 1.0f, 0.25f);
 		//transform.position = Camera.main.ViewportToWorldPoint (v3Pos);// gui.camera.ViewportToWorldPoint(v3Pos);
@@ -92,7 +92,6 @@ public class ManJump : MonoBehaviour
 			return;
 		}
 		//*************************************  Car mMechanics ******************************
-
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
@@ -144,13 +143,26 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
+	void SpeedTest ()
+	{
+		StartCoroutine ("IncreaseSpeed");
+	}
+
+	IEnumerator IncreaseSpeed ()
+	{
+		MovingPlatform.m_instance.moveInSeconds = 2f;
+		yield return new WaitForSeconds (1);
+		MovingPlatform.m_instance.moveInSeconds = 3.4f;
+	}
+
 	void OnTriggerEnter (Collider other)
 	{
 		switch (other.gameObject.tag) {
 		case "death":			
 			if (!isDeath) {
 				PlayerPartiallyDied ();
-				isDiedOnce = true;
+				//SpeedTest ();
+				//isDiedOnce = true;
 			}
 			break;
 		case "pickable_coin":
@@ -270,7 +282,7 @@ public class ManJump : MonoBehaviour
 		dieSound.Play ();
 		playerDieParticle.Play ();
 		DisplayPlayerObject (false);
-		if (transform.root.position.x >= 50 && isDiedOnce == false) {			
+		if (transform.root.position.x >= 50) { // && isDiedOnce == false			
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 			StopCoroutine ("PlayerDiedStartTimer");
 			StartCoroutine ("PlayerDiedStartTimer");
@@ -315,7 +327,7 @@ public class ManJump : MonoBehaviour
 		continueText.gameObject.SetActive (true);
 
 		if (coinMultipler < coinAskList.Length) {
-			coinsToAsk = 20;//coinAskList [coinMultipler];
+			coinsToAsk = coinAskList [coinMultipler];
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
 		} else {
 			IGMLogic.m_instance.ShowPayCoinToContinueMenu (5);
@@ -449,12 +461,15 @@ public class ManJump : MonoBehaviour
 
 	IEnumerator ActivateCoin (GameObject coinGo)
 	{
+		//yield return new WaitForSeconds (0.25f);
+		//coinParticle.Stop ();
 		yield return new WaitForSeconds (2.5f);
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			coinGo.SetActive (true);
 		} else {
 			StartCoroutine ("ActivateCoin", coinGo);
 		}
+
 	}
 
 	IEnumerator showTurotialTapnHold ()

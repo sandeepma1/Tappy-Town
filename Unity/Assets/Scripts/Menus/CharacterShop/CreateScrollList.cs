@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
@@ -218,6 +218,7 @@ public class CreateScrollList : MonoBehaviour
 			break;
 		case "collectibles":
 			FillButtonValues ("Find", "", t_ValueUnlocked + "/" + t_Value, iconBank [4]);
+			
 			break;		
 		case "":
 			FillButtonValues ("", "Select", "", iconBank [3]);
@@ -258,7 +259,9 @@ public class CreateScrollList : MonoBehaviour
 		case "usd":
 			IGMLogic.m_instance.ShowinAppStoreMenu ();
 			break;
-		case "fb":		
+		case "collectibles":
+			IGMLogic.m_instance.CloseCharacterSelectionMenu ();
+			SpinBox.m_instance.OpenGatchaMenu ();
 			break;
 		default:
 			break;
@@ -266,6 +269,7 @@ public class CreateScrollList : MonoBehaviour
 
 		if (selectButton.transform.Find ("Select").transform.GetComponent<Text> ().text == "Select") {
 			PlayerPrefs.SetString ("currentCharacterSelectedID", CharacterManager.GetCharacterWithId (currentCharID).PrefabName);
+			IGMLogic.m_instance.isCharacterChanged = true;
 			ResetCharacterSelectionLogic ();
 		}
 	}	

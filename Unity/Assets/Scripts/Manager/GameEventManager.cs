@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public static class GameEventManager
@@ -33,17 +33,28 @@ public static class GameEventManager
 	#endif
 
 
+	// tweakable values edit here
+	static public int coinAskList1 = 100;
+	static public int coinAskList2 = 300;
+	static public int coinAskList3 = 500;
+	static public int coinAskList4 = 700;
+	static public int coinAskList5 = 1000;
+	static public int coinAskList6 = 5;
+
+	static public int gameBrightness = 203;
+
+
 	//Global Variables
-	static public string gameVersion = "0.8_alfa";
-	
-	//static public int maxLevels = 5;
-	//static public int currentPlayingLevel = 1;
+	static public string gameVersion = "0.9_beta";
+
 	static public int currentLevelAttempts = 0;
 	static public int GPSLoginCounter = 0;
 
 	static public bool cubeTouchableAfterRotate = false, checkIfRigBodiesIsSleeping;
 	static public bool hidePauseMenu, pause;
 	static public bool PMlevel1 = true, showAreUSureWindow, isLevelLoaded, islevelCompleted, isNightMode;
+
+
 
 	public delegate void GameEvent ();
 
@@ -57,6 +68,7 @@ public static class GameEventManager
 		e_previousLevel,
 		e_resetLevel,
 		e_levelFinish}
+
 	;
 
 	public enum E_CLICKSTATE
@@ -97,6 +109,5 @@ public static class GameEventManager
 	}
 	
 	//-------------------
-	
-	
+
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -34,6 +34,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject watchAdsGO, rateUsGO, freeGiftGO;
 	Hashtable optional;
 	public Animator anim;
+	public bool isCharacterChanged = false;
 	Vector3 cameraPos;
 
 	public static IGMLogic m_instance = null;
@@ -101,10 +102,9 @@ public class IGMLogic : MonoBehaviour
 		} else {
 			levelText.text = "Level " + 50;
 		}
-		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 
 		_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
-
 
 	}
 
@@ -215,6 +215,8 @@ public class IGMLogic : MonoBehaviour
 
 	public void OpenCharacterSelectionMenu ()
 	{
+		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+
 		if (GameEventManager.isNightMode) {
 			shadowLight.gameObject.SetActive (true);
 		}
@@ -224,13 +226,18 @@ public class IGMLogic : MonoBehaviour
 	}
 
 	public void CloseCharacterSelectionMenu ()
-	{				
+	{
 		if (GameEventManager.isNightMode) {
 			shadowLight.gameObject.SetActive (false);
 		}
-		//charSelcMenu.SetActive (false);
-		//isTextMeshesVisible (true);
-		SceneManager.LoadScene ("level");
+
+		if (isCharacterChanged) {
+			SceneManager.LoadScene ("level");
+		} else {
+			charSelcMenu.SetActive (false);
+			isTextMeshesVisible (true);
+			mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		}
 	}
 
 	public void FaceBookButtonOnTap()
@@ -261,7 +268,8 @@ public class IGMLogic : MonoBehaviour
 	}
 
 	public void OpenGatchaMenu ()
-	{		
+	{
+		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		//SetMainCameraCanvas (false);
 		gatchaMenu.SetActive (true);
