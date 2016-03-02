@@ -56,12 +56,15 @@ public class InfiniteLevelReader : MonoBehaviour
 	{
 		if (active) {
 			GameEventManager.isNightMode = true;
+			RenderSettings.ambientIntensity = 0.3f;
 		} else {
 			GameEventManager.isNightMode = false;
+			RenderSettings.ambientIntensity = 1;
 		}
 		mainLightWithShadow.gameObject.SetActive (!active);
 		nightLight.gameObject.SetActive (active);
 		spotLight.gameObject.SetActive (active);
+
 	}
 
 	void ReadGamePlayElementsFromWorldCSV ()
@@ -111,7 +114,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	{
 		countOfBlank = 0;
 		foreach (var s in array) {
-			if (!s.Equals("")) {
+			if (!s.Equals ("")) {
 				countOfBlank++;
 			}
 		}

@@ -19,7 +19,4 @@ public class DataMaster : MonoBehaviour
 		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (June.LocalStore.Instance.GetString ("addedDate")));
 		difference = oldDate1.Subtract (currentDate);
 	}
-
-
-
 }

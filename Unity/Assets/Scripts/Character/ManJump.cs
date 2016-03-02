@@ -36,11 +36,13 @@ public class ManJump : MonoBehaviour
 	bool isBlinking = false;
 	float speed = 10, s = 3.4f, iniSpeed;
 	bool isDiedOnce = false;
+	bool isInvi = false;
 	//public GameObject playerGO
 
 	void Awake ()
 	{		
 		m_instance = this;
+
 		playerSupport.SetActive (false);
 		SwitchBalloon ();
 		jumpSpeedTemp = jumpSpeed;
@@ -90,6 +92,11 @@ public class ManJump : MonoBehaviour
 				MovingPlatform.m_instance.SpeedStopper (s);
 			}
 			return;
+		}
+		if (Input.GetMouseButtonUp (1)) {
+			isInvi = !isInvi;
+			playerSupport.SetActive (isInvi);
+			print ("is invi" + isInvi);
 		}
 		//*************************************  Car mMechanics ******************************
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
@@ -159,7 +166,7 @@ public class ManJump : MonoBehaviour
 	{
 		switch (other.gameObject.tag) {
 		case "death":			
-			if (!isDeath) {
+			if (!isDeath && !isInvi) {
 				PlayerPartiallyDied ();
 				//SpeedTest ();
 				//isDiedOnce = true;
@@ -277,7 +284,6 @@ public class ManJump : MonoBehaviour
 		}
 		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
-		print (isDiedOnce);
 		June.LocalStore.Instance.SetInt ("PlayerDeath", June.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		playerDieParticle.Play ();

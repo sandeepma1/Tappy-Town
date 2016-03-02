@@ -235,13 +235,13 @@ public class IGMLogic : MonoBehaviour
 		}
 	}
 
-	public void SelectChar ()
+	/*	public void SelectChar ()
 	{
 		June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
 		SceneManager.LoadSceneAsync ("level");
-	}
+	}*/
 
 	public void OpenGatchaMenu ()
 	{
@@ -341,6 +341,18 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (true);
 		LeanTween.moveX (missionBanner, -25, 0.5f, optional);
 	}
+
+	public void UnlockAllCharacters ()
+	{
+		string[] tempID = new string[CharacterManager.AllCharacters.Count];
+		June.LocalStore.Instance.SetStringArray ("unlockedCharacters", tempID);
+		for (int i = 0; i < CharacterManager.AllCharacters.Count; i++) {
+			tempID [i] = CharacterManager.AllCharacters [i].Id;
+		}
+		June.LocalStore.Instance.SetStringArray ("unlockedCharacters", tempID);
+	}
+
+
 
 	/*public void ShowLevelCompleteMenu (int jumpCount)
 	{
