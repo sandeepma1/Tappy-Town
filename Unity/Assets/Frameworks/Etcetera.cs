@@ -487,7 +487,7 @@ System Memory Size : {8}",
 				actions: new Func<AndroidJavaObject, AndroidJavaObject>[] {
 				player => player.GetStatic<AndroidJavaObject>("currentActivity"),
 				activity => activity.Call<AndroidJavaObject>("getPackageManager"),
-				pMgr => pMgr.Call<AndroidJavaObject>("getPackageInfo", GameConfig.BundleIdentifier, 0) 
+						pMgr => pMgr.Call<AndroidJavaObject>("getPackageInfo", GameEventManager.BundleIdentifier, 0) 
 				},
 				resultSelector: pInfo => pInfo.Get<string>("versionName"));
 				}
@@ -513,7 +513,7 @@ System Memory Size : {8}",
 				actions: new Func<AndroidJavaObject, AndroidJavaObject>[] {
 				player => player.GetStatic<AndroidJavaObject>("currentActivity"),
 				activity => activity.Call<AndroidJavaObject>("getPackageManager"),
-				pMgr => pMgr.Call<AndroidJavaObject>("getPackageInfo", GameConfig.BundleIdentifier, 0) 
+						pMgr => pMgr.Call<AndroidJavaObject>("getPackageInfo", GameEventManager.BundleIdentifier, 0) 
 				},
 				resultSelector: pInfo => pInfo.Get<int>("versionCode"));
 				}

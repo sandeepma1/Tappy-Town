@@ -17,7 +17,7 @@ namespace June.Payments {
 		public List<GoogleSkuInfo> m_ProductListAndroid = new List<GoogleSkuInfo>();
 
 		// June Public Key
-		public string m_sPublicInAppKeyAndroid = GameConfig.InAppKey;
+		public string m_sPublicInAppKeyAndroid = GameEventManager.InAppKey;
 
 		// Backflip Public Key
 		//public string m_sPublicInAppKeyAndroid = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnIHlK8p0TQflzYz0NCsRkVOA4rLrFuJ2AScPEGT9NG24ucqKfTu6aFmprhrb7s6QGbkkSFagD59qekGSuoEJRG5yM0bOlANx05AE8CurFecRGOJb1lnP6UsqtjXfO2aT77o0RxUmp67E+gO+7uEwaD+/hp4bxcnp6yrhj58Z6T8+tMnFJqlGFMDBoK+QZ2/bCaf3yiL6BBdOKu7ugArkO6/u+MG4bkfsF956MA/pawcsp0ajH5lZmwI4SxnMOnuB/mSck8mX/aSZyqhVJQx/C7jRSF4ZuQokdMnxVGHE5syKXkXdHLmzFQ+bnydT1Fky5h8shK7M/kzb8Eu5B0Y3oQIDAQAB";
@@ -180,7 +180,7 @@ namespace June.Payments {
 			var storeItem = Store.GetStoreItemByIdentifier(product.productId);
 			if(null != storeItem) {
 				Logging.Log("[AndroidPurchaseManager] PurchaseSuccessful Verifying Purchase: " + storeItem.ToString());
-				Api.ChhotaBheemApi.Purchase(
+				/*Api.ChhotaBheemApi.Purchase(
 					product.productId, 
 					storeItem.Id, 
 					storeItem.CurrencyCode, 
@@ -199,7 +199,11 @@ namespace June.Payments {
 								_OnPurchaseCallback(pStatus, error);
 							}
 						}
-					});
+					});*/
+
+				_OnPurchaseCallback(PurchaseStatus.Success, "PurchaseSuccessful in store.");
+
+
 			}
 			else {
 				Logging.Log("[AndroidPurchaseManager] PurchaseSuccessful Cannot Find: " + product.productId);

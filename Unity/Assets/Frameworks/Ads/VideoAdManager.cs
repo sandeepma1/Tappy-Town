@@ -16,7 +16,7 @@
 		/// </summary>
 		private static readonly Dictionary<string, Func<IVideoAdProvider>> AD_PROVIDERS = new Dictionary<string, Func<IVideoAdProvider>>() {
 			#if !UNITY_IPHONE 
-			{ June.VideoAds.Providers.SeventyNine, 	() => new SeventyNineVideoAdProvider() },
+			//{ June.VideoAds.Providers.SeventyNine, 	() => new SeventyNineVideoAdProvider() },
 			#endif
 			//{ June.VideoAds.Providers.Pokkt, 		() => new PokktVideoAdProvider() },
 			{ June.VideoAds.Providers.Fyber, 		() => new FyberVideoAdProvider() }
@@ -28,7 +28,7 @@
 		/// </summary>
 		private static readonly string[] DEFAULT_PROVIDERS = { 
 			#if !UNITY_IPHONE 
-				June.VideoAds.Providers.SeventyNine, 
+				//June.VideoAds.Providers.SeventyNine, 
 			#endif
 			//June.VideoAds.Providers.Pokkt,
 			June.VideoAds.Providers.Fyber
