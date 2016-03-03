@@ -7,7 +7,6 @@ namespace June {
 	/// Debug logger, this will only print messages to console if the DEBUG_FLAG is present in the build.
 	/// </summary>
 	public class DebugLogger {
-
 		/// <summary>
 		/// The Debug Flag
 		/// </summary>

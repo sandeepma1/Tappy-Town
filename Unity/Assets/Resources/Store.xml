@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfStoreItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<StoreItem>
+		<SortOrder>1</SortOrder>
+		<Id>GFA-001</Id>
+		<Name>Package 1</Name>
+		<ProductId>com.junesoftware.tappytown.package1</ProductId>
+		<Description>1000 coins</Description>
+		<DefaultPrice>65</DefaultPrice>
+		<Quantity>1000</Quantity>
+		<Image>name</Image>
+		<Type>Consumable</Type>
+		<IsStoreVisible>true</IsStoreVisible>
+	</StoreItem>
+
+</ArrayOfStoreItem>

@@ -1,0 +1,13 @@
+<manifest>
+
+	<application>
+        <!-- ========= -->    
+        <!-- APP LOVIN -->
+        <!-- ========= -->
+		<activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
+		<activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="Wqvk84CwM-b6lwk7az3VhC7hnxkLJTtqImTQqlKAixHSr_ZQycxep3La-3wHXn5qXdFLMaW4WpWMo5nlhiOVml" />
+    </application>
+</manifest>
