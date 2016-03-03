@@ -37,8 +37,8 @@ public static class GameEventManager
 
 	public const string BundleIdentifier 	= "com.junesoftware.tappytown";
 
-	public static string fyberAppId 				= "???";
-	public static string fyberSecurityToken 		= "???";
+	public static string fyberAppId 				= "41515";
+	public static string fyberSecurityToken 		= "eff828e8b5279f9d7dd86ac791c45e13";
 	public static string fyberCustomCurrencyName 	= "hint";
 
 	public class InAppProductIds

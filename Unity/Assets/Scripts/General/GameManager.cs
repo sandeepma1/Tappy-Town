@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 		void Awake ()
 		{
 				DontDestroyOnLoad (gameObject);
-			//----	Etcetera.EnableImmersiveMode ();
+				Etcetera.EnableImmersiveMode ();
 				this.InAppPurchase = June.Payments.PurchaseManager.Instance;
 		}
 	
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
 				} else {
 						Debug.Log ("Application unpaused");
-			//----	 Etcetera.EnableImmersiveMode ();
+				    	Etcetera.EnableImmersiveMode ();
 				}
 		
 		}

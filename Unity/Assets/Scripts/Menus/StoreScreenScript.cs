@@ -25,7 +25,7 @@ public class StoreScreenScript : MonoBehaviour {
 		storeItem = Store.GetStoreItemByIdentifier (GameEventManager.InAppProductIds.Package_1);
 
 		if (Application.internetReachability == NetworkReachability.NotReachable) {
-			//----	Etcetera.ShowAlert ("Purchase", "Please check the internet connection and try again.", "Ok");
+				Etcetera.ShowAlert ("Purchase", "Please check the internet connection and try again.", "Ok");
 			return;
 		}
 
@@ -34,8 +34,8 @@ public class StoreScreenScript : MonoBehaviour {
 			June.MessageBroker.Publish (June.Messages.PurchaseBuyTap);
 			Store.Purchase (storeItem, PurchaseSuccessfull);
 		} else {
-			//----	Etcetera.ShowAlert ("Purchase", "Please check the internet connection and try again.", "Ok");
-			//----	Etcetera.HideProgressDialog ();
+				Etcetera.ShowAlert ("Purchase", "Please check the internet connection and try again.", "Ok");
+				Etcetera.HideProgressDialog ();
 
 		}
 	}
@@ -44,23 +44,23 @@ public class StoreScreenScript : MonoBehaviour {
 	{
 		Util.Log (" PurchaseSuccessfull Start ");
 
-		//----	Etcetera.HideProgressDialog ();
+			Etcetera.HideProgressDialog ();
 		if (status == PurchaseStatus.Success) {
 
 			June.MessageBroker.Publish (June.Messages.PurchaseSuccessful);
 			CoinCalculation.m_instance.AddCoins (storeItem.Quantity);
 
-			//----	Etcetera.ShowAlert ("Purchase", "Purchase was successful!", "Awesome");
+				Etcetera.ShowAlert ("Purchase", "Purchase was successful!", "Awesome");
 		} else if (status == PurchaseStatus.NoAccount) {
-			//----	Etcetera.HideProgressDialog ();
-			//----	Etcetera.ShowAlert ("Purchase", "Cannot purchase. Please login to Google Play Account via Phone Settings!", "Ok");
+				Etcetera.HideProgressDialog ();
+				Etcetera.ShowAlert ("Purchase", "Cannot purchase. Please login to Google Play Account via Phone Settings!", "Ok");
 		} else {  //Cancelled, Failure
 
 			June.MessageBroker.Publish (June.Messages.PurchaseFailed);
-			/*	Etcetera.ShowAlert ("Purchase", "Purchase was unsuccessful!", "Ok", "", clicked => {
+				Etcetera.ShowAlert ("Purchase", "Purchase was unsuccessful!", "Ok", "", clicked => {
 				if (clicked.Contains ("Ok")) {
 				} 
-			});*/
+			});
 		}
 
 		Util.Log ("PurchaseSuccessfull End ");

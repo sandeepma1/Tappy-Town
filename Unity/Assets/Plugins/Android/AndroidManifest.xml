@@ -31,6 +31,141 @@
     </activity>
 
 
+
+   	<!-- ===== -->
+  		<!-- FYBER -->
+  		<!-- ===== -->
+        <!-- SponsorPay OfferWall Activity -->
+        <activity android:name="com.sponsorpay.publisher.ofw.SPOfferWallActivity"
+                  android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                  android:screenOrientation="sensor" />
+        <!-- SponsorPay Mobile BrandEngage Activity -->
+        <activity android:name="com.sponsorpay.unity.SPBrandEngageUnityActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="true"/>
+        <!-- SponsorPay Interstitial Activity -->
+        <activity android:name="com.sponsorpay.publisher.interstitial.SPInterstitialActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="true"/>
+        <!-- SponsorPay Wrapper Activity -->
+        <activity android:name="com.sponsorpay.unity.SPWrapperActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"/>
+        <!-- SponsorPay Pre-caching service -->
+        <service android:name="com.sponsorpay.publisher.mbe.player.caching.SPCacheVideoDownloadService" 
+            android:exported="false"/>
+        
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" /> 
+
+  		<!-- ========= -->
+        <!-- AD COLONY -->
+        <!-- ========= -->
+ 		<activity android:name="com.jirbo.adcolony.AdColonyOverlay"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+
+        <activity android:name="com.jirbo.adcolony.AdColonyFullscreen"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
+        <activity android:name="com.jirbo.adcolony.AdColonyBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        
+        <!-- ========= -->    
+        <!-- UNITY ADS -->
+        <!-- ========= -->
+        <activity android:name="com.unity3d.ads.android.view.UnityAdsFullscreenActivity"
+        	android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+	        android:hardwareAccelerated="true" />
+
+        <!-- ========= -->    
+        <!-- APP LOVIN -->
+        <!-- ========= -->
+		<activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
+		<activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="Wqvk84CwM-b6lwk7az3VhC7hnxkLJTtqImTQqlKAixHSr_ZQycxep3La-3wHXn5qXdFLMaW4WpWMo5nlhiOVml" />
+
+        <!-- ====== -->    
+        <!-- VUNGLE -->
+        <!-- ====== -->
+		<activity android:name="com.vungle.publisher.FullScreenAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <service android:name="com.vungle.publisher.VungleService" android:exported="false" />
+        
+        
+        <!-- ======== -->    
+        <!-- HYPER-MX -->
+        <!-- ======== -->
+        <activity android:name="com.sponsorpay.mediation.mbe.HyprMXVideoActivity"/>
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXOfferViewerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|smallestScreenSize|uiMode|fontScale|screenLayout|locale"
+            android:label="HyprMX SDK"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXRequiredInformationActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXSplashActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXOfferListActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXNoOffersActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXWebTrafficActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|smallestScreenSize|uiMode|fontScale|screenLayout|locale"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service android:name="com.hyprmx.android.sdk.service.ApplicationInstallService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false" />
+
+        <!-- ======== -->    
+        <!-- FLURRY -->
+        <!-- ======== -->
+        <activity android:name="com.flurry.android.FlurryFullscreenTakeoverActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode" />
+		<meta-data android:name="com.prime31.analytics.FlurryAnalytics" android:value="UnityPlayerActivityProxy"/>
+
+		 <!-- ======== -->    
+        <!-- IN APP  -->
+        <!-- ========  -->
+  		<activity android:name="com.prime31.GoogleIABProxyActivity" android:configChanges="orientation|layoutDirection|keyboard|keyboardHidden|screenLayout|uiMode|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+
+
+		<!-- ======== -->    
+        <!-- ETCETERA -->
+        <!-- ======== -->
+			<activity android:name="com.prime31.EtceteraProxyActivity" android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"></activity>
+		<activity android:name="com.prime31.WebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+		<activity android:name="com.prime31.P31VideoPlayerActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize"></activity>
+		<receiver android:name="com.prime31.AlarmManagerReceiver"></receiver>
+
+		<meta-data android:name="com.prime31.EtceteraPlugin" android:value="UnityPlayerActivityProxy"/>
+
+		<!-- ======== -->    
+        <!-- FACEBOOK -->
+        <!-- ======== 
+
+		<activity android:name="com.facebook.FacebookActivity"
+  	            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+  	            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+  	            android:label="@string/app_name" />
+
+		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 1081831848578409"/>
+		<meta-data android:name="com.prime31.FacebookPlugin" android:value="UnityPlayerActivityProxy"/>
+		<meta-data android:name="com.prime31.TwitterPlugin" android:value="UnityPlayerActivityProxy"/>
+
+		-->
+
     <!-- <meta-data android:name="com.prime31.GoogleCloudMessagingPlugin" android:value="UnityPlayerActivityProxy"/> -->
     <!--<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />-->
     <meta-data android:name="com.prime31.PlayGameServicesPlugin" android:value="UnityPlayerActivityProxy" />
@@ -54,4 +189,12 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.VIBRATE" />
+
+  <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+		<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
 </manifest>
