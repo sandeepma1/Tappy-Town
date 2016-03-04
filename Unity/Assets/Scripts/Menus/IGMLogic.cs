@@ -104,7 +104,8 @@ public class IGMLogic : MonoBehaviour
 		}
 		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 
-		_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
+		if(_FacebookConnectObject)
+			_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
 
 	}
 
@@ -261,10 +262,12 @@ public class IGMLogic : MonoBehaviour
 
 	public void SelectChar ()
 	{
-		June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+
+		//TODO-Pooch-Developer
+		/*June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
-		SceneManager.LoadSceneAsync ("level");
+		SceneManager.LoadSceneAsync ("level");*/
 	}
 
 	public void OpenGatchaMenu ()

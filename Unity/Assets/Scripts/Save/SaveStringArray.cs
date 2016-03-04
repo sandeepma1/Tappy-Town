@@ -45,7 +45,7 @@ public static class SaveStringArray
 	{		
 		for (int i = 0; i < CharacterManager.AllCharacters.Count; i++) {
 			if (CharacterManager.AllCharacters [i].CurrencyCollectibleId == id) {
-				UnityEngine.MonoBehaviour.print (June.LocalStore.Instance.GetInt (id) + " " + CharacterManager.AllCharacters [i].CurrencyValue);
+//				UnityEngine.MonoBehaviour.print (June.LocalStore.Instance.GetInt (id) + " " + CharacterManager.AllCharacters [i].CurrencyValue);
 				if (June.LocalStore.Instance.GetInt (id) >= CharacterManager.AllCharacters [i].CurrencyValue) {
 					return true;
 				}
@@ -61,4 +61,6 @@ public static class SaveStringArray
 		}
 		return false;
 	}
+
+
 }

@@ -37,7 +37,6 @@ public class MovingPlatform : MonoBehaviour
 		}
 	}
 
-
 	void Update ()
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
@@ -48,6 +47,7 @@ public class MovingPlatform : MonoBehaviour
 	void LateUpdate ()
 	{		
 		Score.text = transform.position.x.ToString ("F0");
+
 		/*if (transform.position.x >= 500) {
 			Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
 			});

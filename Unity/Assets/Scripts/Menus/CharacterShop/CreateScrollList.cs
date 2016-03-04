@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Item
+public class Item_
 {
 	public GameObject charMesh;
 	public string charName;
@@ -18,7 +18,7 @@ public class Item
 	public bool isUnlocked;
 	public bool isSelected;
 
-	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, bool isUnlck, bool isSelect)
+	public Item_ (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, bool isUnlck, bool isSelect)
 	{
 		charMesh = mesh;
 		charName = name;
@@ -41,7 +41,7 @@ public class CreateScrollList : MonoBehaviour
 	public Text characterName;
 	public Text characterDescription;
 	//public GameObject characterPreviewParent;
-	public List<Item> itemList;
+	public List<Item_> itemList;
 	GameObject[] unlockedCharactersMesh = new GameObject[100];
 	SampleCharacter currentCharacterVisible;
 	public GameObject mesh;
@@ -113,12 +113,12 @@ public class CreateScrollList : MonoBehaviour
 
 	void FillList ()
 	{		
-		itemList = new List<Item> ();
+		itemList = new List<Item_> ();
 		for (int i = 0; i < CharacterManager.AllCharacters.Count; i++) {
 			string pathName = "Characters/" + CharacterManager.AllCharacters [i].PrefabName;		
 			GameObject mesh = Resources.Load (pathName) as GameObject;
 
-			itemList.Add (new Item (mesh, 
+			itemList.Add (new Item_ (mesh, 
 				CharacterManager.AllCharacters [i].Name, 
 				CharacterManager.AllCharacters [i].Description, 
 				CharacterManager.AllCharacters [i].Id,
@@ -208,7 +208,7 @@ public class CreateScrollList : MonoBehaviour
 			FillButtonValues (t_Value, "", "", iconBank [1]);
 			break;
 		case "fb":
-			if( FacebookSDK.Instance.IsLoggedIn)
+			if (FacebookSDK.Instance.IsLoggedIn)
 				FillButtonValues ("", "", t_ValueUnlocked, iconBank [2]);
 			else
 				FillButtonValues ("Log In", "", "", iconBank [2]);		
@@ -261,7 +261,7 @@ public class CreateScrollList : MonoBehaviour
 			break;
 		case "collectibles":
 			IGMLogic.m_instance.CloseCharacterSelectionMenu ();
-			SpinBox.m_instance.OpenGatchaMenu ();
+			GatchaSystem.m_instance.OpenGatchaMenu ();
 			break;
 		default:
 			break;
@@ -272,7 +272,7 @@ public class CreateScrollList : MonoBehaviour
 			IGMLogic.m_instance.isCharacterChanged = true;
 			ResetCharacterSelectionLogic ();
 		}
-	}	
+	}
 
 	void CheckIfPlayerHaveResources (string currTypePrefs, int currencyToAsk)
 	{

@@ -211,5 +211,4 @@ public class ObjectPlacer : MonoBehaviour
 		cargoTruck.transform.localPosition = cargoTruckIniPosition;
 		cargoTruck.transform.localEulerAngles = cargoTruckIniRotation;
 	}
-		
 }

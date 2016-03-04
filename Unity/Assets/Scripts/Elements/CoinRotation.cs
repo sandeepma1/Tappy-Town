@@ -5,6 +5,6 @@ public class CoinRotation : MonoBehaviour
 {
 	void LateUpdate ()
 	{
-		this.gameObject.GetComponent<RectTransform> ().Rotate (new Vector3 (1, 1, 1), Time.deltaTime);
+//		this.gameObject.GetComponent<RectTransform> ().Rotate (new Vector3 (1, 1, 1), Time.deltaTime);
 	}
 }

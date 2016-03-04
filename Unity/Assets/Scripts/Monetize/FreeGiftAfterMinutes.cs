@@ -19,16 +19,15 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	public Text coinText;
 	public GameObject bin, cart, backButton, redeemButton, particle;
 	public Text gotCoinText;
-	Animator anim;
+	public Animator anim;
 
 	void Awake ()
 	{
-		anim = bin.GetComponent<Animator> ();
 		//****************************  Run Once ************************************************
 		if (!June.LocalStore.Instance.GetBool ("runOnce")) {
 			June.LocalStore.Instance.SetBool ("runOnce", true);
 			currentDate = System.DateTime.Now;
-			addedDate = currentDate.AddHours (0.1f);
+			addedDate = currentDate.AddHours (0.025f); // Edit this for first-time free gift time
 			June.LocalStore.Instance.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 		}//**************************************************************************************
 	}
@@ -36,6 +35,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	void Start ()
 	{
 		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+		CalculateTimeDifference ();
 		InvokeRepeating ("CalculateTimeDifference", 0f, 59f);
 	}
 
@@ -59,7 +59,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 			giftButton1.GetComponent<Image> ().color = Color.red;
 			giftButton.GetComponent<Image> ().color = Color.red;
 		}
-		if (difference.TotalSeconds <= 0) {
+		if (difference.TotalSeconds <= 59) {
 			//print ("less thenxero");
 			June.LocalStore.Instance.SetBool ("isReady", true);
 		}
@@ -67,6 +67,8 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 
 	public void GiftButtonClicked ()
 	{
+		CalculateTimeDifference ();
+		print (June.LocalStore.Instance.GetBool ("isReady"));
 		if (June.LocalStore.Instance.GetBool ("isReady")) {
 			OpenRedeemMenu ();
 		}
@@ -87,7 +89,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		backButton.SetActive (false);
 		redeemButton.SetActive (false);
 		anim.Play ("binRumbleAnimation");
-		yield return new WaitForSeconds (1.25f);
+		yield return new WaitForSeconds (2f);
 		//********************************************************* Random Coin Logic
 		int coinsInGift = UnityEngine.Random.Range (2, 5) * 20;    
 		//**************************************************************************************************
@@ -96,7 +98,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
 		yield return new WaitForSeconds (3);
 		SceneManager.LoadSceneAsync ("level");
-		CloseRedeemMenu ();
+		//CloseRedeemMenu ();
 	}
 
 	public void CloseRedeemMenu ()
@@ -107,10 +109,14 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 			//IGMLogic.m_instance.light2.gameObject.SetActive (false);
 		}	
 		redeemMenu.SetActive (false);
+		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		IGMLogic.m_instance.isTextMeshesVisible (true);
 	}
 
 	public void OpenRedeemMenu ()
 	{
+		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		IGMLogic.m_instance.isTextMeshesVisible (false);
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (true);
 			//IGMLogic.m_instance.light2.gameObject.SetActive (true);
@@ -121,8 +127,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 
 	void AddDate ()
 	{
-		addedDate = currentDate.AddHours (3f);
+		addedDate = currentDate.AddHours (1f);
 		June.LocalStore.Instance.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 	}
-
 }
