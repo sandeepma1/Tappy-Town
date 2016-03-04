@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class FacebookConnectScript : MonoBehaviour {
+public class FacebookConnectScript : MonoBehaviour
+{
 
 
 	public GameObject m_ConnectButton;
@@ -18,7 +19,8 @@ public class FacebookConnectScript : MonoBehaviour {
 
 	public Action<bool> OnSharedComplete;
 
-	void Awake(){
+	void Awake ()
+	{
 		if (null != m_ConnectButton)
 			UIEventListener.Get (m_ConnectButton).onClick += ConnectButtonOnTap;
 		if (null != m_LogOutButton)
@@ -27,7 +29,8 @@ public class FacebookConnectScript : MonoBehaviour {
 			UIEventListener.Get (m_ShareButton).onClick += ShareButtonOnTap;
 	}
 
-	void OnEnable(){
+	void OnEnable ()
+	{
 		if (null != m_ConnectButton) {
 			m_ConnectButton.SetActive (!FacebookSDK.Instance.IsLoggedIn);
 
@@ -38,87 +41,94 @@ public class FacebookConnectScript : MonoBehaviour {
 		}
 	}
 
-	void OnDisable(){
+	void OnDisable ()
+	{
 		if (null != m_ConnectButton)
 			m_ConnectButton.SetActive (false);
 
 		if (null != m_ShareButton)
 			m_ShareButton.SetActive (false);
 
-		CancelInvoke("TimeoutFacebook");
+		CancelInvoke ("TimeoutFacebook");
 
 	}
 
-	public void Hide(){
+	public void Hide ()
+	{
 		this.gameObject.SetActive (false);
 	}
 
 
-	void ShowLoadingMessage(string message) {
+	void ShowLoadingMessage (string message)
+	{
 		//PopupManager.Instance.ShowLoading (message);
 	}
 
-	void HideLoading() {
+	void HideLoading ()
+	{
 		//PopupManager.Instance.HideLoading ();
 	}
 
-	void TimeoutFacebook() {
-		CancelInvoke("TimeoutFacebook");
-		HideLoading();
-		m_ConnectButton.SetActive(true);
-		ShowLogoutButton(false);
+	void TimeoutFacebook ()
+	{
+		CancelInvoke ("TimeoutFacebook");
+		HideLoading ();
+		m_ConnectButton.SetActive (true);
+		ShowLogoutButton (false);
 		if (null != OnFbTimedOut)
 			OnFbTimedOut ();
 	}
 
-	void ShowShareDialog(){
-		FacebookSDK.Instance.ShowShareDialog(this.VerifyCallback<bool>( sts => {
-			Debug.Log("[FACEBOOK] ShowShare Status: " + sts);
-			if(OnSharedComplete != null)
-				OnSharedComplete(sts);
+	void ShowShareDialog ()
+	{
+		FacebookSDK.Instance.ShowShareDialog (this.VerifyCallback<bool> (sts => {
+			Debug.Log ("[FACEBOOK] ShowShare Status: " + sts);
+			if (OnSharedComplete != null)
+				OnSharedComplete (sts);
 		}));
 	}
-	void ShareButtonOnTap(GameObject go){
+
+	void ShareButtonOnTap (GameObject go)
+	{
 
 
-		if(Application.internetReachability == NetworkReachability.NotReachable) {
-			Etcetera.ShowAlert("No Internet", "Please check the internet connection and try again.", "Ok");
+		if (Application.internetReachability == NetworkReachability.NotReachable) {
+			Etcetera.ShowAlert ("No Internet", "Please check the internet connection and try again.", "Ok");
 			return;
 		}
 
-		m_ShareButton.SetActive(false);
+		m_ShareButton.SetActive (false);
 
-		ShowLoadingMessage("Connecting...");
-		Invoke("TimeoutFacebook", 60);
+		ShowLoadingMessage ("Connecting...");
+		Invoke ("TimeoutFacebook", 60);
 		#if UNITY_EDITOR
-		if(null != OnSharedComplete)
-			OnSharedComplete(true);
+		if (null != OnSharedComplete)
+			OnSharedComplete (true);
 		return;
 		#endif
-		if(false == FacebookSDK.Instance.IsLoggedIn) {
+		if (false == FacebookSDK.Instance.IsLoggedIn) {
 
 
-			FacebookSDK.Instance.Login(this.VerifyCallback<bool> (status => {
-				Debug.Log("[FACEBOOK] Login Status: " + status);
+			FacebookSDK.Instance.Login (this.VerifyCallback<bool> (status => {
+				Debug.Log ("[FACEBOOK] Login Status: " + status);
 
-				if(null != OnConnectEnded)
-					OnConnectEnded(status);
+				if (null != OnConnectEnded)
+					OnConnectEnded (status);
 
-				if(status) {
-					CancelInvoke("TimeoutFacebook");
-					Invoke("TimeoutFacebook", 60);
-					ShowShareDialog();
-				}
-				else {
-					m_ConnectButton.SetActive(true);
+				if (status) {
+					CancelInvoke ("TimeoutFacebook");
+					Invoke ("TimeoutFacebook", 60);
+					ShowShareDialog ();
+				} else {
+					m_ConnectButton.SetActive (true);
 
-					HideLoading();
+					HideLoading ();
 
-					Etcetera.ShowAlert("Facebook", "You need to allow Chhota Bheem Rush on Facebook to get your reward.", "OK");
+					Etcetera.ShowAlert ("Facebook", "You need to allow Chhota Bheem Rush on Facebook to get your reward.", "OK");
 				}
 			}));
-		}else
-			ShowShareDialog();
+		} else
+			ShowShareDialog ();
 
 		//
 		//				Dictionary<string, object> parameters = new Dictionary<string, object>() {
@@ -129,69 +139,72 @@ public class FacebookConnectScript : MonoBehaviour {
 
 	}
 
-	void LogoutButtonOnTap (GameObject go){
-		if(Application.internetReachability == NetworkReachability.NotReachable) {
-			Etcetera.ShowAlert("No Internet", "Please check the internet connection and try again.", "Ok");
+	void LogoutButtonOnTap (GameObject go)
+	{
+		if (Application.internetReachability == NetworkReachability.NotReachable) {
+			Etcetera.ShowAlert ("No Internet", "Please check the internet connection and try again.", "Ok");
 			return;
 		}
 
-		if(m_LogOutButton != null)
-			m_LogOutButton.SetActive(false);
-		if(m_ConnectButton != null)
+		if (m_LogOutButton != null)
+			m_LogOutButton.SetActive (false);
+		if (m_ConnectButton != null)
 			m_ConnectButton.SetActive (true);
 		
-		FacebookSDK.Instance.Logout();
+		FacebookSDK.Instance.Logout ();
 		if (OnLoggedOut != null)
 			OnLoggedOut ();
 
 	}
 
-	void ShowLogoutButton(bool value){
+	void ShowLogoutButton (bool value)
+	{
 		if (m_LogOutButton != null)
 			m_LogOutButton.SetActive (value);
 	}
 
 	public	void FBConnectButtonOnTap ()
 	{
+		print ("tap");
 		GameObject go = null;
 		ConnectButtonOnTap (go);
 	}
+
 	void ConnectButtonOnTap (GameObject go)
 	{
-		if(Application.internetReachability == NetworkReachability.NotReachable) {
-			Etcetera.ShowAlert("No Internet", "Please check the internet connection and try again.", "Ok");
+		if (Application.internetReachability == NetworkReachability.NotReachable) {
+			Etcetera.ShowAlert ("No Internet", "Please check the internet connection and try again.", "Ok");
 			return;
 		}
 
-		m_ConnectButton.SetActive(false);
+		m_ConnectButton.SetActive (false);
 		if (null != OnConnectStarted)
 			OnConnectStarted ();
-		ShowLoadingMessage("Connecting...");
-		Invoke("TimeoutFacebook", 60);
+		ShowLoadingMessage ("Connecting...");
+		Invoke ("TimeoutFacebook", 60);
 		#if UNITY_EDITOR
-		ShowLogoutButton(true);
-		if(null != OnConnectEnded)
-			OnConnectEnded(true);
+		ShowLogoutButton (true);
+		if (null != OnConnectEnded)
+			OnConnectEnded (true);
 		return;
 		#endif
-		if(false == FacebookSDK.Instance.IsLoggedIn) {
-			FacebookSDK.Instance.Login(this.VerifyCallback<bool> (status => {
-				Debug.Log("[FACEBOOK] Login Status: " + status);
-				if(null != OnConnectEnded)
-					OnConnectEnded(status);
+		if (false == FacebookSDK.Instance.IsLoggedIn) {
+			FacebookSDK.Instance.Login (this.VerifyCallback<bool> (status => {
+				Debug.Log ("[FACEBOOK] Login Status: " + status);
+				if (null != OnConnectEnded)
+					OnConnectEnded (status);
 
-				ShowLogoutButton(status);
+				ShowLogoutButton (status);
 
-				if(status) {
-					CancelInvoke("TimeoutFacebook");
-					HideLoading();
-					m_ConnectButton.SetActive(false);
+				if (status) {
+					CancelInvoke ("TimeoutFacebook");
+					HideLoading ();
+					m_ConnectButton.SetActive (false);
 
-				}
-				else {
-					m_ConnectButton.SetActive(true);
-					HideLoading();
-					Etcetera.ShowAlert("Facebook", "Failed to connect to Facebook.Try again", "OK");
+				} else {
+					m_ConnectButton.SetActive (true);
+					HideLoading ();
+					Etcetera.ShowAlert ("Facebook", "Failed to connect to Facebook.Try again", "OK");
 				}
 			}));
 		}

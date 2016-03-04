@@ -28,7 +28,9 @@ public class GatchaSystem : MonoBehaviour
 		for (int i = 0; i < GatchaManager.AllGatchas.Count; i++) {
 			weights [i] = float.Parse (GatchaManager.AllGatchas [i].Probability);
 		}
-		spinValueText.text = coinsToSpin.ToString ();
+
+		//TODO-Pooch-Developer
+		//-- spinValueText.text = coinsToSpin.ToString ();
 	}
 
 	public void PerformSpin ()

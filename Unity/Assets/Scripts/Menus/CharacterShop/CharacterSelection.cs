@@ -112,6 +112,7 @@ public class CharacterSelection : MonoBehaviour
 		}*/
 	}
 
+
 	void FillList ()
 	{		
 		itemList = new List<Item> ();

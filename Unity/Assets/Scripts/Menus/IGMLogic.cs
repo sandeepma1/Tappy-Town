@@ -104,7 +104,8 @@ public class IGMLogic : MonoBehaviour
 		}
 		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 
-		_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
+		if (_FacebookConnectObject)
+			_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
 
 	}
 
@@ -240,7 +241,7 @@ public class IGMLogic : MonoBehaviour
 		}
 	}
 
-	public void FaceBookButtonOnTap()
+	public void FaceBookButtonOnTap ()
 	{
 	
 	
@@ -248,23 +249,23 @@ public class IGMLogic : MonoBehaviour
 
 	void HandleFacebookConnection (bool isConnected)
 	{
-		if (isConnected) 
-		{
+		if (isConnected) {
 			SaveStringArray.AddCharIDtoUnlock ("IGC-002");
-			Etcetera.ShowAlert("Facebook", "Facebook login Done.", "OK");
+			Etcetera.ShowAlert ("Facebook", "Facebook login Done.", "OK");
 
-		} else 
-		{
-			Etcetera.ShowAlert("Facebook", "You need to connect to facebook to get your free character.", "OK");
+		} else {
+			Etcetera.ShowAlert ("Facebook", "You need to connect to facebook to get your free character.", "OK");
 		}
 	}
 
 	public void SelectChar ()
 	{
-		June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+
+		//TODO-Pooch-Developer
+		/*June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
-		SceneManager.LoadSceneAsync ("level");
+		SceneManager.LoadSceneAsync ("level");*/
 	}
 
 	public void OpenGatchaMenu ()
@@ -349,7 +350,7 @@ public class IGMLogic : MonoBehaviour
 	public void RateUs ()
 	{
 		June.MessageBroker.Publish (June.Messages.RateUsOk);
-		Application.OpenURL(GameEventManager.TappyTownApp_URL);
+		Application.OpenURL (GameEventManager.TappyTownApp_URL);
 	}
 
 	public void OpenSandeepTwitterPage ()
