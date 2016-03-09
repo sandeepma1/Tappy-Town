@@ -96,7 +96,8 @@ public class ManJump : MonoBehaviour
 		if (Input.GetMouseButtonUp (1)) {
 			isInvi = !isInvi;
 			playerSupport.SetActive (isInvi);
-			print ("is invi" + isInvi);
+//			print ("is invi" + isInvi);
+			PromoStripsManager.m_instance.ShowPromoStrips ();
 		}
 		//*************************************  Car mMechanics ******************************
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
@@ -325,6 +326,7 @@ public class ManJump : MonoBehaviour
 	public void ShowPromoBanner ()
 	{
 		IGMLogic.m_instance.ShowPromoBanner ();//********************************************** End session
+		PromoStripsManager.m_instance.ShowPromoStrips ();
 	}
 
 	IEnumerator PlayerDiedStartTimer ()
@@ -377,22 +379,22 @@ public class ManJump : MonoBehaviour
 	{
 		print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
 
-		June.MessageBroker.Publish(June.Messages.ResumeWatchAdTap, null);
+		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
 
 		//#if !UNITY_EDITOR
 		print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
 		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
 			print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
-		//	AudioListener.pause = false;
+			//	AudioListener.pause = false;
 			if (status) {
 				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
 				UserHadWatchedVideoAd ();
-				print(" status : " + status);
-			}  else {
+				print (" status : " + status);
+			} else {
 				//Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
-				print(" status : " + status);
+				print (" status : " + status);
 			}
-		} );
+		});
 
 		//if (showingAd)
 		//	AudioListener.pause = true;

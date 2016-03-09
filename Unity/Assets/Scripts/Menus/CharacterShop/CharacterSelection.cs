@@ -232,10 +232,10 @@ public class CharacterSelection : MonoBehaviour
 	{		
 		switch (t_Type) {
 		case "coins":			
-			FillButtonValues (t_Value, "", "", iconBank [0]);
+			FillButtonValues (t_Value + "~", "", "", iconBank [0]);
 			break;
 		case "tokens":			
-			FillButtonValues (t_Value, "", "", iconBank [1]);
+			FillButtonValues (t_Value + "*", "", "", iconBank [1]);
 			break;
 		case "fb":
 			FillButtonValues ("Log In", "", "", iconBank [2]);

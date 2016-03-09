@@ -21,8 +21,11 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	public Text gotCoinText;
 	public Animator anim;
 
+	public static FreeGiftAfterMinutes m_instance = null;
+
 	void Awake ()
 	{
+		m_instance = this;
 		//****************************  Run Once ************************************************
 		if (!June.LocalStore.Instance.GetBool ("runOnce")) {
 			June.LocalStore.Instance.SetBool ("runOnce", true);
@@ -48,12 +51,12 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		if (difference.Subtract (zeroTime).TotalSeconds >= 0) {
 			myString = String.Format ("{0:D1}h {1:D1}m", difference.Hours, difference.Minutes, difference.Seconds);
 			giftText.text = "Free gift in";
-			giftText1.text = "Free gift in";
+			giftText1.text = "";
 			giftTimerText.text = myString;
 			giftTimerText1.text = myString;
 		} else {
 			giftText.text = ("Free Gift Ready");
-			giftText1.text = ("Free Gift Ready");
+			giftText1.text = "Gift Ready";
 			giftTimerText.text = "";
 			giftTimerText1.text = "";
 			giftButton1.GetComponent<Image> ().color = Color.red;
@@ -68,7 +71,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	public void GiftButtonClicked ()
 	{
 		CalculateTimeDifference ();
-		print (June.LocalStore.Instance.GetBool ("isReady"));
 		if (June.LocalStore.Instance.GetBool ("isReady")) {
 			OpenRedeemMenu ();
 		}

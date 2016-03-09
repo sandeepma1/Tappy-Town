@@ -21,7 +21,8 @@ public class IGMLogic : MonoBehaviour
 	public GameObject settingsMenuGO, missionBanner;
 	public GameObject charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu, previewMesh, scrollView;
 	public GameObject unlockNewCharacterButton, gatchaMenu, InGameStoreMenu, inAppStoreMenu;
-	public Text levelText, countDownAfterResumeText, payCoinsToContinueText, payCoinsToContinueTextInButton, newHighScoreText;
+	public Text levelText, countDownAfterResumeText, payCoinsToContinueTextInButton, newHighScoreText;
+	//payCoinsToContinueText
 	public GameObject coinMono, tokenMono;
 	public TextMesh lastBestScore, highScore, highScoreText, mission1;
 	public GameObject statsWindow, creditsWindow, resetGameWindow;
@@ -325,11 +326,11 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (false);
 		payToContinueMenu.SetActive (true);
 		if (coins <= 5) {
-			payCoinsToContinueText.text = "Pay " + coins.ToString () + " Tokens to CONTINUE";
+			//payCoinsToContinueText.text = "Pay " + coins.ToString () + " Tokens to CONTINUE";
 			coinMono.SetActive (false);
 			tokenMono.SetActive (true);
 		} else {
-			payCoinsToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
+			//payCoinsToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
 			coinMono.SetActive (true);
 			tokenMono.SetActive (false);
 		}

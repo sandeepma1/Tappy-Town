@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GatchaSystem : MonoBehaviour
 {
-	public int coinsToSpin = 1;
+	int coinsToSpin = 0;
 	public Button redeemButton, backButton;
 	public GameObject tapToContinue;
 	public GameObject spinBox, gatchaMenu;
@@ -22,6 +22,8 @@ public class GatchaSystem : MonoBehaviour
 	void Awake ()
 	{		
 		m_instance = this;
+		spinValueText.text = GameEventManager.gatchaSpinValue.ToString ();
+		coinsToSpin = GameEventManager.gatchaSpinValue;
 		anim = spinBox.GetComponent<Animator> ();
 		tapToContinue.gameObject.SetActive (false);
 		weights = new float[GatchaManager.AllGatchas.Count];
