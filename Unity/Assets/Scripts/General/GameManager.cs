@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
- 
+
 /// <summary>
 /// Game manager.
 /// Aniket Kayande
@@ -19,83 +19,79 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-		//public GameState m_GameState;
-		public bool m_bMusicOn;
-		public static DateTime LAST_ON_FOCUS_TIMESTAMP = DateTime.Now;
-		public June.Payments.PurchaseManager InAppPurchase = null;
+	//public GameState m_GameState;
+	public bool m_bMusicOn;
+	public static DateTime LAST_ON_FOCUS_TIMESTAMP = DateTime.Now;
+	public June.Payments.PurchaseManager InAppPurchase = null;
 
-		void Awake ()
-		{
-				DontDestroyOnLoad (gameObject);
-				Etcetera.EnableImmersiveMode ();
-				this.InAppPurchase = June.Payments.PurchaseManager.Instance;
-		}
-	
-		void Start ()
-		{
+	void Awake ()
+	{
+		DontDestroyOnLoad (gameObject);
+		Etcetera.EnableImmersiveMode ();
+		this.InAppPurchase = June.Payments.PurchaseManager.Instance;
+	}
+
+	void Start ()
+	{
 				
 
-		}
+	}
 
-		void StartEngine (GameObject go)
-		{
+	void StartEngine (GameObject go)
+	{
 		
-		}
+	}
 
-		public void PauseGame ()
-		{
-		}
+	public void PauseGame ()
+	{
+	}
 
-		public void ResumeGame ()
-		{
-		}
+	public void ResumeGame ()
+	{
+	}
 
-		public void StartMenuMusic ()
-		{
+	public void StartMenuMusic ()
+	{
 				
-		}
+	}
 
-		public void StopMenuMusic ()
-		{
+	public void StopMenuMusic ()
+	{
 
-		}
+	}
 
-		void OnApplicationPause (bool pause)
-		{
+	void OnApplicationPause (bool pause)
+	{
+		if (pause) {
+			Debug.Log ("Application paused");
+		} else {
+			Debug.Log ("Application unpaused");
+			Etcetera.EnableImmersiveMode ();
+		}		
+	}
 
-				if (pause) {
-						Debug.Log ("Application paused");
+	// Application specific calls
+	void OnApplicationFocus (bool focus)
+	{
 
-				} else {
-						Debug.Log ("Application unpaused");
-				    	Etcetera.EnableImmersiveMode ();
-				}
-		
-		}
+	}
 
-		// Application specific calls
-		void OnApplicationFocus (bool focus)
-		{
+	//..
+	public static string SCENE_MAIN_MENU = "SplashScreen";
+	//..
+	public string currentScene = "";
 
-		}
+	public void loadSceneWithName (string sceneName)
+	{
+		currentScene = sceneName;
+	}
 
-
-		//..
-		public static string SCENE_MAIN_MENU = "SplashScreen";
-		//..
-		public string currentScene = "";
-	
-		public void loadSceneWithName (string sceneName)
-		{
-				currentScene = sceneName;
-		}
-	
-		void backKeyManager ()
-		{
-				if (currentScene.Equals (SCENE_MAIN_MENU)) {
+	void backKeyManager ()
+	{
+		if (currentScene.Equals (SCENE_MAIN_MENU)) {
 			
-				}
 		}
+	}
 		
 	
 }

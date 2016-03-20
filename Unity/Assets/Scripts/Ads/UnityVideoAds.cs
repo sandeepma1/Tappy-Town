@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
-using UnityEngine.SceneManagement;
+
 
 public class UnityVideoAds : MonoBehaviour
 {

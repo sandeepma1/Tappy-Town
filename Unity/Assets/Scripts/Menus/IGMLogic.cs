@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
+//using UnityEngine.SceneManagement;
 
 public class IGMLogic : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject pauseMenuGO;
 	public Camera mainCamera;
 	//, menuCamera;
+	public Text gameVersionText;
 	public Image blankLogo;
 	public GameObject gameName;
 	public GameObject UI;
@@ -46,7 +48,8 @@ public class IGMLogic : MonoBehaviour
 
 	void Awake ()
 	{	
-		m_instance = this;	
+		m_instance = this;
+		gameVersionText.text = "Version: " + GameEventManager.gameVersion;
 		coinMono.SetActive (false);
 		tokenMono.SetActive (false);
 		//SetMainCameraCanvas (true);
@@ -57,7 +60,6 @@ public class IGMLogic : MonoBehaviour
 		mainCamera.gameObject.SetActive (true);
 		//menuCamera.gameObject.SetActive (false);
 		anim = mainCanvas.GetComponent<Animator> ();
-		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		GameEventManager.currentLevelAttempts++;
@@ -155,25 +157,25 @@ public class IGMLogic : MonoBehaviour
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 	}
 
-	public void ResetLevel ()
+	/*	public void ResetLevel ()
 	{
-		watchAdsGO.SetActive (false);
-		rateUsGO.SetActive (false);
-		freeGiftGO.SetActive (false);
+		//watchAdsGO.SetActive (false);
+		//rateUsGO.SetActive (false);
+		//freeGiftGO.SetActive (false);
 		//playerDiedButtons.SetActive (false);
 		blankLogo.gameObject.SetActive (true);
 		gameName.SetActive (true);
 		//SetMainCameraCanvas (true);
 		anim.Play ("LevelEndAnimation");
 		StartCoroutine ("LevelRestartWithWait");
-	}
+	}*/
 
-	IEnumerator LevelRestartWithWait ()
+	/*IEnumerator LevelRestartWithWait ()
 	{
-		yield return new WaitForSeconds (1.2f);
-		SceneManager.LoadSceneAsync ("level");
+		//yield return new WaitForSeconds (1.2f);
+		//SceneManager.LoadSceneAsync ("level");
 	}
-
+*/
 	public void ShowIGM ()
 	{
 		pauseMenuGO.SetActive (true);
@@ -234,7 +236,7 @@ public class IGMLogic : MonoBehaviour
 		}
 
 		if (isCharacterChanged) {
-			SceneManager.LoadScene ("level");
+			GameManagers.m_instance.Restartlevel ();
 		} else {
 			charSelcMenu.SetActive (false);
 			isTextMeshesVisible (true);
@@ -261,12 +263,16 @@ public class IGMLogic : MonoBehaviour
 
 	public void SelectChar ()
 	{
-
 		//TODO-Pooch-Developer
-		/*June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
-		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
-		SceneManager.LoadSceneAsync ("level");*/
+		//June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+		//GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
+		//	charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
+		//SceneManager.LoadSceneAsync ("level");
+	}
+
+	public void UnlockAllCharacters ()
+	{
+		SaveStringArray.UnlockAllCharacters ();
 	}
 
 	public void OpenGatchaMenu ()
@@ -397,7 +403,7 @@ public class IGMLogic : MonoBehaviour
 		}*/
 	}
 
-	public void ShowPromoBanner ()
+	public void ShowPlayButton ()
 	{		
 		anim.Play ("PromoStrap1");
 	}
@@ -411,12 +417,13 @@ public class IGMLogic : MonoBehaviour
 	public void CloseNewHighScoreMenu ()
 	{
 		newHighScoreMenu.SetActive (false);
+		ManJump.m_instance.ShowPromoBanner ();
 	}
 
 	public void ShowMissionCompleteMenu ()
 	{
 		//newHighScoreText.text = June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
-		missionCompleteMenu.SetActive (true);
+		//missionCompleteMenu.SetActive (true);
 	}
 
 	public void CloseMissionCompleteMenu ()
@@ -518,6 +525,6 @@ public class IGMLogic : MonoBehaviour
 	{
 		//PlayerPrefs.DeleteAll ();
 		June.LocalStore.Instance.DeleteAll ();
-		SceneManager.LoadSceneAsync ("1Loading");
+		GameManagers.m_instance.LoadMainlevel ();
 	}
 }

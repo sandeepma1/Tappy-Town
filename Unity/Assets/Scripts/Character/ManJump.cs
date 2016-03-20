@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+
+//using UnityEngine.SceneManagement;
 
 public class ManJump : MonoBehaviour
 {
@@ -93,12 +94,11 @@ public class ManJump : MonoBehaviour
 			}
 			return;
 		}
-		if (Input.GetMouseButtonUp (1)) {
-			isInvi = !isInvi;
-			playerSupport.SetActive (isInvi);
-//			print ("is invi" + isInvi);
-			PromoStripsManager.m_instance.ShowPromoStrips ();
-		}
+		/*if (Input.GetMouseButtonUp (1)) {
+			//isInvi = !isInvi;
+			//playerSupport.SetActive (isInvi);
+			//PromoStripsManager.m_instance.ShowPromoStrips ();
+		}*/
 		//*************************************  Car mMechanics ******************************
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
@@ -137,7 +137,8 @@ public class ManJump : MonoBehaviour
 			}
 		}
 		if (Input.GetMouseButtonDown (2)) {
-			SceneManager.LoadSceneAsync ("level");
+			//GameManagers.m_instance.Restartlevel ();
+			//SceneManager.LoadSceneAsync ("level");
 		}
 	}
 
@@ -151,26 +152,12 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
-	void SpeedTest ()
-	{
-		StartCoroutine ("IncreaseSpeed");
-	}
-
-	IEnumerator IncreaseSpeed ()
-	{
-		MovingPlatform.m_instance.moveInSeconds = 2f;
-		yield return new WaitForSeconds (1);
-		MovingPlatform.m_instance.moveInSeconds = 3.4f;
-	}
-
 	void OnTriggerEnter (Collider other)
 	{
 		switch (other.gameObject.tag) {
 		case "death":			
 			if (!isDeath && !isInvi) {
 				PlayerPartiallyDied ();
-				//SpeedTest ();
-				//isDiedOnce = true;
 			}
 			break;
 		case "pickable_coin":
@@ -309,11 +296,11 @@ public class ManJump : MonoBehaviour
 		if (MovingPlatform.m_instance.isHighScore ()) {
 			IGMLogic.m_instance.ShowNewHighScoreMenu ();
 		} else {
-			CheckIfMissionComplete ();
-		}			
+			ShowPromoBanner ();
+		}		
 	}
 
-	public void CheckIfMissionComplete ()
+	/*	public void CheckIfMissionComplete ()
 	{
 		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {
 			MissionLogic.m_instance.MissionCompleted ();
@@ -321,11 +308,11 @@ public class ManJump : MonoBehaviour
 		} else {
 			ShowPromoBanner ();
 		}
-	}
+	}*/
 
 	public void ShowPromoBanner ()
 	{
-		IGMLogic.m_instance.ShowPromoBanner ();//********************************************** End session
+		IGMLogic.m_instance.ShowPlayButton ();
 		PromoStripsManager.m_instance.ShowPromoStrips ();
 	}
 
@@ -477,7 +464,6 @@ public class ManJump : MonoBehaviour
 		} else {
 			StartCoroutine ("ActivateCoin", coinGo);
 		}
-
 	}
 
 	IEnumerator showTurotialTapnHold ()

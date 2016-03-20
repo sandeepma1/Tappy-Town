@@ -21,7 +21,7 @@ public class RandomSpwan : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetMouseButtonDown (1)) {
-			RandomPos ();
+			//RandomPos ();
 		}
 	}
 }

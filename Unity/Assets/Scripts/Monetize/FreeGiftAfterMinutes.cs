@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
+//using UnityEngine.SceneManagement;
 
 public class FreeGiftAfterMinutes : MonoBehaviour
 {
@@ -98,9 +99,8 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		June.LocalStore.Instance.SetInt ("coins", coinsInGift + June.LocalStore.Instance.GetInt ("coins"));
 		gotCoinText.text = "+" + coinsInGift;
 		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
-		yield return new WaitForSeconds (3);
-		SceneManager.LoadSceneAsync ("level");
-		//CloseRedeemMenu ();
+		yield return new WaitForSeconds (2);
+		GameManagers.m_instance.Restartlevel ();
 	}
 
 	public void CloseRedeemMenu ()
@@ -108,7 +108,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (false);
-			//IGMLogic.m_instance.light2.gameObject.SetActive (false);
 		}	
 		redeemMenu.SetActive (false);
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -121,7 +120,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		IGMLogic.m_instance.isTextMeshesVisible (false);
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (true);
-			//IGMLogic.m_instance.light2.gameObject.SetActive (true);
 		}
 		particle.SetActive (true);
 		redeemMenu.SetActive (true);
@@ -129,7 +127,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 
 	void AddDate ()
 	{
-		addedDate = currentDate.AddHours (1f);
+		addedDate = currentDate.AddHours (GameEventManager.freeGiftTimeDelay);
 		June.LocalStore.Instance.SetString ("addedDate", addedDate.ToBinary ().ToString ());
 	}
 }

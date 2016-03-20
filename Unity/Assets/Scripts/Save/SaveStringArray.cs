@@ -62,5 +62,11 @@ public static class SaveStringArray
 		return false;
 	}
 
+	public static void UnlockAllCharacters ()
+	{		
+		for (int i = 0; i < CharacterManager.AllCharacters.Count; i++) {
+			AddCharIDtoUnlock (CharacterManager.AllCharacters [i].Id);
+		}
+	}
 
 }

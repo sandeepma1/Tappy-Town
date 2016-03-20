@@ -5,25 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class ToNextLevel : MonoBehaviour
 {
-	public Image fade;
-	public float fadeSpeed = 0.01f;
+	//public Image fade;
+	//public float fadeSpeed = 0.01f;
 	public GameObject mainCanvas;
-	Animator anim;
+	public Animator splashScreenAnim;
 
 	void Start ()
 	{
 		Application.targetFrameRate = 60;
-		anim = mainCanvas.GetComponent<Animator> ();
 		StartCoroutine ("WaitAndStartlevel");
 	}
 
 	IEnumerator WaitAndStartlevel ()
 	{		
 		yield return new WaitForSeconds (3f);
-		anim.Play ("moveToMainLevel");
+		splashScreenAnim.PlayInFixedTime ("FadeIn");
 		yield return new WaitForSeconds (1f);
-		SceneManager.LoadSceneAsync ("level");		
-
+		SceneManager.LoadSceneAsync ("level");
 	}
 
 	/*IEnumerator WaitAndStartlevel ()

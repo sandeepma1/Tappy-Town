@@ -5,6 +5,6 @@ c,MovingCars/Car_Mini1,MovingCars/Car_Cab,MovingCars/Car_Car,MovingCars/Car_Ambu
 d,Pickables/coin,Pickables/coin0.5,Pickables/Token,,,,,,,,,,,,,,,,,,
 f,FootPath/Footpath_block,FootPath/Footpath_block_big_30,,,,,,,,,,,,,,,,,,,
 p,GroundBlocks\City\CityWorldGround,GroundBlocks\City\CityWorldGround,GroundBlocks\Alien\AlienWorldGround,GroundBlocks\Cop\CopWorldGround,GroundBlocks\Road\Road,GroundBlocks\Water\WaterWorldGround,GroundBlocks\TownToRoad\TownToRoadStart,GroundBlocks\TownToRoad\TownToRoadEnd,GroundBlocks\Bridge\Bridge,GroundBlocks\CrossRoad\CrossRoad,GroundBlocks\Cliff\CliffWorldGround,GroundBlocks\Cliff\CliffWorldStart,GroundBlocks\Cliff\CliffWorldEnd,GroundBlocks\Beach\BeachWorldGround,GroundBlocks\MiniCarSequence\TownToMiniCarStart,GroundBlocks\MiniCarSequence\TownToMiniCarEnd,GroundBlocks\MiniCarSequence\MiniCarLoop,,,,
-h,House\House1 1,House\House1 2,,,,,,,,,,,,,,,,,,,
+h,House\Shops1 1,House\Shops1 2,,,,,,,,,,,,,,,,,,,
 cs,GamePlayElements\CargoBoxGO,,,,,,,,,,,,,,,,,,,,
 lo,GamePlayElements\WaterLogs\Log1,GamePlayElements\WaterLogs\Log1,GamePlayElements\WaterLogs\Log2,GamePlayElements\WaterLogs\Log3,GamePlayElements\WaterLogs\Log4,,,,,,,,,,,,,,,,

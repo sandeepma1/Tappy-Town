@@ -1,98 +1,83 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PromoStripsManager : MonoBehaviour
 {
+	public Text missionStatusText;
 	public static PromoStripsManager m_instance = null;
-	public GameObject promoTemp;
-	public GameObject videoAds, gatchaSpin, charBuy;
-	public GameObject missionProgress, missionClaim, giftProgress, giftClaim;
-	public GameObject rateUs, fbConnect, googlePlusConnect;
-	public Animator animTop, animMiddle, animBottom;
+	public Animator animTop, animMiddle;
 
 	void Start ()
 	{
 		m_instance = this;
+		//FillStripsInfo ();
 	}
 
+	/*void FillStripsInfo ()
+	{		
+	}
+*/
 	public void ShowPromoStrips ()
 	{
 		StripTop ();
 		StripMiddle ();
-		StripBottom ();
-		//StartCoroutine ("Play");
-	}
-
-	IEnumerator Play ()
-	{
-		StripTop ();
-		yield return new WaitForSeconds (1);
-		StripMiddle ();
-		yield return new WaitForSeconds (1);
-		StripBottom ();
 	}
 
 	void StripTop ()
 	{
-		int ran = Random.Range (0, 4);
+		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {			
+			animTop.PlayInFixedTime ("MissionClaim");
+			print ("Mission Completed");
+			return;
+		} 
 
-		if (ran == 0 || ran == 1 || ran == 2) {
-			print ("Watch video Ad");
-			animTop.PlayInFixedTime ("WatchAds");
+		int ran = Random.Range (0, 3);
+
+		if (ran >= 0) {
+			missionStatusText.text = MissionLogic.m_instance.currentMissionText.text;
+			print ("3/4 Train jumps");
+			animTop.PlayInFixedTime ("MissionStatus");
 		}
 
-		if (ran == 3) {
+		if (ran == 1) {
 			print ("Buy new Character");
 			animTop.PlayInFixedTime ("CharBuy");
+		}
+
+		if (ran == 2) {
+			if (June.LocalStore.Instance.GetInt ("coins") > GameEventManager.gatchaSpinValue) {
+				print ("Unlock New Character");
+				animTop.PlayInFixedTime ("UnlockCharacter");
+				return;
+			}
 		}
 	}
 
 	void StripMiddle ()
 	{		
-		int ran = Random.Range (0, 2);
-		if (ran == 0) {
-			if (June.LocalStore.Instance.GetBool ("isReady")) {
-				print ("Gift is ready");
-				animMiddle.PlayInFixedTime ("FreeGiftClaim");
-			} else {
-				print ("Gift in 2h 20m");
-				animMiddle.PlayInFixedTime ("FreeGiftStatus");
-			}
+		if (June.LocalStore.Instance.GetBool ("isReady")) {
+			print ("Gift is ready");
+			animMiddle.PlayInFixedTime ("FreeGiftClaim");
+			return;
 		}
 
-		if (ran == 1) {
-			if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {
-				print ("Mission is Complete");
-				animMiddle.PlayInFixedTime ("MissionClaim");
-			} else {
-				print ("3/4 Train jumps");
-				animMiddle.PlayInFixedTime ("MissionStatus");
-			}
+		int ran = Random.Range (0, 4);
+
+		if (ran == 0 || ran == 1) {
+			print ("Watch video Ad");
+			animMiddle.PlayInFixedTime ("WatchAds");
 		}
 
-		if (ran >= 4) {
-			print ("  ");
+		if (ran == 2) {			
+			print ("Gift in 2h 20m");
+			animMiddle.PlayInFixedTime ("FreeGiftStatus");
 		}
-	}
-
-	void StripBottom ()
-	{			
-		if (June.LocalStore.Instance.GetBool ("isUserRatedGame")) {
-			print ("Rate Us");
-		}
-
-		if (June.LocalStore.Instance.GetBool ("isUserFBConnected")) {
-			print ("Connect FB");
-		}
-
-		if (June.LocalStore.Instance.GetBool ("isUserGooglePlusConnected")) {
-			print ("Connect G+");
-		}
-
-		if (June.LocalStore.Instance.GetInt ("coins") >= GameEventManager.gatchaSpinValue) {
-			print ("Use Gatch spin");
-			animBottom.PlayInFixedTime ("UseGatcha");
-		}
-
 	}
 }
+
+/*		if (June.LocalStore.Instance.GetInt ("coins") >= GameEventManager.gatchaSpinValue) {
+			print ("Use Gatch spin");
+			animBottom.PlayInFixedTime ("UseGatcha");
+			return;
+		}*/

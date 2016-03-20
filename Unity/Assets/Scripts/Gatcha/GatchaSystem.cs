@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+
+//using UnityEngine.SceneManagement;
 
 public class GatchaSystem : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class GatchaSystem : MonoBehaviour
 		}
 
 		//TODO-Pooch-Developer
-		//-- spinValueText.text = coinsToSpin.ToString ();
+		spinValueText.text = coinsToSpin.ToString ();
 	}
 
 	public void PerformSpin ()
