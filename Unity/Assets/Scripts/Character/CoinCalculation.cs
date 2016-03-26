@@ -35,6 +35,7 @@ public class CoinCalculation : MonoBehaviour
 		}*/
 		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + nos);
 		June.LocalStore.Instance.SetInt ("Mission_CoinCount", June.LocalStore.Instance.GetInt ("Mission_CoinCount") + nos);
+		June.LocalStore.Instance.SetInt ("Mission_CoinCountSR", June.LocalStore.Instance.GetInt ("Mission_CoinCountSR") + nos);
 		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
 	}
 

@@ -36,7 +36,6 @@ public class ManJump : MonoBehaviour
 	bool isInCar = false;
 	bool isBlinking = false;
 	float speed = 10, s = 3.4f, iniSpeed;
-	bool isDiedOnce = false;
 	bool isInvi = false;
 	//public GameObject playerGO
 
@@ -136,9 +135,21 @@ public class ManJump : MonoBehaviour
 				PlayerPartiallyDied ();
 			}
 		}
-		if (Input.GetMouseButtonDown (2)) {
-			//GameManagers.m_instance.Restartlevel ();
+		if (Input.GetMouseButtonDown (2)) {			
+			GameManagers.m_instance.Restartlevel ();
 			//SceneManager.LoadSceneAsync ("level");
+		}
+	}
+
+	void PlayParticle (ParticleSystem p)
+	{
+		if (p.isPlaying) {
+			p.Stop ();
+			p.Clear ();
+			p.time = 0;
+		}
+		if (!p.isPlaying) {
+			p.Play ();
 		}
 	}
 
@@ -162,7 +173,7 @@ public class ManJump : MonoBehaviour
 			break;
 		case "pickable_coin":
 			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			coinParticle.Play ();		
+			PlayParticle (coinParticle);		
 			CoinCalculation.m_instance.AddCoins (1);
 			ReActivateCoins (other.gameObject);
 			break;
@@ -175,8 +186,7 @@ public class ManJump : MonoBehaviour
 		case "speedUp":
 			SpeedUpPlayer ();
 			break;
-		case "balloonStart":
-			June.LocalStore.Instance.SetInt ("Mission_BalloonCount", June.LocalStore.Instance.GetInt ("Mission_BalloonCount") + 1);
+		case "balloonStart":			
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			ReActivateCoins (other.gameObject);
@@ -274,7 +284,7 @@ public class ManJump : MonoBehaviour
 		isDeath = true;
 		June.LocalStore.Instance.SetInt ("PlayerDeath", June.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
-		playerDieParticle.Play ();
+		PlayParticle (playerDieParticle);
 		DisplayPlayerObject (false);
 		if (transform.root.position.x >= 50) { // && isDiedOnce == false			
 			GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
@@ -293,25 +303,19 @@ public class ManJump : MonoBehaviour
 		June.LocalStore.Instance.SetInt ("Mission_JumpCount", June.LocalStore.Instance.GetInt ("Mission_JumpCount") + jumpCount);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 
+		MissionLogic.m_instance.CheckIfMissionCompleted ();
+
 		if (MovingPlatform.m_instance.isHighScore ()) {
-			IGMLogic.m_instance.ShowNewHighScoreMenu ();
+			IGMLogic.m_instance.ShowNewHighScoreMenu (); 
 		} else {
 			ShowPromoBanner ();
 		}		
+		//*********************************************************************************************  End session
 	}
-
-	/*	public void CheckIfMissionComplete ()
-	{
-		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {
-			MissionLogic.m_instance.MissionCompleted ();
-			IGMLogic.m_instance.ShowMissionCompleteMenu ();
-		} else {
-			ShowPromoBanner ();
-		}
-	}*/
 
 	public void ShowPromoBanner ()
 	{
+		MissionLogic.m_instance.CheckIfMissionCompleted ();
 		IGMLogic.m_instance.ShowPlayButton ();
 		PromoStripsManager.m_instance.ShowPromoStrips ();
 	}
@@ -365,9 +369,7 @@ public class ManJump : MonoBehaviour
 	public void UserPayingForWatchAds ()
 	{
 		print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
-
 		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
-
 		//#if !UNITY_EDITOR
 		print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
 		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
@@ -382,17 +384,18 @@ public class ManJump : MonoBehaviour
 				print (" status : " + status);
 			}
 		});
-
 		//if (showingAd)
 		//	AudioListener.pause = true;
-
 		//#endif
-
 	}
 
-	void AskForMoreCoins ()
+	public void UserHadWatchedVideoAd ()
 	{
-		IGMLogic.m_instance.ShowInGameStoreMenu ();
+		StopCoroutine ("PlayerDiedStartTimer");
+		counDownText.gameObject.SetActive (false);
+		continueText.gameObject.SetActive (false);
+		StartCoroutine ("EnablePlayersColliderAfterWait");
+		isDeath = false;
 	}
 
 	void UserHadAndPaidCoins ()
@@ -412,13 +415,9 @@ public class ManJump : MonoBehaviour
 		IGMLogic.m_instance.pauseButton.SetActive (true);
 	}
 
-	public void UserHadWatchedVideoAd ()
+	void AskForMoreCoins ()
 	{
-		StopCoroutine ("PlayerDiedStartTimer");
-		counDownText.gameObject.SetActive (false);
-		continueText.gameObject.SetActive (false);
-		StartCoroutine ("EnablePlayersColliderAfterWait");
-		isDeath = false;
+		IGMLogic.m_instance.ShowInGameStoreMenu ();
 	}
 
 	IEnumerator EnablePlayersColliderAfterWait ()

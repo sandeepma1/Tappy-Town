@@ -52,24 +52,20 @@ public class IGMLogic : MonoBehaviour
 		gameVersionText.text = "Version: " + GameEventManager.gameVersion;
 		coinMono.SetActive (false);
 		tokenMono.SetActive (false);
-		//SetMainCameraCanvas (true);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10f, 16.5f, -32.5f);
 		Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);
-		//menuCamera.gameObject.SetActive (false);
 		anim = mainCanvas.GetComponent<Animator> ();
 		gameName.SetActive (true);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		GameEventManager.currentLevelAttempts++;
-		//attempts.text = GameEventManager.currentLevelAttempts.ToString ();
 		lastBestScore.text = June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
 		pauseButton.SetActive (false);
 		toggleMuteButton.isOn = June.LocalStore.Instance.GetBool ("mute");
 		toggleShadowsButton.isOn = June.LocalStore.Instance.GetBool ("shadow");
 		toggleLevel.isOn = June.LocalStore.Instance.GetBool ("levelProgression");
-//		toggleScreenRotationButton.isOn = June.LocalStore.Instance.GetBool ("screenRotation");
 		//****************************  Run Once ************************************************
 		if (June.LocalStore.Instance.GetInt ("runOnceTutorial1") <= 0) {
 			June.LocalStore.Instance.SetInt ("runOnceTutorial1", 1);
@@ -99,17 +95,13 @@ public class IGMLogic : MonoBehaviour
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeInOutQuart);
-		//SetMainCameraCanvas (true);
 		if (June.LocalStore.Instance.GetBool ("useLevelProgress")) {
 			levelText.text = "Level " + June.LocalStore.Instance.GetInt ("PlayerXP").ToString ();
 		} else {
 			levelText.text = "Level " + 50;
 		}
-		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-
 		if (_FacebookConnectObject)
 			_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
-
 	}
 
 	public void isTextMeshesVisible (bool isActive)

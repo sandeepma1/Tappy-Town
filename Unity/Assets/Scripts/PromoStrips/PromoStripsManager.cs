@@ -11,13 +11,8 @@ public class PromoStripsManager : MonoBehaviour
 	void Start ()
 	{
 		m_instance = this;
-		//FillStripsInfo ();
 	}
 
-	/*void FillStripsInfo ()
-	{		
-	}
-*/
 	public void ShowPromoStrips ()
 	{
 		StripTop ();
@@ -26,7 +21,7 @@ public class PromoStripsManager : MonoBehaviour
 
 	void StripTop ()
 	{
-		if (MissionLogic.m_instance.CheckIfMissionCompleted ()) {			
+		if (June.LocalStore.Instance.GetBool ("CurrentMissionCompleted")) {			
 			animTop.PlayInFixedTime ("MissionClaim");
 			print ("Mission Completed");
 			return;
@@ -35,19 +30,17 @@ public class PromoStripsManager : MonoBehaviour
 		int ran = Random.Range (0, 3);
 
 		if (ran >= 0) {
+			MissionLogic.m_instance.DisplayCurrentMission ();
 			missionStatusText.text = MissionLogic.m_instance.currentMissionText.text;
-			print ("3/4 Train jumps");
 			animTop.PlayInFixedTime ("MissionStatus");
 		}
 
 		if (ran == 1) {
-			print ("Buy new Character");
 			animTop.PlayInFixedTime ("CharBuy");
 		}
 
 		if (ran == 2) {
 			if (June.LocalStore.Instance.GetInt ("coins") > GameEventManager.gatchaSpinValue) {
-				print ("Unlock New Character");
 				animTop.PlayInFixedTime ("UnlockCharacter");
 				return;
 			}
@@ -57,7 +50,6 @@ public class PromoStripsManager : MonoBehaviour
 	void StripMiddle ()
 	{		
 		if (June.LocalStore.Instance.GetBool ("isReady")) {
-			print ("Gift is ready");
 			animMiddle.PlayInFixedTime ("FreeGiftClaim");
 			return;
 		}
@@ -65,12 +57,10 @@ public class PromoStripsManager : MonoBehaviour
 		int ran = Random.Range (0, 4);
 
 		if (ran == 0 || ran == 1) {
-			print ("Watch video Ad");
 			animMiddle.PlayInFixedTime ("WatchAds");
 		}
 
-		if (ran == 2) {			
-			print ("Gift in 2h 20m");
+		if (ran == 2) {		
 			animMiddle.PlayInFixedTime ("FreeGiftStatus");
 		}
 	}

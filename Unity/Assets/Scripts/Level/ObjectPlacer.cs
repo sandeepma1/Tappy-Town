@@ -153,6 +153,7 @@ public class ObjectPlacer : MonoBehaviour
 		blocks [FindArrayIndex ("d2cs1")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2cs1")].SetActive (true);
 		isCargoTruckStarted = false;
+		MissionLogic.m_instance.CargoMissionAdder ();
 		StartCoroutine ("CargoTruckEndingAnimation");
 	}
 
@@ -168,6 +169,7 @@ public class ObjectPlacer : MonoBehaviour
 	{
 		blocks [FindArrayIndex ("d2fb1")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2fb1")].SetActive (true);
+		MissionLogic.m_instance.BalloonMissionAdder ();
 		isFlappyBird = false;
 	}
 

@@ -68,6 +68,7 @@ public class MovingPlatform : MonoBehaviour
 	{
 		June.LocalStore.Instance.SetInt ("PlayerDistanceCovered", June.LocalStore.Instance.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
 		June.LocalStore.Instance.SetInt ("Mission_DistanceCount", June.LocalStore.Instance.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
+		June.LocalStore.Instance.SetInt ("Mission_DistanceCountSR", June.LocalStore.Instance.GetInt ("Mission_DistanceCountSR") + (int)transform.position.x);
 		June.LocalStore.Instance.SetInt ("Progression_DistanceCount", June.LocalStore.Instance.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
 		Progression.m_instance.UpdatePlayerXP ();
 	}
