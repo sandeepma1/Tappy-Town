@@ -1,5 +1,5 @@
 <manifest>
-
+<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
 	<application>
         <!-- ========= -->    
         <!-- APP LOVIN -->

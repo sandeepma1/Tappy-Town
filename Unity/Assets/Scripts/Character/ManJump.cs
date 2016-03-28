@@ -11,12 +11,13 @@ public class ManJump : MonoBehaviour
 	public float jumpSpeed = 21.0F;
 	public float gravity = 96.0F;
 	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector;
-	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle;
+	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle, skateSparksTrail, landingParticles;
 	public Text counDownText, continueText;
 	public Text debugText;
 	public GameObject igmLogic;
-	public AudioSource dieSound;
+	public AudioSource dieSound, coinPickupSound, skateLoop;
 	public GameObject tapnHoldText;
+	public Animator coinGot;
 	float jumpSpeedTemp = 0;
 	float gravityTemp = 0;
 	private Vector3 moveDirection = Vector3.zero;
@@ -37,6 +38,7 @@ public class ManJump : MonoBehaviour
 	bool isBlinking = false;
 	float speed = 10, s = 3.4f, iniSpeed;
 	bool isInvi = false;
+
 	//public GameObject playerGO
 
 	void Awake ()
@@ -48,7 +50,8 @@ public class ManJump : MonoBehaviour
 		jumpSpeedTemp = jumpSpeed;
 		gravityTemp = gravity;
 		c = GetComponent<CharacterController> ();
-		dieSound = GetComponent<AudioSource> ();
+		//dieSound = GetComponent<AudioSource> ();
+		//coinPickupSound = GetComponent<AudioSource> ();
 		string charName = CharacterManager.CurrentCharacterSelected.PrefabName;
 
 		playerMesh = Instantiate (Resources.Load ("Characters/CharactersMesh/" + charName) as GameObject);
@@ -60,6 +63,7 @@ public class ManJump : MonoBehaviour
 
 	void Start ()
 	{
+		//StopParticle (skateSparksTrail);
 		controller = GetComponent<CharacterController> ();
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
@@ -100,31 +104,26 @@ public class ManJump : MonoBehaviour
 		}*/
 		//*************************************  Car mMechanics ******************************
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
-			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {				
+			if (controller.isGrounded || inAirJumpBox || isEnableFlappy) {
+				if (!skateSparksTrail.isPlaying) {
+					skateSparksTrail.Play ();
+					skateLoop.Play ();
+					landingParticles.Play ();
+				}
+
 				if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject () || Input.GetKey (KeyCode.Space)) {					
 					if (!isEnableFlappy) {
 						jumpCount++;
 					}
 					jumpSpeed = isEnableFlappy ? jumpSpeedTemp / 3 : jumpSpeedTemp; //shortest if
 					moveDirection.y = jumpSpeed;
+					//print ("jumping");
+					StopParticle (skateSparksTrail);
+					skateLoop.Pause ();
 				}
+			}
+			//rint ("ground");
 
-				/*if (tempJump == true) {// double balloon or pro skate
-					StartCoroutine ("BlinkCharacter");
-					tempJump = false;
-					life--;
-					board.GetComponent<TextureScroll> ().xScrollSpeed = life;
-					if (!isEnableFlappy) {
-						jumpCount++;
-					}
-					moveDirection.y = jumpSpeed;
-				}
-				//http://docs.unity3d.com/ScriptReference/CharacterController.Move.html
-				if (controller.velocity.normalized == Vector3.down) {
-					//StartCoroutine ("small");
-					//g = gravity / 2;
-				}*/
-			}			
 			gravity = isEnableFlappy ? gravityTemp / 2f : gravityTemp; //shortest if
 
 			moveDirection.y -= gravity * Time.deltaTime * 1f;
@@ -134,9 +133,14 @@ public class ManJump : MonoBehaviour
 			if (transform.localPosition.y < -5) {
 				PlayerPartiallyDied ();
 			}
+
 		}
-		if (Input.GetMouseButtonDown (2)) {			
-			GameManagers.m_instance.Restartlevel ();
+		//StopParticle (skateSparksTrail);
+
+		if (Input.GetMouseButtonDown (2)) {	
+			//PlayParticle (skateSparksTrail);
+			//print (skateSparksTrail.isPlaying);
+			//GameManagers.m_instance.Restartlevel ();
 			//SceneManager.LoadSceneAsync ("level");
 		}
 	}
@@ -150,6 +154,15 @@ public class ManJump : MonoBehaviour
 		}
 		if (!p.isPlaying) {
 			p.Play ();
+		}
+	}
+
+	void StopParticle (ParticleSystem p)
+	{
+		if (p.isPlaying) {
+			p.Stop ();
+			p.Clear ();
+			p.time = 0;
 		}
 	}
 
@@ -173,13 +186,15 @@ public class ManJump : MonoBehaviour
 			break;
 		case "pickable_coin":
 			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			PlayParticle (coinParticle);		
+			PlayParticle (coinParticle);
+			coinPickupSound.Play ();
+			//coinGot.Play ("coinGot");
 			CoinCalculation.m_instance.AddCoins (1);
 			ReActivateCoins (other.gameObject);
 			break;
 		case "pickable_token":
 			//IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			coinParticle.Play ();		
+
 			CoinCalculation.m_instance.AddToken (1);
 			ReActivateCoins (other.gameObject);
 			break;

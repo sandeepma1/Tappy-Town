@@ -144,6 +144,7 @@ public class GatchaSystem : MonoBehaviour
 
 	public void OpenGatchaMenu ()
 	{
+		IGMLogic.m_instance.CheckForNightMode ();
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		redeemButton.gameObject.SetActive (true);
@@ -151,25 +152,16 @@ public class GatchaSystem : MonoBehaviour
 		tapToContinue.gameObject.SetActive (false);
 		prizeInfo.text = "";
 		backButton.gameObject.SetActive (true);
-		//SetMainCameraCanvas (false);
 		gatchaMenu.SetActive (true);
 		IGMLogic.m_instance.isTextMeshesVisible (false);
 		IGMLogic.m_instance.anim.CrossFadeInFixedTime ("rotate", 0.1f);
-
-	}
-
-	public void CloseBackGatchaMenu ()
-	{
-		gatchaMenu.SetActive (false);
-		IGMLogic.m_instance.isTextMeshesVisible (true);
-		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 	}
 
 	public void CloseGatchaMenu ()
 	{
-		tapToContinue.gameObject.SetActive (false);
 		gatchaMenu.SetActive (false);
 		IGMLogic.m_instance.isTextMeshesVisible (true);
+		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		IGMLogic.m_instance.CheckForNightMode ();
 	}
-
 }

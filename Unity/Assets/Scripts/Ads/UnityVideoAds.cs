@@ -26,7 +26,7 @@ public class UnityVideoAds : MonoBehaviour
 		switch (result) {
 		case ShowResult.Finished:
 			Debug.Log ("The ad was successfully shown.");
-			SceneManager.LoadSceneAsync ("level");
+			//SceneManager.LoadSceneAsync ("level");
 			// YOUR CODE TO REWARD THE GAMER
 			// Give coins etc.
 			break;

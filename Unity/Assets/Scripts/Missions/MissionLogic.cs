@@ -36,10 +36,8 @@ public class MissionLogic : MonoBehaviour
 	}
 
 	void Start ()
-	{	
-		print (June.LocalStore.Instance.GetBool ("CurrentMissionCompleted"));
+	{
 		StartCoroutine ("FadeToTransprent");
-
 	}
 
 	void CheckMissionStatus ()

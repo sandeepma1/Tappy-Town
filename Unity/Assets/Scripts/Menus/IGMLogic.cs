@@ -149,25 +149,6 @@ public class IGMLogic : MonoBehaviour
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 	}
 
-	/*	public void ResetLevel ()
-	{
-		//watchAdsGO.SetActive (false);
-		//rateUsGO.SetActive (false);
-		//freeGiftGO.SetActive (false);
-		//playerDiedButtons.SetActive (false);
-		blankLogo.gameObject.SetActive (true);
-		gameName.SetActive (true);
-		//SetMainCameraCanvas (true);
-		anim.Play ("LevelEndAnimation");
-		StartCoroutine ("LevelRestartWithWait");
-	}*/
-
-	/*IEnumerator LevelRestartWithWait ()
-	{
-		//yield return new WaitForSeconds (1.2f);
-		//SceneManager.LoadSceneAsync ("level");
-	}
-*/
 	public void ShowIGM ()
 	{
 		pauseMenuGO.SetActive (true);
@@ -183,10 +164,20 @@ public class IGMLogic : MonoBehaviour
 		settingsMenuGO.SetActive (true);
 	}
 
+	public void ShowSettingsMenu ()
+	{
+		settingsMenuGO.SetActive (true);
+	}
+
 	public void CloseSettingsMenu ()
 	{
 		settingsMenuGO.SetActive (false);
-		//SetMainCameraCanvas (true);
+	}
+
+	public void ShowStatsMenu ()
+	{		
+		PopulateStatsValues ();
+		statsWindow.SetActive (true);
 	}
 
 	public void CloseStatssmenu ()
@@ -212,10 +203,7 @@ public class IGMLogic : MonoBehaviour
 	public void OpenCharacterSelectionMenu ()
 	{
 		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-
-		if (GameEventManager.isNightMode) {
-			shadowLight.gameObject.SetActive (true);
-		}
+		CheckForNightMode ();
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcMenu.SetActive (true);
 		isTextMeshesVisible (false);
@@ -223,16 +211,22 @@ public class IGMLogic : MonoBehaviour
 
 	public void CloseCharacterSelectionMenu ()
 	{
-		if (GameEventManager.isNightMode) {
-			shadowLight.gameObject.SetActive (false);
-		}
-
+		CheckForNightMode ();
 		if (isCharacterChanged) {
 			GameManagers.m_instance.Restartlevel ();
 		} else {
 			charSelcMenu.SetActive (false);
 			isTextMeshesVisible (true);
 			mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		}
+	}
+
+	public void CheckForNightMode ()
+	{
+		if (GameEventManager.isNightMode) {
+			shadowLight.gameObject.SetActive (false);
+		} else {
+			shadowLight.gameObject.SetActive (true);
 		}
 	}
 
@@ -269,32 +263,10 @@ public class IGMLogic : MonoBehaviour
 
 	public void OpenGatchaMenu ()
 	{
-		//mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		CheckForNightMode ();
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		//SetMainCameraCanvas (false);
 		gatchaMenu.SetActive (true);
 		isTextMeshesVisible (false);
-	}
-
-	//public void SetMainCameraCanvas (bool active)
-	//{
-	//mainCamera.gameObject.SetActive (active);
-	//mainCanvas.gameObject.SetActive (active);
-	//menuCamera.gameObject.SetActive (!active);
-	//menuCanvas.gameObject.SetActive (!active);
-	//}
-
-	public void ShowSettingsMenu ()
-	{
-		//SetMainCameraCanvas (false);
-		settingsMenuGO.SetActive (true);
-	}
-
-	public void ShowStatsMenu ()
-	{		
-		//SetMainCameraCanvas (false);
-		PopulateStatsValues ();
-		statsWindow.SetActive (true);
 	}
 
 	void PopulateStatsValues ()
@@ -309,13 +281,11 @@ public class IGMLogic : MonoBehaviour
 
 	public void ShowCreditsMenu ()
 	{
-		//SetMainCameraCanvas (false);
 		creditsWindow.SetActive (true);
 	}
 
 	public void ShowResetGameMenu ()
 	{
-		//SetMainCameraCanvas (false);
 		resetGameWindow.SetActive (true);
 	}
 
@@ -324,11 +294,9 @@ public class IGMLogic : MonoBehaviour
 		pauseButton.SetActive (false);
 		payToContinueMenu.SetActive (true);
 		if (coins <= 5) {
-			//payCoinsToContinueText.text = "Pay " + coins.ToString () + " Tokens to CONTINUE";
 			coinMono.SetActive (false);
 			tokenMono.SetActive (true);
 		} else {
-			//payCoinsToContinueText.text = "Pay " + coins.ToString () + " Coins to CONTINUE";
 			coinMono.SetActive (true);
 			tokenMono.SetActive (false);
 		}
@@ -338,7 +306,6 @@ public class IGMLogic : MonoBehaviour
 	public void ShowHelpMenu ()
 	{
 		helpMenu.SetActive (true);
-		//SetMainCameraCanvas (false);
 	}
 
 	public void ClosePayToContinueMenu ()
@@ -367,34 +334,6 @@ public class IGMLogic : MonoBehaviour
 		LeanTween.moveX (missionBanner, -25, 0.5f, optional);
 	}
 
-	/*public void ShowLevelCompleteMenu (int jumpCount)
-	{
-		pauseButton.SetActive (false);
-		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
-		levelCompleteMenuGO.SetActive (true);
-		jumpText.text = jumpCount.ToString ();
-		timeText.text = timer.ToString ("F2");
-		attemptsText.text = GameEventManager.currentLevelAttempts.ToString ();
-		LevelCompleteManager ();
-		print ("game complete");
-		gameCompleteMenuGO.SetActive (true);
-		jumpText1.text = jumpCount.ToString ();
-		timeText1.text = timer.ToString ("F2");
-		attemptsText1.text = GameEventManager.currentLevelAttempts.ToString ();
-	}
-*/
-	/*public void GameComplete ()
-	{
-		gameCompleteMenuGO.SetActive (true);
-	}*/
-
-	public void LevelCompleteManager ()
-	{
-		/*if (June.LocalStore.Instance.GetInt ("unlockedLevels") < GameEventManager.currentPlayingLevel) {
-			June.LocalStore.Instance.SetInt ("unlockedLevels", GameEventManager.currentPlayingLevel);
-		}*/
-	}
-
 	public void ShowPlayButton ()
 	{		
 		anim.Play ("PromoStrap1");
@@ -410,12 +349,6 @@ public class IGMLogic : MonoBehaviour
 	{
 		newHighScoreMenu.SetActive (false);
 		ManJump.m_instance.ShowPromoBanner ();
-	}
-
-	public void ShowMissionCompleteMenu ()
-	{
-		//newHighScoreText.text = June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
-		//missionCompleteMenu.SetActive (true);
 	}
 
 	public void CloseMissionCompleteMenu ()
