@@ -69,6 +69,22 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		}
 	}
 
+	public string GiftTimeRemaining ()
+	{
+		string remainingTime = "";
+		currentDate = System.DateTime.Now;
+		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (June.LocalStore.Instance.GetString ("addedDate")));
+		difference = oldDate1.Subtract (currentDate);
+
+		if (difference.Subtract (zeroTime).TotalSeconds >= 0) {
+			myString = String.Format ("{0:D1}h {1:D1}m", difference.Hours, difference.Minutes, difference.Seconds);
+			remainingTime = myString;
+		} else {
+			remainingTime = "";
+		}
+		return remainingTime;
+	}
+
 	public void GiftButtonClicked ()
 	{
 		CalculateTimeDifference ();

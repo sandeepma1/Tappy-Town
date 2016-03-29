@@ -49,7 +49,6 @@ public class EnemyPatrol : MonoBehaviour
 		} else {
 			StartCoroutine ("ResetPatrolUnit");
 		}
-
 	}
 
 	IEnumerator MoveObjectA ()

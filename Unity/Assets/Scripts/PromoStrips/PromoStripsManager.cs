@@ -4,13 +4,14 @@ using UnityEngine.UI;
 
 public class PromoStripsManager : MonoBehaviour
 {
-	public Text missionStatusText;
+	public Text missionStatusText, freeGiftStatusText;
 	public static PromoStripsManager m_instance = null;
 	public Animator animTop, animMiddle;
 
 	void Start ()
 	{
 		m_instance = this;
+		print (FreeGiftAfterMinutes.m_instance.GiftTimeRemaining ());
 	}
 
 	public void ShowPromoStrips ()
@@ -61,6 +62,7 @@ public class PromoStripsManager : MonoBehaviour
 		}
 
 		if (ran == 2) {		
+			freeGiftStatusText.text = "Free Gift in " + FreeGiftAfterMinutes.m_instance.GiftTimeRemaining ();
 			animMiddle.PlayInFixedTime ("FreeGiftStatus");
 		}
 	}
