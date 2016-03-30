@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MissionLogic : MonoBehaviour
 {
 	public static MissionLogic m_instance = null;
-	public GameObject missionCompleteGiftMenu, giftParticles, backButton, redeemButton;
+	public GameObject missionCompleteGiftMenu, giftParticles, backButton, redeemButton, promoStripMissionClaim;
 	public Text gotRewardText;
 	public TextMesh currentMissionText;
 	public Animator anim;
@@ -177,7 +177,9 @@ public class MissionLogic : MonoBehaviour
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		MissionCompletedGiftClaimed ();
 		yield return new WaitForSeconds (2);
-		GameManagers.m_instance.Restartlevel ();
+		CloseMissionCompleteGiftMenu ();
+		promoStripMissionClaim.SetActive (false);
+		//GameManagers.m_instance.Restartlevel ();
 	}
 
 	public void StopTextBlinking ()

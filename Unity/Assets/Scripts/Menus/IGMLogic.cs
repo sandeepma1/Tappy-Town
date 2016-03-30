@@ -328,7 +328,7 @@ public class IGMLogic : MonoBehaviour
 	{
 		pauseButton.SetActive (true);
 		startGameGO.SetActive (false);
-		freeGiftGO.SetActive (false);
+		//freeGiftGO.SetActive (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		pauseButton.SetActive (true);
 		LeanTween.moveX (missionBanner, -25, 0.5f, optional);

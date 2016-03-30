@@ -11,7 +11,7 @@ public class PromoStripsManager : MonoBehaviour
 	void Start ()
 	{
 		m_instance = this;
-		print (FreeGiftAfterMinutes.m_instance.GiftTimeRemaining ());
+//		print (FreeGiftAfterMinutes.m_instance.GiftTimeRemaining ());
 	}
 
 	public void ShowPromoStrips ()

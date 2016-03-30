@@ -11,17 +11,12 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	TimeSpan zeroTime = new TimeSpan (0, 0, 1, 0, 0);
 	TimeSpan difference;
 	string myString;
-
-	public GameObject mainCanvas, menuCanvas, mainCamera, menuCamera;
-
-	public Text giftTimerText, giftText, giftTimerText1, giftText1;
-	public GameObject giftButton, giftButton1;
+	public Text giftTimerText, giftText, giftStatusText;
+	public GameObject giftButton, promoStripGiftButton;
 	public GameObject redeemMenu;
-	public Text coinText;
-	public GameObject bin, cart, backButton, redeemButton, particle;
+	public GameObject backButton, redeemButton, particle;
 	public Text gotCoinText;
 	public Animator anim;
-
 	public static FreeGiftAfterMinutes m_instance = null;
 
 	void Awake ()
@@ -37,8 +32,7 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	}
 
 	void Start ()
-	{
-		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+	{		
 		CalculateTimeDifference ();
 		InvokeRepeating ("CalculateTimeDifference", 0f, 59f);
 	}
@@ -51,20 +45,14 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 
 		if (difference.Subtract (zeroTime).TotalSeconds >= 0) {
 			myString = String.Format ("{0:D1}h {1:D1}m", difference.Hours, difference.Minutes, difference.Seconds);
-			giftText.text = "Free gift in";
-			giftText1.text = "";
+			giftText.text = "";
 			giftTimerText.text = myString;
-			giftTimerText1.text = myString;
 		} else {
-			giftText.text = ("Free Gift Ready");
-			giftText1.text = "Gift Ready";
+			giftText.text = ("Gift Ready");
 			giftTimerText.text = "";
-			giftTimerText1.text = "";
-			giftButton1.GetComponent<Image> ().color = Color.red;
 			giftButton.GetComponent<Image> ().color = Color.red;
 		}
 		if (difference.TotalSeconds <= 59) {
-			//print ("less thenxero");
 			June.LocalStore.Instance.SetBool ("isReady", true);
 		}
 	}
@@ -97,7 +85,6 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 	{
 		June.LocalStore.Instance.SetBool ("isReady", false);
 		giftButton.GetComponent<Image> ().color = Color.white;
-		giftButton1.GetComponent<Image> ().color = Color.white;
 		AddDate ();
 		StartCoroutine ("PlayerGetCoinsAnimation");
 	}
@@ -114,14 +101,17 @@ public class FreeGiftAfterMinutes : MonoBehaviour
 		//**************************************************************************************************
 		June.LocalStore.Instance.SetInt ("coins", coinsInGift + June.LocalStore.Instance.GetInt ("coins"));
 		gotCoinText.text = "+" + coinsInGift;
-		coinText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		yield return new WaitForSeconds (2);
-		GameManagers.m_instance.Restartlevel ();
+		CloseRedeemMenu ();
+		//promoStripGiftButton.SetActive (false);
+		GiftButtonClicked ();
+		giftStatusText.text = "Next Gift in";
+		//GameManagers.m_instance.Restartlevel ();
 	}
 
 	public void CloseRedeemMenu ()
 	{
-
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (false);
 		}	
