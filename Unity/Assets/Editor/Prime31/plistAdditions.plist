@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>FacebookAppID</key>
-    <string>1081831848578409</string>
+    <string>1272425179437926</string>
     <key>FacebookDisplayName</key>
     <string>Tappy Town</string>
     <key>plistKeys</key>
@@ -11,12 +11,15 @@
       <string>MinimumOSVersion</string>
       <string>UIFileSharingEnabled</string>
       <string>UIViewControllerBasedStatusBarAppearance</string>
-      <string>CFBundleURLTypes</string>
       <string>UIBackgroundModes</string>
       <string>NSLocationWhenInUseUsageDescription</string>
+      <string>LSApplicationQueriesSchemes</string>
       <string>FacebookAppID</string>
       <string>FacebookDisplayName</string>
+      <string>CFBundleURLTypes</string>
       <string>GPGApplicationID</string>
+      <string>SoomlaGameKey</string>
+      <string>SoomlaEnvKey</string>
     </array>
     <key>UIFileSharingEnabled</key>
     <false />
@@ -30,7 +33,7 @@
         </string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb1081831848578409</string>
+          <string>fb1272425179437926</string>
         </array>
       </dict>
     </array>

@@ -395,7 +395,7 @@ public class ManJump : MonoBehaviour
 				UserHadWatchedVideoAd ();
 				print (" status : " + status);
 			} else {
-				//Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
+				Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
 				print (" status : " + status);
 			}
 		});

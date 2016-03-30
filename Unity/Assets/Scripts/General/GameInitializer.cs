@@ -23,9 +23,9 @@ public class GameInitializer : MonoBehaviour
 //		[SerializeField]
 //		public GameObject m_Fyber;
 		
-	public GameObject m_GoogleAnalytics;
+//	public GameObject m_GoogleAnalytics;
 
-	public GameObject m_VMAXListener;
+	//-- public GameObject m_VMAXListener;
 
 		void Awake ()
 		{
