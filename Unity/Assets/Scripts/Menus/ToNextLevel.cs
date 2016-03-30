@@ -21,6 +21,7 @@ public class ToNextLevel : MonoBehaviour
 		yield return new WaitForSeconds (3f);
 		splashScreenAnim.PlayInFixedTime ("FadeIn");
 		yield return new WaitForSeconds (1f);
+		print ("nextlevel");
 		SceneManager.LoadSceneAsync ("level");
 	}
 

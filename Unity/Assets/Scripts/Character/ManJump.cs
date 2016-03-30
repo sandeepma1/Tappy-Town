@@ -10,7 +10,7 @@ public class ManJump : MonoBehaviour
 	public static ManJump m_instance = null;
 	public float jumpSpeed = 21.0F;
 	public float gravity = 96.0F;
-	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector;
+	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector, wantToContinueMenu;
 	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle, skateSparksTrail, landingParticles;
 	public Text counDownText, continueText;
 	public Text debugText;
@@ -194,7 +194,6 @@ public class ManJump : MonoBehaviour
 			break;
 		case "pickable_token":
 			//IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-
 			CoinCalculation.m_instance.AddToken (1);
 			ReActivateCoins (other.gameObject);
 			break;
@@ -202,6 +201,7 @@ public class ManJump : MonoBehaviour
 			SpeedUpPlayer ();
 			break;
 		case "balloonStart":			
+			TutorialManager.m_instance.ShowBalloonTutorial ();
 			isEnableFlappy = true;
 			other.gameObject.SetActive (false);
 			ReActivateCoins (other.gameObject);
@@ -381,31 +381,57 @@ public class ManJump : MonoBehaviour
 		}
 	}
 
-	public void UserPayingForWatchAds ()
+	public void UserWatchingAdsForResume ()
 	{
-		print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
+		if (June.VideoAds.VideoAdManager.IsReady) {
+			//IGMLogic.m_instance.PauseGame ();
+		}
+		//print ("June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
 		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
 		//#if !UNITY_EDITOR
-		print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
+		//print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
 		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
-			print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
+			//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
 			//	AudioListener.pause = false;
 			if (status) {
 				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
 				UserHadWatchedVideoAd ();
-				print (" status : " + status);
+				//print (" status : " + status);
 			} else {
 				Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
-				print (" status : " + status);
+				//print (" status : " + status);
+				//IGMLogic.m_instance.ResumeGame ();
 			}
 		});
-		//if (showingAd)
-		//	AudioListener.pause = true;
-		//#endif
+	}
+
+	public void UserWatchingAdsForCoins ()
+	{
+		//IGMLogic.m_instance.PauseGame ();
+		//print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
+		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
+		//#if !UNITY_EDITOR
+		//print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
+		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
+			//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
+			//	AudioListener.pause = false;
+			if (status) {
+				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
+				CoinCalculation.m_instance.AddCoins (30);
+				//print (" status : " + status);
+			} else {
+				Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
+				//print (" status : " + status);
+				//IGMLogic.m_instance.ResumeGame ();
+			}
+		});
 	}
 
 	public void UserHadWatchedVideoAd ()
 	{
+		wantToContinueMenu.SetActive (false);
+		//IGMLogic.m_instance.ResumeGame ();
+		GameEventManager.SetState (GameEventManager.E_STATES.e_game);
 		StopCoroutine ("PlayerDiedStartTimer");
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);

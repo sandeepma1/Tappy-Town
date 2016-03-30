@@ -27,9 +27,7 @@ public class InfiniteLevelReader : MonoBehaviour
 	void Awake ()
 	{	
 		m_instance = this;
-
 		SetupGameEnvironment ();
-
 		levelData = Resources.LoadAll <TextAsset> ("LevelBlocks");
 		numberOfFiles = levelData.Length;
 		yPos = sectionHeight - 1;// *********** adjusted value
