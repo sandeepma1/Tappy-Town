@@ -8,8 +8,7 @@ using UnityEngine.EventSystems;
 public class ManJump : MonoBehaviour
 {
 	public static ManJump m_instance = null;
-	public float jumpSpeed = 21.0F;
-	public float gravity = 96.0F;
+
 	public GameObject playerMesh, playerSupport, board, skateboardGO, balloonGO, blobProjector, wantToContinueMenu;
 	public ParticleSystem playerDieParticle, speedUpParticle, coinParticle, skateSparksTrail, landingParticles;
 	public Text counDownText, continueText;
@@ -38,22 +37,19 @@ public class ManJump : MonoBehaviour
 	bool isBlinking = false;
 	float speed = 10, s = 3.4f, iniSpeed;
 	bool isInvi = false;
+	float jumpSpeed = 0.0F;
+	float gravity = 0.0F;
 
 	//public GameObject playerGO
 
 	void Awake ()
 	{		
 		m_instance = this;
-
+		IniPlayerPosValues ();	
 		playerSupport.SetActive (false);
 		SwitchBalloon ();
-		jumpSpeedTemp = jumpSpeed;
-		gravityTemp = gravity;
 		c = GetComponent<CharacterController> ();
-		//dieSound = GetComponent<AudioSource> ();
-		//coinPickupSound = GetComponent<AudioSource> ();
 		string charName = CharacterManager.CurrentCharacterSelected.PrefabName;
-
 		playerMesh = Instantiate (Resources.Load ("Characters/CharactersMesh/" + charName) as GameObject);
 		playerMesh.GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (200, 200, 200, 255));
 		playerMesh.transform.parent = this.transform;
@@ -68,7 +64,7 @@ public class ManJump : MonoBehaviour
 		iniScale = playerMesh.transform.localScale;
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
-		iniSpeed = MovingPlatform.m_instance.moveInSeconds;
+		iniSpeed = GameEventManager.playerMoveInSeconds;
 		coinAskList = new int[6];
 		coinAskList [0] = GameEventManager.coinAskList1;
 		coinAskList [1] = GameEventManager.coinAskList2;
@@ -76,9 +72,14 @@ public class ManJump : MonoBehaviour
 		coinAskList [3] = GameEventManager.coinAskList4;
 		coinAskList [4] = GameEventManager.coinAskList5;
 		coinAskList [5] = GameEventManager.coinAskList6;
+	}
 
-		//Vector3 v3Pos = new Vector3 (0.0f, 1.0f, 0.25f);
-		//transform.position = Camera.main.ViewportToWorldPoint (v3Pos);// gui.camera.ViewportToWorldPoint(v3Pos);
+	public void IniPlayerPosValues ()
+	{
+		jumpSpeed = GameEventManager.playerJumpSpeed;
+		gravity = GameEventManager.playerGravity;
+		jumpSpeedTemp = jumpSpeed;
+		gravityTemp = gravity;
 	}
 
 	void Update ()

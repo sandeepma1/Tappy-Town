@@ -22,7 +22,6 @@ public class GameManagers : MonoBehaviour
 		StartCoroutine ("LevelRestartWithWait");
 	}
 
-
 	IEnumerator LevelRestartWithWait ()
 	{
 		splashScreenAnim.PlayInFixedTime ("FadeIn");

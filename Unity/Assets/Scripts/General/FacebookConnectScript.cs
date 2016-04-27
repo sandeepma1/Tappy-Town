@@ -5,11 +5,8 @@ using System;
 
 public class FacebookConnectScript : MonoBehaviour
 {
-
-
 	public GameObject m_ConnectButton;
 	public GameObject m_LogOutButton;
-
 	public GameObject m_ShareButton;
 
 	public Action OnFbTimedOut;
@@ -33,11 +30,9 @@ public class FacebookConnectScript : MonoBehaviour
 	{
 		if (null != m_ConnectButton) {
 			m_ConnectButton.SetActive (!FacebookSDK.Instance.IsLoggedIn);
-
 		}
 		if (null != m_LogOutButton) {
 			m_LogOutButton.SetActive (FacebookSDK.Instance.IsLoggedIn);
-
 		}
 	}
 
@@ -45,12 +40,9 @@ public class FacebookConnectScript : MonoBehaviour
 	{
 		if (null != m_ConnectButton)
 			m_ConnectButton.SetActive (false);
-
 		if (null != m_ShareButton)
 			m_ShareButton.SetActive (false);
-
 		CancelInvoke ("TimeoutFacebook");
-
 	}
 
 	public void Hide ()
@@ -90,8 +82,6 @@ public class FacebookConnectScript : MonoBehaviour
 
 	void ShareButtonOnTap (GameObject go)
 	{
-
-
 		if (Application.internetReachability == NetworkReachability.NotReachable) {
 			Etcetera.ShowAlert ("No Internet", "Please check the internet connection and try again.", "Ok");
 			return;
@@ -107,8 +97,6 @@ public class FacebookConnectScript : MonoBehaviour
 		return;
 		#endif
 		if (false == FacebookSDK.Instance.IsLoggedIn) {
-
-
 			FacebookSDK.Instance.Login (this.VerifyCallback<bool> (status => {
 				Debug.Log ("[FACEBOOK] Login Status: " + status);
 

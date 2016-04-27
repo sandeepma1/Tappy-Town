@@ -4,29 +4,31 @@ using UnityEngine.UI;
 
 public class MovingPlatform : MonoBehaviour
 {
-	public Vector3 moveDirection = new Vector3 (2, 0, 0);
 	Vector3 tempMoveDirection;
-	public float moveInSeconds = 0.0f;
 	public static Vector3 playerPos, manPos;
 	public GameObject man;
 	public GameObject IGM_GO;
-	//public Slider progressBarSlider;
-	//float lastBest = 0;
-	//public Text percentText;
 	public Text Score;
 	public static MovingPlatform m_instance = null;
+	float moveInSeconds = 0.0f;
+	Vector3 moveDirection = new Vector3 (0, 0, 0);
+	float gameTime = 0.0f;
+	float gameTimeSpeedUp = 10.0f;
+	float gameTimeMultiplier = 1.0f;
 
-	/*	void OnDisable ()
-	{
-		this.gameObject.SetActive (true);
-	}*/
-
-	void Start ()
+	void Awake ()
 	{
 		m_instance = this;
-		tempMoveDirection = moveDirection;
+		IniPlayerPosValues ();
 		playerPos = this.transform.position;
 		manPos = man.transform.position;
+	}
+
+	public void IniPlayerPosValues ()
+	{
+		moveDirection = GameEventManager.playerMoveDirection;
+		moveInSeconds = GameEventManager.playerMoveInSeconds;
+		tempMoveDirection = moveDirection;
 	}
 
 	public void SpeedStopper (float speed)
@@ -41,17 +43,14 @@ public class MovingPlatform : MonoBehaviour
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
 			transform.Translate (moveDirection * (Time.deltaTime * moveInSeconds));
+			gameTime += Time.deltaTime;
 		}
 	}
 
 	void LateUpdate ()
 	{		
-		Score.text = transform.position.x.ToString ("F0");
-
-		/*if (transform.position.x >= 500) {
-			Social.ReportProgress ("CgkIqM2wutYIEAIQBw", 500, (bool success) => {
-			});
-		}*/
+		//Score.text = transform.position.x.ToString ("F0");
+		Score.text = gameTime.ToString ("F0");
 	}
 
 	public bool isHighScore ()
@@ -79,14 +78,6 @@ public class MovingPlatform : MonoBehaviour
 		man.transform.position = manPos;
 	}
 
-	/*public void lastBestFun ()
-	{
-		print (lastBest);
-		if (lastBest > June.LocalStore.Instance.GetFloat ("lastBest")) {
-			June.LocalStore.Instance.SetFloat ("lastBest", lastBest);
-		}
-	}*/
-
 	public void SpeedUp ()
 	{
 		StartCoroutine ("SpeedUpPlayer");
@@ -97,6 +88,7 @@ public class MovingPlatform : MonoBehaviour
 		moveDirection = new Vector3 (10, 0, 0);
 		yield return new WaitForSeconds (0.3f);
 		moveDirection = tempMoveDirection;
-
 	}
+
+
 }
