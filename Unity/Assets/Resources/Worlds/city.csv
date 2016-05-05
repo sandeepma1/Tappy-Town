@@ -3,7 +3,7 @@ a,GamePlayElements/obj_mailbox_small,GamePlayElements/obj_sign8,GamePlayElements
 b,GamePlayElements/Moving/moving_car,GamePlayElements/Moving/Train_Down,GamePlayElements/Moving/MovingToPlayerDog,GamePlayElements/Moving/MovingToPlayerBird,GamePlayElements/Moving/GoombaMover,,,,,,,,,,,,,,,,
 c,MovingCars/Car_Mini1,MovingCars/Car_Cab,MovingCars/Car_Car,MovingCars/Car_Ambulance,MovingCars/Car_Cop,MovingCars/Car_Alien,,,,,,,,,,,,,,,
 d,Pickables/coin,Pickables/coin0.5,Pickables/Token,,,,,,,,,,,,,,,,,,
-f,FootPath/Footpath_block,FootPath/Footpath_block_big_30,,,,,,,,,,,,,,,,,,,
+f,FootPath/Footpath_block,FootPath/Footpath_block_big_60,,,,,,,,,,,,,,,,,,,
 p,GroundBlocks\City\CityWorldGround,GroundBlocks\City\CityWorldGround,GroundBlocks\Alien\AlienWorldGround,GroundBlocks\Cop\CopWorldGround,GroundBlocks\Road\Road,GroundBlocks\Water\WaterWorldGround,GroundBlocks\TownToRoad\TownToRoadStart,GroundBlocks\TownToRoad\TownToRoadEnd,GroundBlocks\Bridge\Bridge,GroundBlocks\CrossRoad\CrossRoad,GroundBlocks\Cliff\CliffWorldGround,GroundBlocks\Cliff\CliffWorldStart,GroundBlocks\Cliff\CliffWorldEnd,GroundBlocks\Beach\BeachWorldGround,GroundBlocks\MiniCarSequence\TownToMiniCarStart,GroundBlocks\MiniCarSequence\TownToMiniCarEnd,GroundBlocks\MiniCarSequence\MiniCarLoop,GroundBlocks\TrainYard\TrainYardGround,,,
 h,House\Shops1 1,House\Shops1 2,,,,,,,,,,,,,,,,,,,
 cs,GamePlayElements\CargoBoxGO,,,,,,,,,,,,,,,,,,,,

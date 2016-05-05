@@ -22,6 +22,7 @@ public static class GameEventManager
 
 
 
+
 #else
 	public static string InAppKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArRLBB2bYtgQIdST8i/w8G/EP0kNMW5GUaMBAY7ea/ZM76zuIclySSF0b4hpET8gpUo5B2i6gR0vy0IoH1WhY9ErX2cGno5KwOs+KeeEpCpnXVEEJMsGd127hdoeN5QvLc8R6EjyHRkVSHo0ZonO8NNIIZhqotNE5269qrmFV/13lAhYGXKiaDd0MI+yV9qYr739XeiF7rN66q59LPUGswBudqJG0enlZBFTNR0NBskUfuRTcUnD45sAmaYH7meeCYgDKsHz8MdTuaz4FoymkVeRPZ2qpzAImQPgA7o6za+sUaYz5L45pdE8OysxW06DkSJj3/3d7C0shEalMPQZNbQIDAQAB";
 	public static string FacebookAppId = "1272425179437926";
@@ -59,6 +60,7 @@ public static class GameEventManager
 
 	static public int gatchaSpinValue = 100;
 	static public int missionCompleteTokenAmount = 5;
+	static public int patternLength = 60;
 
 	//1f = 1hr
 	static public float freeGiftTimeDelay = 3f;

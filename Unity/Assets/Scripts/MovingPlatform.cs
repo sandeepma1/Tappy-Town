@@ -43,14 +43,14 @@ public class MovingPlatform : MonoBehaviour
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {
 			transform.Translate (moveDirection * (Time.deltaTime * moveInSeconds));
-			gameTime += Time.deltaTime;
+			//gameTime += Time.deltaTime;
 		}
 	}
 
 	void LateUpdate ()
 	{		
-		//Score.text = transform.position.x.ToString ("F0");
-		Score.text = gameTime.ToString ("F0");
+		Score.text = transform.position.x.ToString ("F0");
+		//Score.text = gameTime.ToString ("F0");
 	}
 
 	public bool isHighScore ()

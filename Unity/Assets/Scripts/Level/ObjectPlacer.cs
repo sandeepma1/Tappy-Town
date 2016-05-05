@@ -74,7 +74,7 @@ public class ObjectPlacer : MonoBehaviour
 	{
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {			
 			if (MovingPlatform.m_instance.transform.position.x >= posAdder) {
-				posAdder = posAdder + 30;
+				posAdder = posAdder + GameEventManager.patternLength;
 				NewEnvGenerator ();
 			}
 		}
