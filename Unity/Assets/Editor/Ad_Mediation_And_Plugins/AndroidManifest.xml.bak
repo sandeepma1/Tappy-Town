@@ -1,0 +1,37 @@
+<manifest>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
+	<application>
+  		<!-- ===== -->
+  		<!-- FYBER -->
+  		<!-- ===== -->
+        <!-- SponsorPay OfferWall Activity -->
+        <activity android:name="com.sponsorpay.publisher.ofw.SPOfferWallActivity"
+                  android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                  android:screenOrientation="sensor" />
+        <!-- SponsorPay Mobile BrandEngage Activity -->
+        <activity android:name="com.sponsorpay.unity.SPBrandEngageUnityActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="true"/>
+        <!-- SponsorPay Interstitial Activity -->
+        <activity android:name="com.sponsorpay.publisher.interstitial.SPInterstitialActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="true"/>
+        <!-- SponsorPay Wrapper Activity -->
+        <activity android:name="com.sponsorpay.unity.SPWrapperActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"/>
+        <!-- SponsorPay Pre-caching service -->
+        <service android:name="com.sponsorpay.publisher.mbe.player.caching.SPCacheVideoDownloadService" 
+            android:exported="false"/>
+        
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    </application>
+</manifest>

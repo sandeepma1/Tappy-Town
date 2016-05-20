@@ -19,6 +19,7 @@ public class MovingPlatform : MonoBehaviour
 	void Awake ()
 	{
 		m_instance = this;
+		
 		IniPlayerPosValues ();
 		playerPos = this.transform.position;
 		manPos = man.transform.position;

@@ -33,6 +33,4 @@ public class GameManagers : MonoBehaviour
 	{
 		SceneManager.LoadSceneAsync ("1Loading");
 	}
-
-
 }

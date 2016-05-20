@@ -6,16 +6,15 @@ using UnityEngine.UI;
 
 public class IGMLogic : MonoBehaviour
 {
-	public Canvas mainCanvas, menuCanvas;
+	public Canvas mainCanvas;
 	public float duration = 0;
 	public float magnitude = 0;
 	public bool isGamePause = false;
 	public GameObject pauseMenuGO;
 	public Camera mainCamera;
-	//, menuCamera;
 	public Text gameVersionText;
 	public Image blankLogo;
-	public GameObject gameName;
+	public GameObject gameName, scrollingBG;
 	public GameObject UI;
 	public GameObject pauseButton, playButton;
 	public GameObject startGameGO;
@@ -50,11 +49,12 @@ public class IGMLogic : MonoBehaviour
 	{	
 		m_instance = this;
 		gameVersionText.text = "Version: " + GameEventManager.gameVersion;
+		scrollingBG.SetActive (false);
 		coinMono.SetActive (false);
 		tokenMono.SetActive (false);
 		payToContinueMenu.SetActive (false);
 		cameraPos = new Vector3 (-10f, 16.5f, -32.5f);
-		Camera.main.transform.localPosition = cameraPos;
+		//Camera.main.transform.localPosition = cameraPos;
 		Camera.main.transform.localRotation = Quaternion.Euler (22.5f, 25, 0);
 		mainCamera.gameObject.SetActive (true);
 		anim = mainCanvas.GetComponent<Animator> ();
@@ -159,19 +159,21 @@ public class IGMLogic : MonoBehaviour
 		pauseMenuGO.SetActive (false);
 	}
 
-	public void SettingsButtonPressed ()
-	{
+	/*	public void SettingsButtonPressed ()
+	{		
 		settingsMenuGO.SetActive (true);
-	}
+	}*/
 
 	public void ShowSettingsMenu ()
 	{
 		settingsMenuGO.SetActive (true);
+		startGameGO.SetActive (false);
 	}
 
 	public void CloseSettingsMenu ()
 	{
 		settingsMenuGO.SetActive (false);
+		startGameGO.SetActive (true);
 	}
 
 	public void ShowStatsMenu ()
@@ -203,6 +205,7 @@ public class IGMLogic : MonoBehaviour
 	public void OpenCharacterSelectionMenu ()
 	{
 		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		scrollingBG.SetActive (true);
 		CheckForNightMode ();
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		charSelcMenu.SetActive (true);
@@ -218,6 +221,7 @@ public class IGMLogic : MonoBehaviour
 			charSelcMenu.SetActive (false);
 			isTextMeshesVisible (true);
 			mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+			scrollingBG.SetActive (false);
 		}
 	}
 

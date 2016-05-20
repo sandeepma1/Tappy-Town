@@ -135,12 +135,14 @@ public class MissionLogic : MonoBehaviour
 		}	
 		missionCompleteGiftMenu.SetActive (false);
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		IGMLogic.m_instance.scrollingBG.SetActive (false);
 		IGMLogic.m_instance.isTextMeshesVisible (true);
 	}
 
 	public void OpenMissionCompleteGiftMenu ()
 	{
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		IGMLogic.m_instance.scrollingBG.SetActive (true);
 		IGMLogic.m_instance.isTextMeshesVisible (false);
 		if (GameEventManager.isNightMode) {
 			IGMLogic.m_instance.shadowLight.gameObject.SetActive (true);

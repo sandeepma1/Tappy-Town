@@ -9,6 +9,7 @@ public class ObjectPlacer : MonoBehaviour
 	public static ObjectPlacer m_instance = null;
 	public GameObject cargoTruck;
 	public int xpDistance;
+	string lastBlockPlaced = "";
 
 	Queue<int> digitQ = new Queue<int> ();
 	int posAdder = 0;
@@ -93,6 +94,7 @@ public class ObjectPlacer : MonoBehaviour
 
 	void NewEnvGenerator ()
 	{
+		print (chars [charAdder]);
 		switch (chars [charAdder]) {
 		case "csS":
 			if (!isCargoTruckStarted) {
@@ -197,7 +199,7 @@ public class ObjectPlacer : MonoBehaviour
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (5f);
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {	
 			LeanTween.moveLocalZ (cargoTruck, 5, 1.5f, optional);
 			LeanTween.moveLocalX (cargoTruck, 13, 1.5f, optional);

@@ -1,0 +1,35 @@
+<manifest>
+	<application>
+		<!-- ======== -->    
+        <!-- HYPER-MX -->
+        <!-- ======== -->
+        <activity android:name="com.sponsorpay.mediation.mbe.HyprMXVideoActivity"/>
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXOfferViewerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|smallestScreenSize|uiMode|fontScale|screenLayout|locale"
+            android:label="HyprMX SDK"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXRequiredInformationActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXSplashActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXOfferListActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXNoOffersActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.hyprmx.android.sdk.activity.HyprMXWebTrafficActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|smallestScreenSize|uiMode|fontScale|screenLayout|locale"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service android:name="com.hyprmx.android.sdk.service.ApplicationInstallService"
+            android:enabled="true"
+            android:exported="false" 
+            android:stopWithTask="false" />
+    </application>
+</manifest>

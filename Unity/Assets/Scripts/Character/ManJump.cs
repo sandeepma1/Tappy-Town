@@ -35,7 +35,7 @@ public class ManJump : MonoBehaviour
 	bool isDeath = false;
 	bool isInCar = false;
 	bool isBlinking = false;
-	float speed = 10, s = 3.4f, iniSpeed;
+	float speed = 30, s = 3.4f, iniSpeed;
 	bool isInvi = false;
 	float jumpSpeed = 0.0F;
 	float gravity = 0.0F;
@@ -92,7 +92,7 @@ public class ManJump : MonoBehaviour
 		}
 		if (Input.GetMouseButton (0) && isInCar) {
 			if (s >= 0) {
-				debugText.text = s.ToString ();
+				//debugText.text = s.ToString ();
 				s -= Time.deltaTime * speed;
 				MovingPlatform.m_instance.SpeedStopper (s);
 			}
@@ -142,7 +142,7 @@ public class ManJump : MonoBehaviour
 			//PlayParticle (skateSparksTrail);
 			//print (skateSparksTrail.isPlaying);
 			//GameManagers.m_instance.Restartlevel ();
-			//SceneManager.LoadSceneAsync ("level");
+			GameManagers.m_instance.Restartlevel ();
 		}
 	}
 

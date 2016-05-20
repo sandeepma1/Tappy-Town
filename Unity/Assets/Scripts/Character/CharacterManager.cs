@@ -170,6 +170,12 @@ public class Character : BaseModel
 		} 
 	}
 
+	public int UIBackgroundScrollID {
+		get {
+			return GetInt (CharacterJSONFields.UIBackgroundScrollID);
+		}
+	}
+
 	public Character (IDictionary<string,object> doc) : base (doc)
 	{
 	}
@@ -184,8 +190,8 @@ public class CharacterJSONFields
 	public const string PrefabName = "pr";
 	public const string Name = "nm";
 	public const string Description = "ds";
-
 	public const string Environment = "env";
+	public const string UIBackgroundScrollID = "uibsid";
 
 	public class EnvironmentFields
 	{

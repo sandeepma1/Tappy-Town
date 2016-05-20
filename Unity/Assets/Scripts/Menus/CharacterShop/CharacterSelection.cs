@@ -15,10 +15,12 @@ public class Item
 	public string currValue;
 	public string currValueUnlocked;
 	public string currID;
+	public int charUIScrollID;
 	public bool isUnlocked;
 	public bool isSelected;
 
-	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, bool isUnlck, bool isSelect)
+
+	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, int cUIBSid, bool isUnlck, bool isSelect)
 	{
 		charMesh = mesh;
 		charName = name;
@@ -28,6 +30,7 @@ public class Item
 		currValue = cValue;
 		currValueUnlocked = cValueUnlocked;
 		currID = cID;
+		charUIScrollID = cUIBSid;
 		isUnlocked = isUnlck;
 		isSelected = isSelect;
 	}
@@ -47,7 +50,7 @@ public class CharacterSelection : MonoBehaviour
 	GameObject[] unlockedCharactersMesh = new GameObject[100];
 	SampleCharacter currentCharacterVisible;
 	public GameObject mesh;
-
+	public Shader diffuse, greyscale;
 	//Unlock Button
 	public Text value;
 	public Text itemProgress;
@@ -128,6 +131,7 @@ public class CharacterSelection : MonoBehaviour
 				CharacterManager.AllCharacters [i].Currency ["val"].ToString (),
 				SaveStringArray.GetCharacterTokenCount (CharacterManager.AllCharacters [i].CurrencyCollectibleId).ToString (),
 				CharacterManager.AllCharacters [i].Currency ["id"].ToString (), 
+				CharacterManager.AllCharacters [i].UIBackgroundScrollID,
 				SaveStringArray.IsCharacterUnlocked (CharacterManager.AllCharacters [i].Id), 
 				SaveStringArray.CheckIfIsSelected (CharacterManager.AllCharacters [i].Id))
 			);
@@ -153,16 +157,21 @@ public class CharacterSelection : MonoBehaviour
 			c.charName = itemList [i].charName;
 			c.charID = itemList [i].charID;
 			c.currValueUnlocked = itemList [i].currValueUnlocked;
+			c.charUIScrollID = itemList [i].charUIScrollID;
+
 			byte brightness = 150;
 			if (c.isUnlocked == false) {				
-				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
+				//c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
+				c.transform.GetChild (0).GetComponent<Renderer> ().material.shader = greyscale;
 				c.charDesc = itemList [i].charDesc;
 				c.currValue = itemList [i].currValue;
 				c.currType = itemList [i].currType;
 				c.currID = itemList [i].currID;
+				
 
 			} else {
-				c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
+				//c.transform.GetChild (0).GetComponent<MeshRenderer> ().sharedMaterial.SetColor ("_Color", new Color32 (brightness, brightness, brightness, 255));
+				c.transform.GetChild (0).GetComponent<Renderer> ().material.shader = diffuse;
 				c.charDesc = "";
 				c.currValue = "";
 				c.currType = "";
@@ -189,6 +198,7 @@ public class CharacterSelection : MonoBehaviour
 		currTypeToAsk = currentCharacterVisible.currType;
 		currentCharID = currentCharacterVisible.charID;
 		FillButtonDetails (currentCharacterVisible.currValue.ToString (), currentCharacterVisible.currValueUnlocked.ToString (), currentCharacterVisible.currType.ToString ());
+		UITextureScroll.m_instance.ChangeScrollImage ((int)currentCharacterVisible.charUIScrollID);
 
 		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = false;
 		

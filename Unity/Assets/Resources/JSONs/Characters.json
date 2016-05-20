@@ -11,6 +11,7 @@
             "nm": "",
             "id": "IGC-ZZZ",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "blank",
                 "val": 0,
@@ -28,6 +29,7 @@
             "nm": "",
             "id": "IGC-ZZZ",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "blank",
                 "val": 0,
@@ -45,6 +47,7 @@
             "nm": "Mail Mike",
             "id": "IGC-000",
             "ds": "",
+            "uibsid": "6",
             "cr": {
                 "ct": "",
                 "val": 0,
@@ -62,6 +65,7 @@
             "nm": "Worker",
             "id": "IGC-010",
             "ds": "",
+            "uibsid": "7",
             "cr": {
                 "ct": "coins",
                 "val": 4000,
@@ -79,6 +83,7 @@
             "nm": "Robot",
             "id": "IGC-009",
             "ds": "Collected",
+            "uibsid": "0",
             "cr": {
                 "ct": "collectibles",
                 "val": "10",
@@ -96,6 +101,7 @@
             "nm": "Riot Cop",
             "id": "IGC-008",
             "ds": "Collected",
+            "uibsid": "9",
             "cr": {
                 "ct": "collectibles",
                 "val": "20",
@@ -113,6 +119,7 @@
             "nm": "Army Man",
             "id": "IGC-001",
             "ds": "",
+            "uibsid": "9",
             "cr": {
                 "ct": "coins",
                 "val": 1000,
@@ -130,6 +137,7 @@
             "nm": "Beard Man",
             "id": "IGC-002",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "coins",
                 "val": 1000,
@@ -147,6 +155,7 @@
             "nm": "Cop",
             "id": "IGC-003",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "coins",
                 "val": 5000,
@@ -164,6 +173,7 @@
             "nm": "Bunny Girl",
             "id": "IGC-004",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "usd",
                 "val": 0.99,
@@ -181,6 +191,7 @@
             "nm": "Candy Man",
             "id": "IGC-005",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "coins",
                 "val": 7500,
@@ -198,6 +209,7 @@
             "nm": "Mayor",
             "id": "IGC-006",
             "ds": "Collected",
+            "uibsid": "0",
             "cr": {
                 "ct": "collectibles",
                 "val": "35",
@@ -215,6 +227,7 @@
             "nm": "Nurse",
             "id": "IGC-007",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "coins",
                 "val": 3000,
@@ -232,6 +245,7 @@
             "nm": "Banana Man",
             "id": "IGC-013",
             "ds": "Collected",
+            "uibsid": "0",
             "cr": {
                 "ct": "collectibles",
                 "val": "50",
@@ -249,6 +263,7 @@
             "nm": "Chino Chef",
             "id": "IGC-014",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "coins",
                 "val": 5000,
@@ -266,6 +281,7 @@
             "nm": "Mini Musician",
             "id": "IGC-015",
             "ds": "Collected",
+            "uibsid": "0",
             "cr": {
                 "ct": "collectibles",
                 "val": "65",
@@ -283,6 +299,7 @@
             "nm": "Speedman",
             "id": "IGC-011",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "usd",
                 "val": 0.99,
@@ -301,6 +318,7 @@
             "nm": "Batguy",
             "id": "IGC-012",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "usd",
                 "val": 0.99,
@@ -318,6 +336,7 @@
             "nm": "",
             "id": "IGC-ZZZ",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "blank",
                 "val": 0,
@@ -335,6 +354,7 @@
             "nm": "",
             "id": "IGC-ZZZ",
             "ds": "",
+            "uibsid": "0",
             "cr": {
                 "ct": "blank",
                 "val": 0,

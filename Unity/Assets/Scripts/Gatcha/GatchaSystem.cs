@@ -146,6 +146,7 @@ public class GatchaSystem : MonoBehaviour
 	{
 		IGMLogic.m_instance.CheckForNightMode ();
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		IGMLogic.m_instance.scrollingBG.SetActive (true);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		redeemButton.gameObject.SetActive (true);
 		prizeMesh.GetComponent<MeshFilter> ().mesh = null;
@@ -161,6 +162,7 @@ public class GatchaSystem : MonoBehaviour
 	{
 		gatchaMenu.SetActive (false);
 		IGMLogic.m_instance.isTextMeshesVisible (true);
+		IGMLogic.m_instance.scrollingBG.SetActive (false);
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		IGMLogic.m_instance.CheckForNightMode ();
 	}

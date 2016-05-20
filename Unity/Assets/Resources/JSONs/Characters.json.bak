@@ -1,0 +1,345 @@
+{
+    "Characters": [        
+		{
+            "si": 0,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+		{
+            "si": 1,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+       {
+            "si": 2,
+            "ch": "Mail Man",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_mailman",
+            "nm": "Mail Mike",
+            "id": "IGC-000",
+            "ds": "",
+            "cr": {
+                "ct": "",
+                "val": 0,
+                "id": ""
+            }
+        },
+		{
+            "si": 3,
+            "ch": "Worker",
+			"env":{
+				"wn":"town",
+				"nm":true
+			},
+            "pr": "chr_worker1",
+            "nm": "Worker",
+            "id": "IGC-010",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 4000,
+                "id": ""
+            }
+        },
+		{
+            "si": 4,
+            "ch": "Robot",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_robot",
+            "nm": "Robot",
+            "id": "IGC-009",
+            "ds": "Collected",
+            "cr": {
+                "ct": "collectibles",
+                "val": "10",
+                "id": "IRP-001"
+            }
+        },
+        {
+            "si": 5,
+            "ch": "Riot Cop",
+			"env":{
+				"wn":"cop",
+				"nm":false
+			},
+            "pr": "chr_riotcop",
+            "nm": "Riot Cop",
+            "id": "IGC-008",
+            "ds": "Collected",
+            "cr": {
+                "ct": "collectibles",
+                "val": "20",
+                "id": "IRP-002"
+            }
+        },
+        {
+            "si": 6,
+            "ch": "Army Man",
+			"env":{
+				"wn":"cop",
+				"nm":false
+			},
+            "pr": "chr_army1",
+            "nm": "Army Man",
+            "id": "IGC-001",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 1000,
+                "id": ""
+            }
+        },
+        {
+            "si": 7,
+            "ch": "Beard Man",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_beardo1",
+            "nm": "Beard Man",
+            "id": "IGC-002",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 1000,
+                "id": ""
+            }
+        },
+        {
+            "si": 8,
+            "ch": "Cop",
+			"env":{
+				"wn":"cop",
+				"nm":false
+			},
+            "pr": "chr_cop1",
+            "nm": "Cop",
+            "id": "IGC-003",
+            "ds": "",
+            "cr": {
+                "ct": "tokens",
+                "val": 50,
+                "id": ""
+            }
+        },
+        {
+            "si": 9,
+            "ch": "Bunny Girl",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_costume4",
+            "nm": "Bunny Girl",
+            "id": "IGC-004",
+            "ds": "",
+            "cr": {
+                "ct": "usd",
+                "val": 0.99,
+                "id": ""
+            }
+        },
+        {
+            "si": 10,
+            "ch": "Candy Man",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_costume2",
+            "nm": "Candy Man",
+            "id": "IGC-005",
+            "ds": "",
+            "cr": {
+                "ct": "tokens",
+                "val": 75,
+                "id": ""
+            }
+        },
+        {
+            "si": 11,
+            "ch": "Mayor",
+			"env":{
+				"wn":"city",
+				"nm":false
+			},
+            "pr": "chr_mayor",
+            "nm": "Mayor",
+            "id": "IGC-006",
+            "ds": "Collected",
+            "cr": {
+                "ct": "collectibles",
+                "val": "35",
+                "id": "IRP-003"
+            }
+        },
+        {
+            "si": 12,
+            "ch": "Nurse",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_nurse",
+            "nm": "Nurse",
+            "id": "IGC-007",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 3000,
+                "id": ""
+            }
+        },
+        {
+            "si": 13,
+            "ch": "Banana Man",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_bananaman",
+            "nm": "Banana Man",
+            "id": "IGC-013",
+            "ds": "Collected",
+            "cr": {
+                "ct": "collectibles",
+                "val": "50",
+                "id": "IRP-004"
+            }
+        },
+        {
+            "si": 14,
+            "ch": "Chef",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_chef",
+            "nm": "Chino Chef",
+            "id": "IGC-014",
+            "ds": "",
+            "cr": {
+                "ct": "coins",
+                "val": 5000,
+                "id": ""
+            }
+        },
+        {
+            "si": 15,
+            "ch": "Music Girl",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_headphones",
+            "nm": "Mini Musician",
+            "id": "IGC-015",
+            "ds": "Collected",
+            "cr": {
+                "ct": "collectibles",
+                "val": "65",
+                "id": "IRP-005"
+            }
+        },
+		 {
+            "si": 16,
+            "ch": "Speedman",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_super4",
+            "nm": "Speedman",
+            "id": "IGC-011",
+            "ds": "",
+            "cr": {
+                "ct": "usd",
+                "val": 0.99,
+                "id": ""
+            }
+        },
+
+		{
+            "si": 17,
+            "ch": "Batguy",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_super5",
+            "nm": "Batguy",
+            "id": "IGC-012",
+            "ds": "",
+            "cr": {
+                "ct": "usd",
+                "val": 0.99,
+                "id": ""
+            }
+        }
+		{
+            "si": 18,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        },
+		{
+            "si": 19,
+            "ch": "BlankCharacter",
+			"env":{
+				"wn":"town",
+				"nm":false
+			},
+            "pr": "chr_blank",
+            "nm": "",
+            "id": "IGC-ZZZ",
+            "ds": "",
+            "cr": {
+                "ct": "blank",
+                "val": 0,
+                "id": ""
+            }
+        }
+    ]
+}
