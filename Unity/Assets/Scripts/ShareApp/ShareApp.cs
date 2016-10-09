@@ -13,7 +13,7 @@ public class ShareApp : MonoBehaviour
 
 	public void ShareButtonTap ()
 	{
-		body = playerPosition.transform.position.x.ToString ("F0") + " on #tappytown. My top is " + June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
+		body = playerPosition.transform.position.x.ToString ("F0") + " on #tappytown. My top is " + Bronz.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
 		print (body);
 		StartCoroutine (ShareScreenshot ());
 	}

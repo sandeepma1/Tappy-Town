@@ -16,18 +16,18 @@ public class MissionLogic : MonoBehaviour
 		m_instance = this;
 		//ClearSingleRunValues ();
 		//****************************  Run Once ************************************************
-		if (June.LocalStore.Instance.GetInt ("SetMissionOnce") <= 0) {
-			June.LocalStore.Instance.SetInt ("SetMissionOnce", 1);
-			June.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
-			June.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
-			June.LocalStore.Instance.SetInt ("MissionAdder", 1);
+		if (Bronz.LocalStore.Instance.GetInt ("SetMissionOnce") <= 0) {
+			Bronz.LocalStore.Instance.SetInt ("SetMissionOnce", 1);
+			Bronz.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
+			Bronz.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
+			Bronz.LocalStore.Instance.SetInt ("MissionAdder", 1);
 			ShowMissionBanner (true);
 			SetCurrentMission ();
 			//DisplayCurrentMission ();
 		}//**************************************************************************************
 
 		CheckMissionStatus ();
-		if (!June.LocalStore.Instance.GetBool ("showMissionBanner")) {
+		if (!Bronz.LocalStore.Instance.GetBool ("showMissionBanner")) {
 			currentMissionText.text = "";
 			this.gameObject.GetComponent<MeshRenderer> ().enabled = false;
 		} else {
@@ -58,10 +58,10 @@ public class MissionLogic : MonoBehaviour
 
 	void SetCurrentMission ()
 	{
-		June.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
+		Bronz.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
 		ShowMissionBanner (true);
 		for (int i = 0; i < MissionManager.AllMissions.Count; i++) {
-			June.LocalStore.Instance.SetInt (MissionManager.AllMissions [i].PlayerPrefs, 0);
+			Bronz.LocalStore.Instance.SetInt (MissionManager.AllMissions [i].PlayerPrefs, 0);
 		}
 	}
 
@@ -69,60 +69,60 @@ public class MissionLogic : MonoBehaviour
 	{
 		for (int i = 0; i < MissionManager.AllMissions.Count; i++) {
 			if (MissionManager.AllMissions [i].SingleRun) {
-				June.LocalStore.Instance.SetInt (MissionManager.AllMissions [i].PlayerPrefs, 0);
+				Bronz.LocalStore.Instance.SetInt (MissionManager.AllMissions [i].PlayerPrefs, 0);
 			}
 		}
 	}
 
 	public void DisplayCurrentMission ()
 	{
-		string tempString = June.LocalStore.Instance.GetInt (MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].PlayerPrefs) + "/" + MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Value * June.LocalStore.Instance.GetInt ("MissionAdder");
-		string currentMissionDescription = MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Description.Replace ("*", tempString);
+		string tempString = Bronz.LocalStore.Instance.GetInt (MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].PlayerPrefs) + "/" + MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Value * Bronz.LocalStore.Instance.GetInt ("MissionAdder");
+		string currentMissionDescription = MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Description.Replace ("*", tempString);
 		currentMissionText.text = currentMissionDescription;
 	}
 
 	public bool CheckIfMissionCompleted ()
 	{
-		if (June.LocalStore.Instance.GetInt (MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].PlayerPrefs) >= MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Value * June.LocalStore.Instance.GetInt ("MissionAdder")) {
-			June.LocalStore.Instance.SetBool ("CurrentMissionCompleted", true);
+		if (Bronz.LocalStore.Instance.GetInt (MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].PlayerPrefs) >= MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Value * Bronz.LocalStore.Instance.GetInt ("MissionAdder")) {
+			Bronz.LocalStore.Instance.SetBool ("CurrentMissionCompleted", true);
 			return true;
 		} else {			
-			June.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
+			Bronz.LocalStore.Instance.SetBool ("CurrentMissionCompleted", false);
 			return false;
 		}
 	}
 
 	void ShowMissionBanner (bool flag)
 	{
-		June.LocalStore.Instance.SetBool ("showMissionBanner", flag);
+		Bronz.LocalStore.Instance.SetBool ("showMissionBanner", flag);
 	}
 
 	public void CurrentMissionCompleted (bool flag)
 	{		
-		June.LocalStore.Instance.SetBool ("CurrentMissionCompleted", flag);
+		Bronz.LocalStore.Instance.SetBool ("CurrentMissionCompleted", flag);
 	}
 
 	public void MissionGiftisReady (bool flag)
 	{		
-		June.LocalStore.Instance.SetBool ("MissionGiftisReady", flag);
+		Bronz.LocalStore.Instance.SetBool ("MissionGiftisReady", flag);
 	}
 
 	public void CargoMissionAdder ()
 	{		
-		June.LocalStore.Instance.SetInt ("Mission_CargoSequence", June.LocalStore.Instance.GetInt ("Mission_CargoSequence") + 1);
+		Bronz.LocalStore.Instance.SetInt ("Mission_CargoSequence", Bronz.LocalStore.Instance.GetInt ("Mission_CargoSequence") + 1);
 	}
 
 	public void BalloonMissionAdder ()
 	{		
-		June.LocalStore.Instance.SetInt ("Mission_BalloonCount", June.LocalStore.Instance.GetInt ("Mission_BalloonCount") + 1);
+		Bronz.LocalStore.Instance.SetInt ("Mission_BalloonCount", Bronz.LocalStore.Instance.GetInt ("Mission_BalloonCount") + 1);
 	}
 
 	public void MissionCompletedGiftClaimed ()
 	{
-		June.LocalStore.Instance.SetInt ("CurrentMissionID", (June.LocalStore.Instance.GetInt ("CurrentMissionID") + 1));
-		if (June.LocalStore.Instance.GetInt ("CurrentMissionID") >= MissionManager.AllMissions.Count) {
-			June.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
-			June.LocalStore.Instance.SetInt ("MissionAdder", June.LocalStore.Instance.GetInt ("MissionAdder") + 1); // *************** Mission adder multiplier X1
+		Bronz.LocalStore.Instance.SetInt ("CurrentMissionID", (Bronz.LocalStore.Instance.GetInt ("CurrentMissionID") + 1));
+		if (Bronz.LocalStore.Instance.GetInt ("CurrentMissionID") >= MissionManager.AllMissions.Count) {
+			Bronz.LocalStore.Instance.SetInt ("CurrentMissionID", 0);
+			Bronz.LocalStore.Instance.SetInt ("MissionAdder", Bronz.LocalStore.Instance.GetInt ("MissionAdder") + 1); // *************** Mission adder multiplier X1
 		}
 		SetCurrentMission ();
 		ShowMissionBanner (false);
@@ -167,15 +167,15 @@ public class MissionLogic : MonoBehaviour
 		anim.Play ("binRumbleAnimation");
 		yield return new WaitForSeconds (2f);
 		// *****************************************   Gets coins or tokens
-		if (MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].RewardType == "coins") {
-			print ("got coins " + June.LocalStore.Instance.GetInt ("CurrentMissionID"));
-			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward);
-			gotRewardText.text = "+ " + MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward + "~";
+		if (MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].RewardType == "coins") {
+			print ("got coins " + Bronz.LocalStore.Instance.GetInt ("CurrentMissionID"));
+			Bronz.LocalStore.Instance.SetInt ("coins", Bronz.LocalStore.Instance.GetInt ("coins") + MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward);
+			gotRewardText.text = "+ " + MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward + "~";
 		}
-		if (MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].RewardType == "tokens") {
-			print ("got tokens " + June.LocalStore.Instance.GetInt ("CurrentMissionID"));
-			June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward);
-			gotRewardText.text = "+ " + MissionManager.AllMissions [June.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward + "$";
+		if (MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].RewardType == "tokens") {
+			print ("got tokens " + Bronz.LocalStore.Instance.GetInt ("CurrentMissionID"));
+			Bronz.LocalStore.Instance.SetInt ("tokens", Bronz.LocalStore.Instance.GetInt ("tokens") + MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward);
+			gotRewardText.text = "+ " + MissionManager.AllMissions [Bronz.LocalStore.Instance.GetInt ("CurrentMissionID")].Reward + "$";
 		}
 		// *****************************************   Gets coins or tokens Ends here
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();

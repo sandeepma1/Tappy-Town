@@ -4,9 +4,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-using Logger = June.DebugLogger;
+using Logger = Bronz.DebugLogger;
 
-namespace June.LocalStorage.Providers {
+namespace Bronz.LocalStorage.Providers {
 
 	/// <summary>
 	/// JSON local storage provider.

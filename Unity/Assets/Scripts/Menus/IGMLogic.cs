@@ -61,21 +61,21 @@ public class IGMLogic : MonoBehaviour
 		gameName.SetActive (true);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		GameEventManager.currentLevelAttempts++;
-		lastBestScore.text = June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
+		lastBestScore.text = Bronz.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
 		pauseButton.SetActive (false);
-		toggleMuteButton.isOn = June.LocalStore.Instance.GetBool ("mute");
-		toggleShadowsButton.isOn = June.LocalStore.Instance.GetBool ("shadow");
-		toggleLevel.isOn = June.LocalStore.Instance.GetBool ("levelProgression");
+		toggleMuteButton.isOn = Bronz.LocalStore.Instance.GetBool ("mute");
+		toggleShadowsButton.isOn = Bronz.LocalStore.Instance.GetBool ("shadow");
+		toggleLevel.isOn = Bronz.LocalStore.Instance.GetBool ("levelProgression");
 		//****************************  Run Once ************************************************
-		if (June.LocalStore.Instance.GetInt ("runOnceTutorial1") <= 0) {
-			June.LocalStore.Instance.SetInt ("runOnceTutorial1", 1);
-			June.LocalStore.Instance.SetInt ("coins", 100);
-			June.LocalStore.Instance.SetBool ("useLevelProgress", true);
+		if (Bronz.LocalStore.Instance.GetInt ("runOnceTutorial1") <= 0) {
+			Bronz.LocalStore.Instance.SetInt ("runOnceTutorial1", 1);
+			Bronz.LocalStore.Instance.SetInt ("coins", 100);
+			Bronz.LocalStore.Instance.SetBool ("useLevelProgress", true);
 			//tutorialMenu1.SetActive (true);
 		}//**************************************************************************************
 		//****************************  Run Once ************************************************
-		if (June.LocalStore.Instance.GetInt ("runOnceTutorial2") <= 0) {
-			June.LocalStore.Instance.SetInt ("runOnceTutorial2", 1);
+		if (Bronz.LocalStore.Instance.GetInt ("runOnceTutorial2") <= 0) {
+			Bronz.LocalStore.Instance.SetInt ("runOnceTutorial2", 1);
 
 			string[] ids = new string[25];
 			for (int i = 0; i < 25; i++) {
@@ -84,19 +84,19 @@ public class IGMLogic : MonoBehaviour
 			ids [0] = "IGC-000";
 			ids [1] = "IGC-ZZZ";
 			//ids [1] = "IGC-010";
-			June.LocalStore.Instance.SetStringArray ("unlockedCharacters", ids);
+			Bronz.LocalStore.Instance.SetStringArray ("unlockedCharacters", ids);
 			//tutorialMenu2.SetActive (true);
 		}//**************************************************************************************
 	}
 
 	void Start ()
 	{
-		June.LocalStore.Instance.SetInt ("levelAttempts", June.LocalStore.Instance.GetInt ("levelAttempts") + 1);
+		Bronz.LocalStore.Instance.SetInt ("levelAttempts", Bronz.LocalStore.Instance.GetInt ("levelAttempts") + 1);
 		UI.gameObject.SetActive (true);
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeInOutQuart);
-		if (June.LocalStore.Instance.GetBool ("useLevelProgress")) {
-			levelText.text = "Level " + June.LocalStore.Instance.GetInt ("PlayerXP").ToString ();
+		if (Bronz.LocalStore.Instance.GetBool ("useLevelProgress")) {
+			levelText.text = "Level " + Bronz.LocalStore.Instance.GetInt ("PlayerXP").ToString ();
 		} else {
 			levelText.text = "Level " + 50;
 		}
@@ -256,7 +256,7 @@ public class IGMLogic : MonoBehaviour
 	public void SelectChar ()
 	{
 		//TODO-Pooch-Developer
-		//June.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+		//flagFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 		//GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		//	charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
 		//SceneManager.LoadSceneAsync ("level");
@@ -277,12 +277,12 @@ public class IGMLogic : MonoBehaviour
 
 	void PopulateStatsValues ()
 	{
-		t_deaths.text = June.LocalStore.Instance.GetInt ("PlayerDeath").ToString ();
-		t_distance.text = June.LocalStore.Instance.GetInt ("PlayerDistanceCovered").ToString ();
-		t_jumps.text = June.LocalStore.Instance.GetInt ("PlayerTotalJumps").ToString ();
-		t_coins.text = June.LocalStore.Instance.GetInt ("PlayerCoinsCollected").ToString ();
-		t_coinsSpent.text = June.LocalStore.Instance.GetInt ("PlayerCoinsSpent").ToString ();
-		t_secretCoins.text = June.LocalStore.Instance.GetInt ("PlayerSecretCoins").ToString ();
+		t_deaths.text = Bronz.LocalStore.Instance.GetInt ("PlayerDeath").ToString ();
+		t_distance.text = Bronz.LocalStore.Instance.GetInt ("PlayerDistanceCovered").ToString ();
+		t_jumps.text = Bronz.LocalStore.Instance.GetInt ("PlayerTotalJumps").ToString ();
+		t_coins.text = Bronz.LocalStore.Instance.GetInt ("PlayerCoinsCollected").ToString ();
+		t_coinsSpent.text = Bronz.LocalStore.Instance.GetInt ("PlayerCoinsSpent").ToString ();
+		t_secretCoins.text = Bronz.LocalStore.Instance.GetInt ("PlayerSecretCoins").ToString ();
 	}
 
 	public void ShowCreditsMenu ()
@@ -359,7 +359,7 @@ public class IGMLogic : MonoBehaviour
 
 	public void ShowNewHighScoreMenu ()
 	{
-		newHighScoreText.text = June.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
+		newHighScoreText.text = Bronz.LocalStore.Instance.GetInt ("lastBestScore").ToString ();
 		newHighScoreMenu.SetActive (true);
 	}
 
@@ -416,8 +416,8 @@ public class IGMLogic : MonoBehaviour
 
 	public void ToggleMute ()
 	{
-		June.LocalStore.Instance.SetBool ("mute", toggleMuteButton.isOn);
-		if (June.LocalStore.Instance.GetBool ("mute")) {
+		Bronz.LocalStore.Instance.SetBool ("mute", toggleMuteButton.isOn);
+		if (Bronz.LocalStore.Instance.GetBool ("mute")) {
 			AudioListener.volume = 0;
 		} else {
 			AudioListener.volume = 1;
@@ -426,8 +426,8 @@ public class IGMLogic : MonoBehaviour
 
 	public void ToggleShadow ()
 	{
-		June.LocalStore.Instance.SetBool ("shadow", toggleShadowsButton.isOn);
-		if (June.LocalStore.Instance.GetBool ("shadow")) {
+		Bronz.LocalStore.Instance.SetBool ("shadow", toggleShadowsButton.isOn);
+		if (Bronz.LocalStore.Instance.GetBool ("shadow")) {
 			shadowLight.shadows = LightShadows.None;
 		} else {
 			shadowLight.shadows = LightShadows.Hard;
@@ -436,11 +436,11 @@ public class IGMLogic : MonoBehaviour
 
 	public void ToggleLevel ()
 	{
-		June.LocalStore.Instance.SetBool ("levelProgression", toggleLevel.isOn);
-		if (June.LocalStore.Instance.GetBool ("levelProgression")) {
-			June.LocalStore.Instance.SetBool ("useLevelProgress", false);//on
+		Bronz.LocalStore.Instance.SetBool ("levelProgression", toggleLevel.isOn);
+		if (Bronz.LocalStore.Instance.GetBool ("levelProgression")) {
+			Bronz.LocalStore.Instance.SetBool ("useLevelProgress", false);//on
 		} else {
-			June.LocalStore.Instance.SetBool ("useLevelProgress", true);//off
+			Bronz.LocalStore.Instance.SetBool ("useLevelProgress", true);//off
 		}
 	}
 
@@ -469,7 +469,7 @@ public class IGMLogic : MonoBehaviour
 	public void ResetGameData ()
 	{
 		//PlayerPrefs.DeleteAll ();
-		June.LocalStore.Instance.DeleteAll ();
+		Bronz.LocalStore.Instance.DeleteAll ();
 		GameManagers.m_instance.LoadMainlevel ();
 	}
 }

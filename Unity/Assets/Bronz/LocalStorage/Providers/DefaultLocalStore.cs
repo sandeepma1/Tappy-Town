@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Logger = June.DebugLogger;
+using Logger = Bronz.DebugLogger;
 
-namespace June.LocalStorage.Providers {
+namespace Bronz.LocalStorage.Providers {
 
 	/// <summary>
 	/// Default local storage provider uses PlayerPerfs as persistent store.

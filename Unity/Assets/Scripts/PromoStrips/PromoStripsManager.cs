@@ -22,7 +22,7 @@ public class PromoStripsManager : MonoBehaviour
 
 	void StripTop ()
 	{
-		if (June.LocalStore.Instance.GetBool ("CurrentMissionCompleted")) {			
+		if (Bronz.LocalStore.Instance.GetBool ("CurrentMissionCompleted")) {			
 			animTop.PlayInFixedTime ("MissionClaim");
 			print ("Mission Completed");
 			return;
@@ -41,7 +41,7 @@ public class PromoStripsManager : MonoBehaviour
 		}
 
 		if (ran == 2) {
-			if (June.LocalStore.Instance.GetInt ("coins") > GameEventManager.gatchaSpinValue) {
+			if (Bronz.LocalStore.Instance.GetInt ("coins") > GameEventManager.gatchaSpinValue) {
 				animTop.PlayInFixedTime ("UnlockCharacter");
 				return;
 			}
@@ -50,7 +50,7 @@ public class PromoStripsManager : MonoBehaviour
 
 	void StripMiddle ()
 	{		
-		if (June.LocalStore.Instance.GetBool ("isReady")) {
+		if (Bronz.LocalStore.Instance.GetBool ("isReady")) {
 			animMiddle.PlayInFixedTime ("FreeGiftClaim");
 			return;
 		}
@@ -69,7 +69,7 @@ public class PromoStripsManager : MonoBehaviour
 	}
 }
 
-/*		if (June.LocalStore.Instance.GetInt ("coins") >= GameEventManager.gatchaSpinValue) {
+/*		if (Bronz.LocalStore.Instance.GetInt ("coins") >= GameEventManager.gatchaSpinValue) {
 			print ("Use Gatch spin");
 			animBottom.PlayInFixedTime ("UseGatcha");
 			return;

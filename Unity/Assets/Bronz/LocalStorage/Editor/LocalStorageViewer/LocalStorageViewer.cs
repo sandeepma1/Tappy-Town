@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using System;
-using June;
+using Bronz;
 
 using Logger = UnityEngine.Debug;
 
-namespace JuneTools {
+namespace BronzTools {
 
 	/// <summary>
 	/// Local storage editor window.
@@ -67,7 +67,7 @@ namespace JuneTools {
 		}
 		#endregion
 
-		[MenuItem ("June/Local Storage Viewer")]	
+		[MenuItem ("Bronz/Local Storage Viewer")]	
 		private static void Init() {
 			GetWindow<LocalStorageViewer>("LocalStorageView");
 		}

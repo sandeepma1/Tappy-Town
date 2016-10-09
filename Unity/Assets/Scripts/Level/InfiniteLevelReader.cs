@@ -323,10 +323,10 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void SetLastBestMarker ()
 	{
-		if (June.LocalStore.Instance.GetInt ("lastBestScore") <= 30) {
+		if (Bronz.LocalStore.Instance.GetInt ("lastBestScore") <= 30) {
 			lastBestBoard.transform.localPosition = new Vector3 (-100, 0, 0);
 		} else {
-			lastBestBoard.transform.localPosition = new Vector3 (June.LocalStore.Instance.GetInt ("lastBestScore"), 0, 1.25f);
+			lastBestBoard.transform.localPosition = new Vector3 (Bronz.LocalStore.Instance.GetInt ("lastBestScore"), 0, 1.25f);
 		}
 	}
 

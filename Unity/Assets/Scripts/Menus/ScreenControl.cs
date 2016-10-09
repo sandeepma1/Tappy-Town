@@ -22,7 +22,7 @@ public class ScreenControl : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		/*if (!June.LocalStore.Instance.GetBool ("screenRotation")) {		
+		/*if (!Bronz.LocalStore.Instance.GetBool ("screenRotation")) {		
 						ScreenRotateControl (true);
 						if (Screen.orientation == ScreenOrientation.Portrait && countP <= 1) {
 								countP++;

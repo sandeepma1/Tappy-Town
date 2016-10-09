@@ -7,9 +7,9 @@ using System.Xml.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 
-using Logger = June.DebugLogger;
+using Logger = Bronz.DebugLogger;
 
-namespace June.LocalStorage.Providers {
+namespace Bronz.LocalStorage.Providers {
 
 	/// <summary>
 	/// XML local storage.
@@ -211,7 +211,7 @@ namespace June.LocalStorage.Providers {
 			public List<XmlItem> Items;
 
 			/// <summary>
-			/// Gets the <see cref="June.LocalStorageProviders.XMLLocalStorage+XmlStore"/> with the specified key.
+			/// Gets the <see cref="Bronz.LocalStorageProviders.XMLLocalStorage+XmlStore"/> with the specified key.
 			/// </summary>
 			/// <param name="key">Key.</param>
 			public XmlItem this[string key] {
@@ -221,7 +221,7 @@ namespace June.LocalStorage.Providers {
 			}
 
 			/// <summary>
-			/// Initializes a new instance of the <see cref="June.LocalStorageProviders.XMLLocalStorage+XmlStore"/> class.
+			/// Initializes a new instance of the <see cref="Bronz.LocalStorageProviders.XMLLocalStorage+XmlStore"/> class.
 			/// </summary>
 			public XmlStore() {
 				this.Items = new List<XmlItem>();

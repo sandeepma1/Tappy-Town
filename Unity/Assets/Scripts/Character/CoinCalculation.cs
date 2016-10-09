@@ -16,14 +16,14 @@ public class CoinCalculation : MonoBehaviour
 
 	void Start ()
 	{
-		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
-		tokenText_1.text = tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
+		coinsText_1.text = coinsText.text = Bronz.LocalStore.Instance.GetInt ("coins").ToString ();
+		tokenText_1.text = tokenText.text = Bronz.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	public void UpdateCurrencyOnUI ()
 	{
-		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
-		tokenText_1.text = tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
+		coinsText_1.text = coinsText.text = Bronz.LocalStore.Instance.GetInt ("coins").ToString ();
+		tokenText_1.text = tokenText.text = Bronz.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	public void AddCoins (int nos)
@@ -33,10 +33,11 @@ public class CoinCalculation : MonoBehaviour
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
 		}*/
-		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + nos);
-		June.LocalStore.Instance.SetInt ("Mission_CoinCount", June.LocalStore.Instance.GetInt ("Mission_CoinCount") + nos);
-		June.LocalStore.Instance.SetInt ("Mission_CoinCountSR", June.LocalStore.Instance.GetInt ("Mission_CoinCountSR") + nos);
-		coinsText_1.text = coinsText.text = June.LocalStore.Instance.GetInt ("coins").ToString ();
+		Bronz.LocalStore.Instance.SetInt ("coins", Bronz.LocalStore.Instance.GetInt ("coins") + nos);
+		Bronz.LocalStore.Instance.SetInt ("Mission_CoinCount", Bronz.LocalStore.Instance.GetInt ("Mission_CoinCount") + nos);
+		Bronz.LocalStore.Instance.SetInt ("Mission_CoinCountSR", Bronz.LocalStore.Instance.GetInt ("Mission_CoinCountSR") + nos);
+		coinsText_1.text = coinsText.text = Bronz.LocalStore.Instance.GetInt ("coins").ToString ();
+		
 	}
 
 	public void AddToken (int nos)
@@ -46,8 +47,8 @@ public class CoinCalculation : MonoBehaviour
 			Social.ReportProgress ("CgkIqM2wutYIEAIQAg", 10, (bool success) => {
 			});
 		}*/
-		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + nos);
-		tokenText.text = June.LocalStore.Instance.GetInt ("tokens").ToString ();
+		Bronz.LocalStore.Instance.SetInt ("tokens", Bronz.LocalStore.Instance.GetInt ("tokens") + nos);
+		tokenText.text = Bronz.LocalStore.Instance.GetInt ("tokens").ToString ();
 	}
 
 	IEnumerator ScaleCoinText ()

@@ -309,7 +309,7 @@ public class ManJump : MonoBehaviour
 		}
 		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
-		June.LocalStore.Instance.SetInt ("PlayerDeath", June.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
+		Bronz.LocalStore.Instance.SetInt ("PlayerDeath", Bronz.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
 		dieSound.Play ();
 		PlayParticle (playerDieParticle);
 		DisplayPlayerObject (false);
@@ -326,8 +326,8 @@ public class ManJump : MonoBehaviour
 	{
 		DisplayPlayerObject (false);
 		IGMLogic.m_instance.pauseButton.SetActive (false);
-		June.LocalStore.Instance.SetInt ("PlayerTotalJumps", June.LocalStore.Instance.GetInt ("PlayerTotalJumps") + jumpCount);
-		June.LocalStore.Instance.SetInt ("Mission_JumpCount", June.LocalStore.Instance.GetInt ("Mission_JumpCount") + jumpCount);
+		Bronz.LocalStore.Instance.SetInt ("PlayerTotalJumps", Bronz.LocalStore.Instance.GetInt ("PlayerTotalJumps") + jumpCount);
+		Bronz.LocalStore.Instance.SetInt ("Mission_JumpCount", Bronz.LocalStore.Instance.GetInt ("Mission_JumpCount") + jumpCount);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 
 		MissionLogic.m_instance.CheckIfMissionCompleted ();
@@ -415,13 +415,13 @@ public class ManJump : MonoBehaviour
 			UserHadAndPaidCoins ();
 		} 
 		/*if (coinsToAsk <= 5) {
-			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("tokens")) {
+			if (coinsToAsk <= Bronz.LocalStore.Instance.GetInt ("tokens")) {
 				UserHadAndPaidCoins ();
 			} else {
 				AskForMoreCoins ();
 			}
 		}*/ else {
-			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("coins")) {				
+			if (coinsToAsk <= Bronz.LocalStore.Instance.GetInt ("coins")) {				
 				UserHadAndPaidCoins ();
 			} else {
 				AskForMoreCoins ();
@@ -495,10 +495,10 @@ public class ManJump : MonoBehaviour
 		continueText.gameObject.SetActive (false);
 		StartCoroutine ("EnablePlayersColliderAfterWait");
 		/*if (coinsToAsk <= 5) {
-			June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") - coinsToAsk);
+			Bronz.LocalStore.Instance.SetInt ("tokens", Bronz.LocalStore.Instance.GetInt ("tokens") - coinsToAsk);
 		} else */
 		{
-			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - coinsToAsk);
+			Bronz.LocalStore.Instance.SetInt ("coins", Bronz.LocalStore.Instance.GetInt ("coins") - coinsToAsk);
 		}
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 		isDeath = false;

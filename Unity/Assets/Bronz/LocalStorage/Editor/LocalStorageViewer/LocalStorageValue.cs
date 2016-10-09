@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace JuneTools { 
+namespace BronzTools { 
 
 	public enum ValueType {
 		Int,
@@ -131,7 +131,7 @@ namespace JuneTools {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="JuneTools.LocalStorageValue"/> class.
+		/// Initializes a new instance of the <see cref="BronzTools.LocalStorageValue"/> class.
 		/// </summary>
 		/// <param name="key">Key.</param>
 		/// <param name="value">Value.</param>
@@ -207,9 +207,9 @@ namespace JuneTools {
 		}
 
 		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="JuneTools.LocalStorageValue"/>.
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="BronzTools.LocalStorageValue"/>.
 		/// </summary>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="JuneTools.LocalStorageValue"/>.</returns>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="BronzTools.LocalStorageValue"/>.</returns>
 		public override string ToString () {
 			return string.Format ("[LocalStorageValue: Name={0}, Value={1}, Type={2}, IntValue={3}, FloatValue={4}, StringValue={5}]", Name, Value, Type, IntValue, FloatValue, StringValue);
 		}

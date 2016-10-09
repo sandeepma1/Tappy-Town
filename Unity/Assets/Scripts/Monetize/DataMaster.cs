@@ -16,7 +16,7 @@ public class DataMaster : MonoBehaviour
 	void CalculateTime ()
 	{
 		currentDate = System.DateTime.Now;
-		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (June.LocalStore.Instance.GetString ("addedDate")));
+		DateTime oldDate1 = DateTime.FromBinary (Convert.ToInt64 (Bronz.LocalStore.Instance.GetString ("addedDate")));
 		difference = oldDate1.Subtract (currentDate);
 	}
 }

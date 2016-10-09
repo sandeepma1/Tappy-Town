@@ -38,8 +38,8 @@ public class GatchaSystem : MonoBehaviour
 
 	public void PerformSpin ()
 	{
-		if (June.LocalStore.Instance.GetInt ("coins") >= coinsToSpin) {
-			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - coinsToSpin);
+		if (Bronz.LocalStore.Instance.GetInt ("coins") >= coinsToSpin) {
+			Bronz.LocalStore.Instance.SetInt ("coins", Bronz.LocalStore.Instance.GetInt ("coins") - coinsToSpin);
 			CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 			StartCoroutine ("ShowTapToContinuePrompt");
 		} else {
@@ -126,14 +126,14 @@ public class GatchaSystem : MonoBehaviour
 
 	void ShowCoinsUnlocked ()
 	{
-		June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") + 100);
+		Bronz.LocalStore.Instance.SetInt ("coins", Bronz.LocalStore.Instance.GetInt ("coins") + 100);
 		prizeString = "You win " + 100 + " Coins";
 		ChangePrizeMesh ();
 	}
 
 	void ShowTokensUnlocked ()
 	{
-		June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") + 10);
+		Bronz.LocalStore.Instance.SetInt ("tokens", Bronz.LocalStore.Instance.GetInt ("tokens") + 10);
 		prizeString = "You win " + 10 + " Tokens";
 		ChangePrizeMesh ();
 	}

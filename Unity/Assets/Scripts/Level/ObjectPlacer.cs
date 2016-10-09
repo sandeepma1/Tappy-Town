@@ -42,8 +42,8 @@ public class ObjectPlacer : MonoBehaviour
 	void Awake ()
 	{
 		m_instance = this;
-		if (June.LocalStore.Instance.GetBool ("useLevelProgress")) {
-			ReadPlayerXPFile (June.LocalStore.Instance.GetInt ("PlayerXP"));
+		if (Bronz.LocalStore.Instance.GetBool ("useLevelProgress")) {
+			ReadPlayerXPFile (Bronz.LocalStore.Instance.GetInt ("PlayerXP"));
 		} else {
 			ReadPlayerXPFile (49);
 		}

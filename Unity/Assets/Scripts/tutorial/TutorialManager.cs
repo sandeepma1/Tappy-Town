@@ -14,8 +14,8 @@ public class TutorialManager : MonoBehaviour
 
 	public void ShowBalloonTutorial ()
 	{
-		if (June.LocalStore.Instance.GetInt ("balloonTutorial") <= 2) {
-			June.LocalStore.Instance.Increment ("balloonTutorial");
+		if (Bronz.LocalStore.Instance.GetInt ("balloonTutorial") <= 2) {
+			Bronz.LocalStore.Instance.Increment ("balloonTutorial");
 			IGMLogic.m_instance.PauseGame ();
 			balloonTutorial.SetActive (true);
 		}

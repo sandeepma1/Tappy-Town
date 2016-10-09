@@ -57,8 +57,8 @@ public class MovingPlatform : MonoBehaviour
 	public bool isHighScore ()
 	{
 		SaveLastBestRunScore ();
-		if (June.LocalStore.Instance.GetInt ("lastBestScore") < (int)transform.position.x) {
-			June.LocalStore.Instance.SetInt ("lastBestScore", (int)transform.position.x);
+		if (Bronz.LocalStore.Instance.GetInt ("lastBestScore") < (int)transform.position.x) {
+			Bronz.LocalStore.Instance.SetInt ("lastBestScore", (int)transform.position.x);
 			return true;
 		} 
 		return false;
@@ -66,10 +66,10 @@ public class MovingPlatform : MonoBehaviour
 
 	public void SaveLastBestRunScore ()
 	{
-		June.LocalStore.Instance.SetInt ("PlayerDistanceCovered", June.LocalStore.Instance.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
-		June.LocalStore.Instance.SetInt ("Mission_DistanceCount", June.LocalStore.Instance.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
-		June.LocalStore.Instance.SetInt ("Mission_DistanceCountSR", June.LocalStore.Instance.GetInt ("Mission_DistanceCountSR") + (int)transform.position.x);
-		June.LocalStore.Instance.SetInt ("Progression_DistanceCount", June.LocalStore.Instance.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
+		Bronz.LocalStore.Instance.SetInt ("PlayerDistanceCovered", Bronz.LocalStore.Instance.GetInt ("PlayerDistanceCovered") + (int)transform.position.x);
+		Bronz.LocalStore.Instance.SetInt ("Mission_DistanceCount", Bronz.LocalStore.Instance.GetInt ("Mission_DistanceCount") + (int)transform.position.x);
+		Bronz.LocalStore.Instance.SetInt ("Mission_DistanceCountSR", Bronz.LocalStore.Instance.GetInt ("Mission_DistanceCountSR") + (int)transform.position.x);
+		Bronz.LocalStore.Instance.SetInt ("Progression_DistanceCount", Bronz.LocalStore.Instance.GetInt ("Progression_DistanceCount") + (int)transform.position.x);
 		Progression.m_instance.UpdatePlayerXP ();
 	}
 
