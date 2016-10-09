@@ -137,6 +137,7 @@ public class MissionLogic : MonoBehaviour
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		IGMLogic.m_instance.scrollingBG.SetActive (false);
 		IGMLogic.m_instance.isTextMeshesVisible (true);
+		IGMLogic.m_instance.playerShadow.SetActive (true);
 	}
 
 	public void OpenMissionCompleteGiftMenu ()
@@ -149,6 +150,7 @@ public class MissionLogic : MonoBehaviour
 		}
 		giftParticles.SetActive (true);
 		missionCompleteGiftMenu.SetActive (true);
+		IGMLogic.m_instance.playerShadow.SetActive (false);
 	}
 
 	public void MissionCompleteGiftButtonClicked ()

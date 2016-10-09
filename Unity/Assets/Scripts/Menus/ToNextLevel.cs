@@ -12,7 +12,7 @@ public class ToNextLevel : MonoBehaviour
 	void Start ()
 	{
 		Application.targetFrameRate = 60;
-		//StartCoroutine ("WaitAndStartlevel");
+		StartCoroutine ("WaitAndStartlevel");
 	}
 
 	IEnumerator WaitAndStartlevel ()

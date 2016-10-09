@@ -29,6 +29,7 @@ public class InfiniteLevelReader : MonoBehaviour
 		m_instance = this;
 		SetupGameEnvironment ();
 		levelData = Resources.LoadAll <TextAsset> ("LevelBlocks");
+		
 		numberOfFiles = levelData.Length;
 		yPos = sectionHeight - 1;// *********** adjusted value
 		lines = new string[100];
@@ -74,35 +75,35 @@ public class InfiniteLevelReader : MonoBehaviour
 			if (lines [i] != "") {
 				chars = Regex.Split (lines [i], ",");
 				switch (chars [0]) {
-				case "a":
-					FillArray (chars, ref a);
-					break;
-				case "b":					
-					FillArray (chars, ref b);
-					break;
-				case "c":					
-					FillArray (chars, ref c);
-					break;
-				case "d":					
-					FillArray (chars, ref d);
-					break;
-				case "f":					
-					FillArray (chars, ref f);
-					break;
-				case "p":					
-					FillArray (chars, ref p);
-					break;
-				case "h":					
-					FillArray (chars, ref h);
-					break;
-				case "cs":					
-					FillArray (chars, ref cs);
-					break;
-				case "lo":					
-					FillArray (chars, ref lo);
-					break;
-				default:
-					break;
+					case "a":
+						FillArray (chars, ref a);
+						break;
+					case "b":					
+						FillArray (chars, ref b);
+						break;
+					case "c":					
+						FillArray (chars, ref c);
+						break;
+					case "d":					
+						FillArray (chars, ref d);
+						break;
+					case "f":					
+						FillArray (chars, ref f);
+						break;
+					case "p":					
+						FillArray (chars, ref p);
+						break;
+					case "h":					
+						FillArray (chars, ref h);
+						break;
+					case "cs":					
+						FillArray (chars, ref cs);
+						break;
+					case "lo":					
+						FillArray (chars, ref lo);
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -151,159 +152,160 @@ public class InfiniteLevelReader : MonoBehaviour
 					yPos--;
 
 					foreach (string chars1 in chars) {
-						xPos++;
+						
 						switch (chars1) {
-						case "a0":
-							AutoInstantiate (a [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a1":
-							AutoInstantiate (a [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a2":
-							AutoInstantiate (a [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a3":
-							AutoInstantiate (a [3], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a4":
-							AutoInstantiate (a [4], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a5":
-							AutoInstantiate (a [5], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a6":
-							AutoInstantiate (a [6], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a7":
-							AutoInstantiate (a [7], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a8":
-							AutoInstantiate (a [8], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "a9":
-							AutoInstantiate (a [9], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "b0":
-							AutoInstantiate (b [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "b1":
-							AutoInstantiate (b [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "b2":
-							AutoInstantiate (b [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "b3":
-							AutoInstantiate (b [3], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "b4":
-							AutoInstantiate (b [4], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "d0":
-							AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "d1":
-							AutoInstantiate (d [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "d2":
-							AutoInstantiate (d [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "c":
-							int cars = Random.Range (0, 5);
-							AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "c2":							
-							AutoInstantiate (c [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "c3":							
-							AutoInstantiate (c [3], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "f0":
-							AutoInstantiate (f [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "f1":
-							AutoInstantiate (f [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p0":
-							AutoInstantiate (p [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p1":
-							AutoInstantiate (p [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p2":
-							AutoInstantiate (p [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p3":
-							AutoInstantiate (p [3], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p4":							
-							AutoInstantiate (p [4], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p5":							
-							AutoInstantiate (p [5], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p6":							
-							AutoInstantiate (p [6], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p7":							
-							AutoInstantiate (p [7], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p8":							
-							AutoInstantiate (p [8], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p9":							
-							AutoInstantiate (p [9], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p10":							
-							AutoInstantiate (p [10], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p11":							
-							AutoInstantiate (p [11], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p12":							
-							AutoInstantiate (p [12], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p13":							
-							AutoInstantiate (p [13], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p14":							
-							AutoInstantiate (p [14], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p15":							
-							AutoInstantiate (p [15], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p16":							
-							AutoInstantiate (p [16], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "p17":							
-							AutoInstantiate (p [17], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "h0":
-							AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "h1":
-							AutoInstantiate (h [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "cb0":
-							AutoInstantiate (cs [0], new Vector3 (xPos, yPos, zPos));
-							break;						
-						case "lo0":
-							AutoInstantiate (lo [0], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "lo1":
-							AutoInstantiate (lo [1], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "lo2":
-							AutoInstantiate (lo [2], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "lo3":
-							AutoInstantiate (lo [3], new Vector3 (xPos, yPos, zPos));
-							break;
-						case "lo4":
-							AutoInstantiate (lo [4], new Vector3 (xPos, yPos, zPos));
-							break;
-						default:
-							break;
+							case "a0":
+								AutoInstantiate (a [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a1":
+								AutoInstantiate (a [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a2":
+								AutoInstantiate (a [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a3":
+								AutoInstantiate (a [3], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a4":
+								AutoInstantiate (a [4], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a5":
+								AutoInstantiate (a [5], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a6":
+								AutoInstantiate (a [6], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a7":
+								AutoInstantiate (a [7], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a8":
+								AutoInstantiate (a [8], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "a9":
+								AutoInstantiate (a [9], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "b0":
+								AutoInstantiate (b [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "b1":
+								AutoInstantiate (b [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "b2":
+								AutoInstantiate (b [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "b3":
+								AutoInstantiate (b [3], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "b4":
+								AutoInstantiate (b [4], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "d0":
+								AutoInstantiate (d [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "d1":
+								AutoInstantiate (d [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "d2":
+								AutoInstantiate (d [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "c":
+								int cars = Random.Range (0, 5);
+								AutoInstantiate (c [cars], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "c2":							
+								AutoInstantiate (c [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "c3":							
+								AutoInstantiate (c [3], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "f0":
+								AutoInstantiate (f [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "f1":
+								AutoInstantiate (f [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p0":
+								AutoInstantiate (p [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p1":
+								AutoInstantiate (p [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p2":
+								AutoInstantiate (p [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p3":
+								AutoInstantiate (p [3], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p4":							
+								AutoInstantiate (p [4], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p5":							
+								AutoInstantiate (p [5], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p6":							
+								AutoInstantiate (p [6], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p7":							
+								AutoInstantiate (p [7], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p8":							
+								AutoInstantiate (p [8], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p9":							
+								AutoInstantiate (p [9], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p10":							
+								AutoInstantiate (p [10], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p11":							
+								AutoInstantiate (p [11], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p12":							
+								AutoInstantiate (p [12], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p13":							
+								AutoInstantiate (p [13], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p14":							
+								AutoInstantiate (p [14], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p15":							
+								AutoInstantiate (p [15], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p16":							
+								AutoInstantiate (p [16], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "p17":							
+								AutoInstantiate (p [17], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "h0":
+								AutoInstantiate (h [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "h1":
+								AutoInstantiate (h [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "cb0":
+								AutoInstantiate (cs [0], new Vector3 (xPos, yPos, zPos));
+								break;						
+							case "lo0":
+								AutoInstantiate (lo [0], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "lo1":
+								AutoInstantiate (lo [1], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "lo2":
+								AutoInstantiate (lo [2], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "lo3":
+								AutoInstantiate (lo [3], new Vector3 (xPos, yPos, zPos));
+								break;
+							case "lo4":
+								AutoInstantiate (lo [4], new Vector3 (xPos, yPos, zPos));
+								break;
+							default:
+								break;
 						}
+						xPos++;
 					}
 					xPos = 0;
 				}

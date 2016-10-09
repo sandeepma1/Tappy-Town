@@ -18,6 +18,7 @@ public class PlayerProfile
 
 	private static object _IsDirtyLock = new object ();
 	private static bool _IsDirty = false;
+
 	/// <summary>
 	/// Tells if the player profile data has been modified
 	/// </summary>
@@ -28,6 +29,7 @@ public class PlayerProfile
 	}
 
 	private static DateTime _LastChangeTimestamp = DateTime.UtcNow;
+
 	/// <summary>
 	/// The last change timestamp.
 	/// </summary>
@@ -58,19 +60,19 @@ public class PlayerProfile
 
 	public static bool ShowRateUs {
 		get { 
-			return LocalStore.Instance.GetBoolOrDefault(LocalStorageKeys.SHOW_RATE_US_POPUP);
+			return LocalStore.Instance.GetBoolOrDefault (LocalStorageKeys.SHOW_RATE_US_POPUP);
 		}
 		set {
-			LocalStore.Instance.SetBool(LocalStorageKeys.SHOW_RATE_US_POPUP, value);
+			LocalStore.Instance.SetBool (LocalStorageKeys.SHOW_RATE_US_POPUP, value);
 		}
 	}
 
 	public static bool HasRatedTheApp {
 		get {
-			return LocalStore.Instance.GetBoolOrDefault(LocalStorageKeys.HAS_RATED_THE_APP);
+			return LocalStore.Instance.GetBoolOrDefault (LocalStorageKeys.HAS_RATED_THE_APP);
 		}
 		set {
-			LocalStore.Instance.SetBool(LocalStorageKeys.HAS_RATED_THE_APP, value);
+			LocalStore.Instance.SetBool (LocalStorageKeys.HAS_RATED_THE_APP, value);
 		}
 	}
 
@@ -80,10 +82,10 @@ public class PlayerProfile
 	/// <value><c>true</c> if is mismatch available; otherwise, <c>false</c>.</value>
 	public static bool IsFacebookMismatchAvailable {
 		get {
-			return LocalStore.Instance.GetBoolOrDefault(LocalStorageKeys.IS_FB_MISMATCH);
+			return LocalStore.Instance.GetBoolOrDefault (LocalStorageKeys.IS_FB_MISMATCH);
 		}
 		set {
-			LocalStore.Instance.SetBool(LocalStorageKeys.IS_FB_MISMATCH, value);
+			LocalStore.Instance.SetBool (LocalStorageKeys.IS_FB_MISMATCH, value);
 		}
 	}
 
@@ -93,10 +95,10 @@ public class PlayerProfile
 	/// <value>The name of the mismatch.</value>
 	public static string MismatchName {
 		get {
-			return LocalStore.Instance.GetStringOrDefault(LocalStorageKeys.MISMATCH_NAME);
+			return LocalStore.Instance.GetStringOrDefault (LocalStorageKeys.MISMATCH_NAME);
 		}
 		set {
-			LocalStore.Instance.SetString(LocalStorageKeys.MISMATCH_NAME, value);
+			LocalStore.Instance.SetString (LocalStorageKeys.MISMATCH_NAME, value);
 		}
 	}
 
@@ -106,10 +108,10 @@ public class PlayerProfile
 	/// <value>The last app version.</value>
 	public static float LastAppVersion {
 		get {
-			return LocalStore.Instance.GetFloatOrDefault(LocalStorageKeys.LAST_APP_VERSION);
+			return LocalStore.Instance.GetFloatOrDefault (LocalStorageKeys.LAST_APP_VERSION);
 		}
 		set {
-			LocalStore.Instance.SetFloat(LocalStorageKeys.LAST_APP_VERSION, value);
+			LocalStore.Instance.SetFloat (LocalStorageKeys.LAST_APP_VERSION, value);
 		}
 	}
 
@@ -119,21 +121,21 @@ public class PlayerProfile
 	/// <value>The identifier.</value>
 	public static string PlayerId {
 		get {
-			return LocalStore.Instance.GetStringOrDefault(LocalStorageKeys.PLAYER_ID);
+			return LocalStore.Instance.GetStringOrDefault (LocalStorageKeys.PLAYER_ID);
 		}
 		set {
-			LocalStore.Instance.SetString(LocalStorageKeys.PLAYER_ID, value);
+			LocalStore.Instance.SetString (LocalStorageKeys.PLAYER_ID, value);
 		}
 	}
 
 
 	public static string FullName {
 		get {
-			var fullName = LocalStore.Instance.GetStringOrDefault(LocalStorageKeys.FULL_NAME);
-			return string.IsNullOrEmpty(fullName) ? PlayerName : fullName;
+			var fullName = LocalStore.Instance.GetStringOrDefault (LocalStorageKeys.FULL_NAME);
+			return string.IsNullOrEmpty (fullName) ? PlayerName : fullName;
 		}
 		set {
-			LocalStore.Instance.SetString(LocalStorageKeys.FULL_NAME, value);
+			LocalStore.Instance.SetString (LocalStorageKeys.FULL_NAME, value);
 		}
 	}
 
@@ -146,14 +148,15 @@ public class PlayerProfile
 	/// </value>
 	public static string PlayerName {
 		get {
-			return LocalStore.Instance.GetStringOrDefault(LocalStorageKeys.PLAYER_NAME);
+			return LocalStore.Instance.GetStringOrDefault (LocalStorageKeys.PLAYER_NAME);
 		}
 		set {
-			LocalStore.Instance.SetString(LocalStorageKeys.PLAYER_NAME, value);
+			LocalStore.Instance.SetString (LocalStorageKeys.PLAYER_NAME, value);
 		}
 	}
 
 	private static string _Name;
+
 	/// <summary>
 	/// Gets the username.
 	/// </summary>
@@ -180,8 +183,9 @@ public class PlayerProfile
 	/// </summary>
 	/// <returns><c>true</c>, if username was set, <c>false</c> otherwise.</returns>
 	/// <param name="username">Username.</param>
-	public static bool SetUserDetails(string username) {
-		if(string.IsNullOrEmpty(username)) {
+	public static bool SetUserDetails (string username)
+	{
+		if (string.IsNullOrEmpty (username)) {
 			return false;
 		}
 
@@ -277,17 +281,18 @@ public class PlayerProfile
 			//				? NinjumpAPI.Player.PlayerStat.Coins
 			//					: LocalStore.Instance.GetIntOrDefault(LocalStorageKeys.COINS_KEY);
 
-			return  LocalStore.Instance.GetIntOrDefault(LocalStorageKeys.COINS_KEY);
+			return  LocalStore.Instance.GetIntOrDefault (LocalStorageKeys.COINS_KEY);
 		}
 		private set {
-			LocalStore.Instance.SetInt(LocalStorageKeys.COINS_KEY, value);
+			LocalStore.Instance.SetInt (LocalStorageKeys.COINS_KEY, value);
 		}
 	}
 
 
 
 
-	public static bool AddFeatureToInventory(string id) {
+	public static bool AddFeatureToInventory (string id)
+	{
 		return AddToUnlockedItems (id);
 	}
 
@@ -300,7 +305,8 @@ public class PlayerProfile
 	/// </summary>
 	/// <returns><c>true</c> if is purchased the specified id; otherwise, <c>false</c>.</returns>
 	/// <param name="id">Identifier.</param>
-	public static bool IsPurchased(string id) {
+	public static bool IsPurchased (string id)
+	{
 		var array = LocalStore.Instance.GetStringArray (LocalStorageKeys.UNLOCKED_ITEMS);
 		if (null != array) {
 			var unlockedContent = array.ToList ();
@@ -316,26 +322,26 @@ public class PlayerProfile
 
 	public static void Initialize ()
 	{	
-		Util.Log("*** WARNING *** [PlayerProfile] Initialize Values to Defaults");
+		Util.Log ("*** WARNING *** [PlayerProfile] Initialize Values to Defaults");
 		IsAppRated = false;
 
 		_Name = null;
 
-		LocalStore.Instance.SetString(LocalStorageKeys.PLAYER_NAME, "Bheem");
-		LocalStore.Instance.SetString(LocalStorageKeys.FULL_NAME, "Bheem");
+		LocalStore.Instance.SetString (LocalStorageKeys.PLAYER_NAME, "Bheem");
+		LocalStore.Instance.SetString (LocalStorageKeys.FULL_NAME, "Bheem");
 		LocalStore.Instance.SetBool (LocalStorageKeys.IS_DETAILED_STATS_ENABLED, false);
 		LocalStore.Instance.SetInt (LocalStorageKeys.AD_FREQUENCY, 1);
 		LocalStore.Instance.SetInt (LocalStorageKeys.INSTALLED_DATE, Util.CurrentUTCTimestamp);
-		LocalStore.Instance.SetString(LocalStorageKeys.LADOOS_KEY, "20");
-		LocalStore.Instance.SetString(LocalStorageKeys.CURRENT_OUTFIT, "IGC-001");
-		LocalStore.Instance.SetInt(LocalStorageKeys.COINS_KEY, 1000);
-		LocalStore.Instance.SetBool(LocalStorageKeys.IS_ENGLISH, true);
+		LocalStore.Instance.SetString (LocalStorageKeys.LADOOS_KEY, "20");
+		LocalStore.Instance.SetString (LocalStorageKeys.CURRENT_OUTFIT, "IGC-001");
+		LocalStore.Instance.SetInt (LocalStorageKeys.COINS_KEY, 1000);
+		LocalStore.Instance.SetBool (LocalStorageKeys.IS_ENGLISH, true);
 		LocalStore.Instance.SetInt ("version_key", 1);
-		LocalStore.Instance.SetInt(LocalStorageKeys.OFFER_SEQUENCE, 0);
+		LocalStore.Instance.SetInt (LocalStorageKeys.OFFER_SEQUENCE, 0);
 
 		AddToUnlockedItems ("IGC-001");
 
-	//	Settings.get().isSoundOn = true;
+		//	Settings.get().isSoundOn = true;
 //		Settings.IsSoundFxOn = true;
 
 
@@ -344,19 +350,20 @@ public class PlayerProfile
 
 	}
 
-	private static bool AddToUnlockedItems(string id) {
+	private static bool AddToUnlockedItems (string id)
+	{
 		var array = LocalStore.Instance.GetStringArray (LocalStorageKeys.UNLOCKED_ITEMS);
 
 		List<string> unlockedContent = null;
 		if (null == array) {
 			unlockedContent = new List<string> ();
 		} else {
-			unlockedContent = array.ToList();
+			unlockedContent = array.ToList ();
 		}
 
 		if (!unlockedContent.Contains (id)) {
 			unlockedContent.Add (id);
-			LocalStore.Instance.SetStringArray (LocalStorageKeys.UNLOCKED_ITEMS, unlockedContent.ToArray());
+			LocalStore.Instance.SetStringArray (LocalStorageKeys.UNLOCKED_ITEMS, unlockedContent.ToArray ());
 		}
 
 		return true;
@@ -373,7 +380,8 @@ public class PlayerProfile
 	/// <summary>
 	/// Saves the data.
 	/// </summary>
-	public static void Save (Action<bool> callback) {
+	public static void Save (Action<bool> callback)
+	{
 		LocalStore.Instance.Save ();
 	}
 
@@ -382,15 +390,15 @@ public class PlayerProfile
 	/// </summary>
 	public static void LogoutAndClearAll ()
 	{
-		bool hasShownNewCharBadge = LocalStore.Instance.GetBoolOrDefault(LocalStorageKeys.DONT_SHOW_STORE_BADGE);
+		bool hasShownNewCharBadge = LocalStore.Instance.GetBoolOrDefault (LocalStorageKeys.DONT_SHOW_STORE_BADGE);
 		//		NinjumpAPI.Logout ();
 		//		GameHubManager.ClearKeyChain ();
 
 		LocalStore.Instance.DeleteAll ();
 
 		// Set inapp message shown to true again
-		LocalStore.Instance.SetBool(LocalStorageKeys.HAS_SHOWN_INAPP_MESSAGE, true);
-		LocalStore.Instance.SetBool(LocalStorageKeys.DONT_SHOW_STORE_BADGE, hasShownNewCharBadge);
+		LocalStore.Instance.SetBool (LocalStorageKeys.HAS_SHOWN_INAPP_MESSAGE, true);
+		LocalStore.Instance.SetBool (LocalStorageKeys.DONT_SHOW_STORE_BADGE, hasShownNewCharBadge);
 	}
 
 	/// <summary>
@@ -401,19 +409,20 @@ public class PlayerProfile
 		// Calculate energy
 	}
 
-	public static void UpdateCoins(int coinsToModify) {
+	public static void UpdateCoins (int coinsToModify)
+	{
 		if (0 > coinsToModify) {
 			CoinsSpent += coinsToModify * -1;
 //			GameManager.instance.PlayerGameStats.UpdateCoinsSpentInMissionBy( coinsToModify * -1);
 		}
 
 		Coins += coinsToModify;
-		Dictionary<string, object> parameters = new Dictionary<string, object>() {
-			{"amount", Coins},
-			{"oldamount",Coins - coinsToModify}
+		Dictionary<string, object> parameters = new Dictionary<string, object> () {
+			{ "amount", Coins },
+			{ "oldamount",Coins - coinsToModify }
 		};
 
-		MessageBroker.Publish (Messages.AppCoinsHudRefresh, parameters);
+		//MessageBroker.Publish (Messages.AppCoinsHudRefresh, parameters);
 
 
 	}
@@ -434,33 +443,34 @@ public class PlayerProfile
 	/// </summary>
 	/// <returns><c>true</c>, if gift was accepted, <c>false</c> otherwise.</returns>
 	/// <param name="ge">Ge.</param>
-	public static bool UpdatePlayerDetails(GameElement ge, int value) {
+	public static bool UpdatePlayerDetails (GameElement ge, int value)
+	{
 		bool status = false;
-		if(null != ge) {
-			switch(ge.Type) {
-			case GameElementType.Outfit:
-				status = true;
+		if (null != ge) {
+			switch (ge.Type) {
+				case GameElementType.Outfit:
+					status = true;
 
-				break;
-			case GameElementType.Coin:
-				UpdateCoins(value);
+					break;
+				case GameElementType.Coin:
+					UpdateCoins (value);
 
-				status = true;
+					status = true;
 
-				break;
-			case GameElementType.GameFeature:
-				status = true;
+					break;
+				case GameElementType.GameFeature:
+					status = true;
 
-				break;
-			case GameElementType.Ladoo:
+					break;
+				case GameElementType.Ladoo:
 
-				status = true;
+					status = true;
 
-				break;
+					break;
 
 
-			default:
-				break;
+				default:
+					break;
 			}
 		}
 		return status;
@@ -471,6 +481,7 @@ public class PlayerProfile
 	#endregion
 
 	#region Helpers
+
 	/// <summary>
 	/// Generics the get.
 	/// </summary>
@@ -531,6 +542,7 @@ public class PlayerProfile
 		setMethod (key, newValue);
 		MarkAsDirty ();
 	}
+
 	#endregion
 
 	#region Player stats and events related
@@ -567,10 +579,10 @@ public class PlayerProfile
 	/// <value>The coins spent.</value>
 	public static int CoinsSpent {
 		get {
-			return LocalStore.Instance.GetIntOrDefault(LocalStorageKeys.COINS_SPENT_KEY);
+			return LocalStore.Instance.GetIntOrDefault (LocalStorageKeys.COINS_SPENT_KEY);
 		}
 		private set {
-			LocalStore.Instance.SetInt(LocalStorageKeys.COINS_SPENT_KEY, value);
+			LocalStore.Instance.SetInt (LocalStorageKeys.COINS_SPENT_KEY, value);
 		}
 	}
 
@@ -581,10 +593,10 @@ public class PlayerProfile
 	/// <value>The in app purchase count.</value>
 	public static int InAppPurchaseCount {
 		get {
-			return LocalStore.Instance.GetIntOrDefault(LocalStorageKeys.INAPP_PURCHASE_COUNT_KEY);
+			return LocalStore.Instance.GetIntOrDefault (LocalStorageKeys.INAPP_PURCHASE_COUNT_KEY);
 		}
 		set {
-			LocalStore.Instance.SetInt(LocalStorageKeys.INAPP_PURCHASE_COUNT_KEY, value);
+			LocalStore.Instance.SetInt (LocalStorageKeys.INAPP_PURCHASE_COUNT_KEY, value);
 		}
 	}
 
@@ -594,7 +606,7 @@ public class PlayerProfile
 			return LocalStore.Instance.GetIntOrDefault (LocalStorageKeys.VIDEO_COIN_COUNT);
 		}
 		set {
-			LocalStore.Instance.SetInt(LocalStorageKeys.VIDEO_COIN_COUNT, value);
+			LocalStore.Instance.SetInt (LocalStorageKeys.VIDEO_COIN_COUNT, value);
 		}
 	}
 
@@ -603,7 +615,7 @@ public class PlayerProfile
 			return LocalStore.Instance.GetIntOrDefault (LocalStorageKeys.VIDEO_SHOWN_COUNT);
 		}
 		set {
-			LocalStore.Instance.SetInt(LocalStorageKeys.VIDEO_SHOWN_COUNT, value);
+			LocalStore.Instance.SetInt (LocalStorageKeys.VIDEO_SHOWN_COUNT, value);
 		}
 	}
 

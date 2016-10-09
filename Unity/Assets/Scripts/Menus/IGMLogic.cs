@@ -14,7 +14,7 @@ public class IGMLogic : MonoBehaviour
 	public Camera mainCamera;
 	public Text gameVersionText;
 	public Image blankLogo;
-	public GameObject gameName, scrollingBG;
+	public GameObject gameName, scrollingBG, playerShadow;
 	public GameObject UI;
 	public GameObject pauseButton, playButton;
 	public GameObject startGameGO;
@@ -22,7 +22,7 @@ public class IGMLogic : MonoBehaviour
 	public GameObject settingsMenuGO, missionBanner;
 	public GameObject charSelcMenu, charSelcLogic, payToContinueMenu, newHighScoreMenu, missionCompleteMenu, missionPrizeRedeemMenu, previewMesh, scrollView;
 	public GameObject unlockNewCharacterButton, gatchaMenu, InGameStoreMenu, inAppStoreMenu;
-	public Text levelText, countDownAfterResumeText, payCoinsToContinueTextInButton, newHighScoreText;
+	public Text levelText, countDownAfterResumeText, payCoinsToContinueTextInButton, payFreeToContinueTextInButton, newHighScoreText;
 	//payCoinsToContinueText
 	public GameObject coinMono, tokenMono;
 	public TextMesh lastBestScore, highScore, highScoreText, mission1;
@@ -41,7 +41,7 @@ public class IGMLogic : MonoBehaviour
 
 	public static IGMLogic m_instance = null;
 
-	public FacebookConnectScript _FacebookConnectObject;
+	//public FacebookConnectScript _FacebookConnectObject;
 
 	// Use this for initialization
 
@@ -100,8 +100,8 @@ public class IGMLogic : MonoBehaviour
 		} else {
 			levelText.text = "Level " + 50;
 		}
-		if (_FacebookConnectObject)
-			_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;
+		/*if (_FacebookConnectObject)
+			_FacebookConnectObject.OnConnectEnded += HandleFacebookConnection;*/
 	}
 
 	public void isTextMeshesVisible (bool isActive)
@@ -205,6 +205,7 @@ public class IGMLogic : MonoBehaviour
 	public void OpenCharacterSelectionMenu ()
 	{
 		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		playerShadow.SetActive (false);
 		scrollingBG.SetActive (true);
 		CheckForNightMode ();
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
@@ -218,6 +219,7 @@ public class IGMLogic : MonoBehaviour
 		if (isCharacterChanged) {
 			GameManagers.m_instance.Restartlevel ();
 		} else {
+			playerShadow.SetActive (true);
 			charSelcMenu.SetActive (false);
 			isTextMeshesVisible (true);
 			mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -244,10 +246,10 @@ public class IGMLogic : MonoBehaviour
 	{
 		if (isConnected) {
 			SaveStringArray.AddCharIDtoUnlock ("IGC-002");
-			Etcetera.ShowAlert ("Facebook", "Facebook login Done.", "OK");
+			///Etcetera.ShowAlert ("Facebook", "Facebook login Done.", "OK");
 
 		} else {
-			Etcetera.ShowAlert ("Facebook", "You need to connect to facebook to get your free character.", "OK");
+			//Etcetera.ShowAlert ("Facebook", "You need to connect to facebook to get your free character.", "OK");
 		}
 	}
 
@@ -295,16 +297,28 @@ public class IGMLogic : MonoBehaviour
 
 	public void ShowPayCoinToContinueMenu (int coins)
 	{
+		payCoinsToContinueTextInButton.enabled = true;
+		payFreeToContinueTextInButton.enabled = false;
+			
 		pauseButton.SetActive (false);
 		payToContinueMenu.SetActive (true);
-		if (coins <= 5) {
+		/*if (coins <= 5) {
 			coinMono.SetActive (false);
 			tokenMono.SetActive (true);
-		} else {
+		} else*/
+		{
 			coinMono.SetActive (true);
 			tokenMono.SetActive (false);
 		}
-		payCoinsToContinueTextInButton.text = coins.ToString ();
+		if (coins == 0) {
+			coinMono.SetActive (false);
+			tokenMono.SetActive (false);
+			payCoinsToContinueTextInButton.enabled = false;
+			payFreeToContinueTextInButton.enabled = true;
+		} else {
+			payCoinsToContinueTextInButton.text = coins.ToString ();
+		}
+
 	}
 
 	public void ShowHelpMenu ()
@@ -319,8 +333,8 @@ public class IGMLogic : MonoBehaviour
 
 	public void RateUs ()
 	{
-		June.MessageBroker.Publish (June.Messages.RateUsOk);
-		Application.OpenURL (GameEventManager.TappyTownApp_URL);
+		//	June.MessageBroker.Publish (June.Messages.RateUsOk);
+		//	Application.OpenURL (GameEventManager.TappyTownApp_URL);
 	}
 
 	public void OpenSandeepTwitterPage ()
@@ -368,6 +382,7 @@ public class IGMLogic : MonoBehaviour
 	public void ShowInGameStoreMenu ()
 	{
 		mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		playerShadow.SetActive (false);
 		InGameStoreMenu.SetActive (true);
 		CharMeshesOnCanvas (false);
 	}
@@ -375,6 +390,7 @@ public class IGMLogic : MonoBehaviour
 	public void CloseInGameStoreMenu ()
 	{
 		mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+		playerShadow.SetActive (true);
 		InGameStoreMenu.SetActive (false);
 		CharMeshesOnCanvas (true);
 	}

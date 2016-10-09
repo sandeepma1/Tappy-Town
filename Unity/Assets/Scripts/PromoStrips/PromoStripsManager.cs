@@ -55,11 +55,12 @@ public class PromoStripsManager : MonoBehaviour
 			return;
 		}
 
-		int ran = Random.Range (0, 4);
+		int ran = 2;//Random.Range (0, 4);
 
-		if (ran == 0 || ran == 1) {
+		//Wynk...
+		/*if (ran == 0 || ran == 1) {
 			animMiddle.PlayInFixedTime ("WatchAds");
-		}
+		}*/
 
 		if (ran == 2) {		
 			freeGiftStatusText.text = "Free Gift in " + FreeGiftAfterMinutes.m_instance.GiftTimeRemaining ();

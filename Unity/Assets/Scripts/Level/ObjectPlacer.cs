@@ -12,7 +12,7 @@ public class ObjectPlacer : MonoBehaviour
 	string lastBlockPlaced = "";
 
 	Queue<int> digitQ = new Queue<int> ();
-	int posAdder = 0;
+	int posAdder = 30;
 	GameObject[] blocks;
 	//*****************
 	int digit2 = 0;
@@ -69,6 +69,7 @@ public class ObjectPlacer : MonoBehaviour
 				ctr++;
 			}
 		}
+		NewEnvGenerator ();
 	}
 
 	void Update ()
@@ -96,42 +97,42 @@ public class ObjectPlacer : MonoBehaviour
 	{
 		print (chars [charAdder]);
 		switch (chars [charAdder]) {
-		case "csS":
-			if (!isCargoTruckStarted) {
-				CargoTruckSequenceStart ();
-			}
-			break;
-		case "csE":
-			if (isCargoTruckStarted) {
-				CargoTruckSequenceEnd ();
-			}
-			break;
-		case "fbS":
-			if (!isFlappyBird) {
-				FlappyBirdSequenceStart ();
-			}
-			break;
-		case "fbE":
-			if (isFlappyBird) {
-				FlappyBirdSequenceEnd ();
-			}
-			break;
-		case "mcS":
-			if (!isMiniCar) {
-				MiniCarSequenceStart ();
-			}
-			break;
-		case "mcE":
-			if (isMiniCar) {
-				MiniCarSequenceEnd ();
-			}
-			break;
-		default:			
-			calDigit2 ();
-			digit2 = digitQ.Dequeue ();
-			blocks [FindArrayIndex (chars [charAdder] + digit2)].transform.position = new Vector3 (posAdder, 0);
-			blocks [FindArrayIndex (chars [charAdder] + digit2)].SetActive (true);
-			break;
+			case "csS":
+				if (!isCargoTruckStarted) {
+					CargoTruckSequenceStart ();
+				}
+				break;
+			case "csE":
+				if (isCargoTruckStarted) {
+					CargoTruckSequenceEnd ();
+				}
+				break;
+			case "fbS":
+				if (!isFlappyBird) {
+					FlappyBirdSequenceStart ();
+				}
+				break;
+			case "fbE":
+				if (isFlappyBird) {
+					FlappyBirdSequenceEnd ();
+				}
+				break;
+			case "mcS":
+				if (!isMiniCar) {
+					MiniCarSequenceStart ();
+				}
+				break;
+			case "mcE":
+				if (isMiniCar) {
+					MiniCarSequenceEnd ();
+				}
+				break;
+			default:			
+				calDigit2 ();
+				digit2 = digitQ.Dequeue ();
+				blocks [FindArrayIndex (chars [charAdder] + digit2)].transform.position = new Vector3 (posAdder, 0);
+				blocks [FindArrayIndex (chars [charAdder] + digit2)].SetActive (true);
+				break;
 		}
 		charAdder++;
 		if (charAdder >= chars.Length - 1) {
@@ -150,20 +151,29 @@ public class ObjectPlacer : MonoBehaviour
 		}
 	}
 
-	void CargoTruckSequenceEnd ()
+	public void CargoTruckSequenceEnd ()
 	{
 		blocks [FindArrayIndex ("d2cs1")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2cs1")].SetActive (true);
 		isCargoTruckStarted = false;
 		MissionLogic.m_instance.CargoMissionAdder ();
+
+	}
+
+	public void CargoTruckSequenceEndAnimation ()
+	{
 		StartCoroutine ("CargoTruckEndingAnimation");
 	}
 
-	void CargoTruckSequenceStart ()
+	public void CargoTruckSequenceStart ()
 	{
 		blocks [FindArrayIndex ("d2cs0")].transform.position = new Vector3 (posAdder, 0);
 		blocks [FindArrayIndex ("d2cs0")].SetActive (true);
 		isCargoTruckStarted = true;
+	}
+
+	public void CargoTruckSequenceStartAnimation ()
+	{		
 		StartCoroutine ("CargoTruckStartingAnimation");
 	}
 
@@ -199,18 +209,20 @@ public class ObjectPlacer : MonoBehaviour
 
 	IEnumerator CargoTruckStartingAnimation ()
 	{
-		yield return new WaitForSeconds (5f);
+		IGMLogic.m_instance.pauseButton.SetActive (false);
+		yield return new WaitForSeconds (0f);
 		if (GameEventManager.GetState () == GameEventManager.E_STATES.e_game) {	
 			LeanTween.moveLocalZ (cargoTruck, 5, 1.5f, optional);
 			LeanTween.moveLocalX (cargoTruck, 13, 1.5f, optional);
 			yield return new WaitForSeconds (1f);
 			LeanTween.rotateY (cargoTruck, 90, 0.65f, optional);
 		}
+		IGMLogic.m_instance.pauseButton.SetActive (true);
 	}
 
 	IEnumerator CargoTruckEndingAnimation ()
 	{
-		LeanTween.moveLocalX (cargoTruck, 26, 0.5f, optional);
+		LeanTween.moveLocalX (cargoTruck, 35, 0.5f, optional);
 		yield return new WaitForSeconds (1f);
 		cargoTruck.transform.localPosition = cargoTruckIniPosition;
 		cargoTruck.transform.localEulerAngles = cargoTruckIniRotation;

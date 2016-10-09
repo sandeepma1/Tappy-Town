@@ -43,7 +43,9 @@ public class GatchaSystem : MonoBehaviour
 			CoinCalculation.m_instance.UpdateCurrencyOnUI ();
 			StartCoroutine ("ShowTapToContinuePrompt");
 		} else {
-			IGMLogic.m_instance.ShowInGameStoreMenu ();
+			//wynk
+			//IGMLogic.m_instance.ShowInGameStoreMenu ();
+			//Etcetera.ShowAlert ("Not enough coins", "Play game and earn coins.", "OK");
 		}
 	}
 
@@ -147,6 +149,7 @@ public class GatchaSystem : MonoBehaviour
 		IGMLogic.m_instance.CheckForNightMode ();
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 		IGMLogic.m_instance.scrollingBG.SetActive (true);
+		IGMLogic.m_instance.playerShadow.SetActive (false);
 		GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		redeemButton.gameObject.SetActive (true);
 		prizeMesh.GetComponent<MeshFilter> ().mesh = null;
@@ -165,5 +168,6 @@ public class GatchaSystem : MonoBehaviour
 		IGMLogic.m_instance.scrollingBG.SetActive (false);
 		IGMLogic.m_instance.mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		IGMLogic.m_instance.CheckForNightMode ();
+		IGMLogic.m_instance.playerShadow.SetActive (true);
 	}
 }

@@ -39,11 +39,3 @@ public class LoadingScreen : MonoBehaviour
 	}
 }
 
-/*public IEnumerator wait()
-{
-	Debug.Log("Now its called");
-	yield return new WaitForSeconds(1);
-
-	bar.value = 1;
-
-}*/

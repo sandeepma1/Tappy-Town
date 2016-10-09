@@ -65,13 +65,16 @@ public class ManJump : MonoBehaviour
 		optional = new Hashtable ();
 		optional.Add ("ease", LeanTweenType.easeOutBack);
 		iniSpeed = GameEventManager.playerMoveInSeconds;
-		coinAskList = new int[6];
-		coinAskList [0] = GameEventManager.coinAskList1;
-		coinAskList [1] = GameEventManager.coinAskList2;
-		coinAskList [2] = GameEventManager.coinAskList3;
-		coinAskList [3] = GameEventManager.coinAskList4;
-		coinAskList [4] = GameEventManager.coinAskList5;
-		coinAskList [5] = GameEventManager.coinAskList6;
+
+		coinAskList = new int[8];
+		coinAskList [0] = GameEventManager.coinAskList0;
+		coinAskList [1] = GameEventManager.coinAskList1;
+		coinAskList [2] = GameEventManager.coinAskList2;
+		coinAskList [3] = GameEventManager.coinAskList3;
+		coinAskList [4] = GameEventManager.coinAskList4;
+		coinAskList [5] = GameEventManager.coinAskList5;
+		coinAskList [6] = GameEventManager.coinAskList6;
+		coinAskList [7] = GameEventManager.coinAskList7;
 	}
 
 	public void IniPlayerPosValues ()
@@ -180,48 +183,56 @@ public class ManJump : MonoBehaviour
 	void OnTriggerEnter (Collider other)
 	{
 		switch (other.gameObject.tag) {
-		case "death":			
-			if (!isDeath && !isInvi) {
-				PlayerPartiallyDied ();
-			}
-			break;
-		case "pickable_coin":
-			IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			PlayParticle (coinParticle);
-			coinPickupSound.Play ();
+			case "death":			
+				if (!isDeath && !isInvi) {
+					PlayerPartiallyDied ();
+				}
+				break;
+			case "pickable_coin":
+				IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
+				PlayParticle (coinParticle);
+				coinPickupSound.Play ();
 			//coinGot.Play ("coinGot");
-			CoinCalculation.m_instance.AddCoins (1);
-			ReActivateCoins (other.gameObject);
-			break;
-		case "pickable_token":
+				CoinCalculation.m_instance.AddCoins (1);
+				ReActivateCoins (other.gameObject);
+				break;
+			case "pickable_token":
 			//IGMLogic.m_instance.anim.CrossFadeInFixedTime ("coinScale", 0.2f);
-			CoinCalculation.m_instance.AddToken (1);
-			ReActivateCoins (other.gameObject);
-			break;
-		case "speedUp":
-			SpeedUpPlayer ();
-			break;
-		case "balloonStart":			
-			TutorialManager.m_instance.ShowBalloonTutorial ();
-			isEnableFlappy = true;
-			other.gameObject.SetActive (false);
-			ReActivateCoins (other.gameObject);
-			SwitchBalloon ();
-			break;
-		case "balloonEnd":
-			isEnableFlappy = false;
-			SwitchBalloon ();
-			break;
-		case "miniCarStart":
-			isInCar = true;
-			MiniCarSequenceStart (other.gameObject);
-			break;
-		case "miniCarEnd":			
-			isInCar = false;
-			MiniCarSequenceEnd ();
-			break;
-		default:
-			break;
+				CoinCalculation.m_instance.AddToken (1);
+				ReActivateCoins (other.gameObject);
+				break;
+			case "speedUp":
+				SpeedUpPlayer ();
+				break;
+			case "balloonStart":			
+				TutorialManager.m_instance.ShowBalloonTutorial ();
+				isEnableFlappy = true;
+				other.gameObject.SetActive (false);
+				ReActivateCoins (other.gameObject);
+				SwitchBalloon ();
+				break;
+			case "balloonEnd":
+				isEnableFlappy = false;
+				SwitchBalloon ();
+				break;
+			case "miniCarStart":
+				isInCar = true;
+				MiniCarSequenceStart (other.gameObject);
+				break;
+			case "miniCarEnd":			
+				isInCar = false;
+				MiniCarSequenceEnd ();
+				break;
+			case "cargoStart":	
+				ObjectPlacer.m_instance.CargoTruckSequenceStartAnimation ();
+				print ("start");
+				break;
+			case "cargoEnd":	
+				ObjectPlacer.m_instance.CargoTruckSequenceEndAnimation ();
+				break;
+		//print ("end");
+			default:
+				break;
 		}
 	}
 
@@ -338,7 +349,9 @@ public class ManJump : MonoBehaviour
 
 	IEnumerator PlayerDiedStartTimer ()
 	{
-		counDownText.gameObject.SetActive (true);
+		// wynk
+
+		/*counDownText.gameObject.SetActive (true);
 		continueText.gameObject.SetActive (true);
 
 		if (coinMultipler < coinAskList.Length) {
@@ -362,18 +375,52 @@ public class ManJump : MonoBehaviour
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
 		IGMLogic.m_instance.ClosePayToContinueMenu ();
-		PlayerDiedCalculateStats ();
+		PlayerDiedCalculateStats ();*/
+
+
+		if (coinMultipler < coinAskList.Length) {
+			counDownText.gameObject.SetActive (true);
+			continueText.gameObject.SetActive (true);
+
+			coinsToAsk = coinAskList [coinMultipler];
+			IGMLogic.m_instance.ShowPayCoinToContinueMenu (coinsToAsk);
+
+			counDownText.text = "5";
+			yield return new WaitForSeconds (1);
+			counDownText.text = "4";
+			yield return new WaitForSeconds (1);
+			counDownText.text = "3";
+			yield return new WaitForSeconds (1);
+			counDownText.text = "2";
+			yield return new WaitForSeconds (1);
+			counDownText.text = "1";
+			yield return new WaitForSeconds (1);
+			counDownText.text = "";
+			counDownText.gameObject.SetActive (false);
+			continueText.gameObject.SetActive (false);
+			IGMLogic.m_instance.ClosePayToContinueMenu ();
+			PlayerDiedCalculateStats ();
+
+		} else {
+			PlayerDiedCalculateStats ();
+		}
+
 	}
 
 	public void UserPayingForCoins ()
 	{
-		if (coinsToAsk <= 5) {
+
+
+		if (coinsToAsk <= 0) {
+			UserHadAndPaidCoins ();
+		} 
+		/*if (coinsToAsk <= 5) {
 			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("tokens")) {
 				UserHadAndPaidCoins ();
 			} else {
 				AskForMoreCoins ();
 			}
-		} else {
+		}*/ else {
 			if (coinsToAsk <= June.LocalStore.Instance.GetInt ("coins")) {				
 				UserHadAndPaidCoins ();
 			} else {
@@ -384,48 +431,48 @@ public class ManJump : MonoBehaviour
 
 	public void UserWatchingAdsForResume ()
 	{
-		if (June.VideoAds.VideoAdManager.IsReady) {
+		/*if (June.VideoAds.VideoAdManager.IsReady) {
 			//IGMLogic.m_instance.PauseGame ();
-		}
+		}*/
 		//print ("June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
-		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
+		//June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
 		//#if !UNITY_EDITOR
 		//print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
-		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
-			//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
-			//	AudioListener.pause = false;
-			if (status) {
-				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
-				UserHadWatchedVideoAd ();
-				//print (" status : " + status);
-			} else {
-				Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
-				//print (" status : " + status);
-				//IGMLogic.m_instance.ResumeGame ();
-			}
-		});
+		//bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
+		//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
+		//	AudioListener.pause = false;
+		//	if (status) {
+		//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
+		//	UserHadWatchedVideoAd ();
+		//print (" status : " + status);
+		//} else {
+		//	Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
+		//print (" status : " + status);
+		//IGMLogic.m_instance.ResumeGame ();
+		//	}
+		//});
 	}
 
 	public void UserWatchingAdsForCoins ()
 	{
 		//IGMLogic.m_instance.PauseGame ();
 		//print (" June.VideoAds.VideoAdManager.IsReady : " + June.VideoAds.VideoAdManager.IsReady);
-		June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
+		//June.MessageBroker.Publish (June.Messages.ResumeWatchAdTap, null);
 		//#if !UNITY_EDITOR
 		//print ("[MissionToast] WinPrizeButtonOnTap Show Ad");
-		bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
-			//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
-			//	AudioListener.pause = false;
-			if (status) {
-				//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
-				CoinCalculation.m_instance.AddCoins (30);
-				//print (" status : " + status);
-			} else {
-				Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
-				//print (" status : " + status);
-				//IGMLogic.m_instance.ResumeGame ();
-			}
-		});
+		//bool showingAd = June.VideoAds.VideoAdManager.Show (status => {
+		//print ("[MissionToast] VideoAdManager.Show Callback hasCompleted:" + status);
+		//	AudioListener.pause = false;
+		//if (status) {
+		//Etcetera.ShowAlert ("Coins", "You got " + GameConfig.CoinsForVideoAd + " coins!", "Awesome", (buttonText) => {} );		
+		//CoinCalculation.m_instance.AddCoins (30);
+		//print (" status : " + status);
+		//	} else {
+		//	Etcetera.ShowAlert ("", "You need to watch the entire video to get your reward.", "OK");
+		//print (" status : " + status);
+		//IGMLogic.m_instance.ResumeGame ();
+		//}
+		//});
 	}
 
 	public void UserHadWatchedVideoAd ()
@@ -447,9 +494,10 @@ public class ManJump : MonoBehaviour
 		counDownText.gameObject.SetActive (false);
 		continueText.gameObject.SetActive (false);
 		StartCoroutine ("EnablePlayersColliderAfterWait");
-		if (coinsToAsk <= 5) {
+		/*if (coinsToAsk <= 5) {
 			June.LocalStore.Instance.SetInt ("tokens", June.LocalStore.Instance.GetInt ("tokens") - coinsToAsk);
-		} else {
+		} else */
+		{
 			June.LocalStore.Instance.SetInt ("coins", June.LocalStore.Instance.GetInt ("coins") - coinsToAsk);
 		}
 		CoinCalculation.m_instance.UpdateCurrencyOnUI ();
@@ -459,7 +507,9 @@ public class ManJump : MonoBehaviour
 
 	void AskForMoreCoins ()
 	{
-		IGMLogic.m_instance.ShowInGameStoreMenu ();
+		//wynk
+		//IGMLogic.m_instance.ShowInGameStoreMenu ();
+		//	Etcetera.ShowAlert ("Not enough coins", "Play game and earn coins.", "OK");
 	}
 
 	IEnumerator EnablePlayersColliderAfterWait ()

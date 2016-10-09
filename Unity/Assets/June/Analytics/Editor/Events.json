@@ -1,1 +1,0 @@
-{"providers":["Flurry"],"parameters":{},"events":{"HomePlayTap":{"params":[],"providers":["Flurry"],"msg":"//home/play_tap"},"ResumeWatchAdTap":{"params":[],"providers":["Flurry"],"msg":"//game_over/watch_ad_tap"},"RateUsOk":{"params":[],"providers":["Flurry"],"msg":"//rate_us/ok_tap"}}}
