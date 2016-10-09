@@ -1,0 +1,10 @@
+adbuddiz Publisher Key
+754edfed-6268-4072-a743-107ec79fbc61
+
+Unity GameID
+84278
+81f25987-ab19-4350-bb72-7d4dbf1adad6
+
+AdColony App ID
+app08a878c5ea5840b598
+Zone ID: vz05b9e26fdbd0408885
