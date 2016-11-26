@@ -12,14 +12,12 @@ using System.Security.Cryptography;
 using Logger = June.DummyLogger;
 using System.Xml.Serialization;
 
-namespace June
-{
+namespace June {
 
 	/// <summary>
 	/// Util.
 	/// </summary>
-	public static partial class Util
-	{
+	public static partial class Util {
 
 		/// <summary>
 		/// JSON encoder/decoder
@@ -39,12 +37,11 @@ namespace June
 		/// </value>
 		public static int CurrentUTCTimestamp {
 			get {
-				return (int)ToUnixTimestamp (DateTime.UtcNow);
+				return (int)ToUnixTimestamp(DateTime.UtcNow);
 			}
 		}
 
 		private static bool _IsInternetReachable = true;
-
 		/// <summary>
 		/// Gets a value indicating is internet reachable.
 		/// </summary>
@@ -62,10 +59,9 @@ namespace June
 		/// Gets the time zone.
 		/// </summary>
 		/// <returns>The time zone.</returns>
-		public static double GetTimeZone ()
-		{
+		public static double GetTimeZone() {
 			var date = DateTime.Now;
-			return Math.Round ((date - date.ToUniversalTime ()).TotalHours, 1, MidpointRounding.AwayFromZero);
+			return Math.Round((date - date.ToUniversalTime()).TotalHours, 1, MidpointRounding.AwayFromZero);
 		}
 
 		/// <summary>
@@ -74,9 +70,8 @@ namespace June
 		/// <returns><c>true</c>, if json document to file was serialized, <c>false</c> otherwise.</returns>
 		/// <param name="filePath">File path.</param>
 		/// <param name="jsonDoc">Json document.</param>
-		public static bool SerializeJsonDocToFile (string filePath, IDictionary<string, object> jsonDoc)
-		{
-			return SerializeJsonDocToFile (filePath, jsonDoc, JSON_ENCODER_DECODER);
+		public static bool SerializeJsonDocToFile(string filePath, IDictionary<string, object> jsonDoc) {
+			return SerializeJsonDocToFile(filePath, jsonDoc, JSON_ENCODER_DECODER);
 		}
 
 		/// <summary>
@@ -85,25 +80,25 @@ namespace June
 		/// <returns><c>true</c>, if json document to file was serialized, <c>false</c> otherwise.</returns>
 		/// <param name="filePath">File path.</param>
 		/// <param name="encodeMethod">Encode method.</param>
-		public static bool SerializeJsonDocToFile (string filePath, IDictionary<string, object> jsonDoc, Func<string, string> encodeMethod)
-		{
+		public static bool SerializeJsonDocToFile(string filePath, IDictionary<string, object> jsonDoc, Func<string, string> encodeMethod) {
 			bool result = false;
 			try {
 				if (null != jsonDoc) {
-					string resultStr = SimpleJson.SimpleJson.SerializeObject (jsonDoc);
-					if (!string.IsNullOrEmpty (resultStr)) {
+					string resultStr = SimpleJson.SimpleJson.SerializeObject(jsonDoc);
+					if (!string.IsNullOrEmpty(resultStr)) {
 						if (null != encodeMethod) {
-							resultStr = encodeMethod (resultStr);
+							resultStr = encodeMethod(resultStr);
 						}
 
-						if (!string.IsNullOrEmpty (resultStr)) {
-							File.WriteAllText (filePath, resultStr);
+						if (!string.IsNullOrEmpty(resultStr)) {
+							File.WriteAllText(filePath, resultStr);
 							result = true;
 						}
 					}
 				}
-			} catch (Exception ex) {
-				Logger.Log ("[Util] Error in persisting file: " + ex.Message);
+			}
+			catch (Exception ex) {
+				Logger.Log("[Util] Error in persisting file: " + ex.Message);
 				result = false;
 			}
 			return result;
@@ -114,9 +109,8 @@ namespace June
 		/// </summary>
 		/// <returns>The serialize json document from file.</returns>
 		/// <param name="filePath">File path.</param>
-		public static IDictionary<string, object> DeSerializeJsonDocFromFile (string filePath)
-		{
-			return DeSerializeJsonDocFromFile (filePath, JSON_ENCODER_DECODER);
+		public static IDictionary<string, object> DeSerializeJsonDocFromFile(string filePath) {
+			return DeSerializeJsonDocFromFile(filePath, JSON_ENCODER_DECODER);
 		}
 
 		/// <summary>
@@ -124,16 +118,15 @@ namespace June
 		/// </summary>
 		/// <returns>The serialize json document from file.</returns>
 		/// <param name="filePath">File path.</param>
-		public static IDictionary<string, object> DeSerializeJsonDocFromFile (string filePath, Func<string, string> decodeMethod)
-		{
+		public static IDictionary<string, object> DeSerializeJsonDocFromFile(string filePath, Func<string, string> decodeMethod) {
 			IDictionary<string, object> result = null;
-			if (File.Exists (filePath)) {
-				string fileData = File.ReadAllText (filePath);
-				if (null != decodeMethod && !string.IsNullOrEmpty (fileData)) {
-					fileData = decodeMethod (fileData);
+			if (File.Exists(filePath)) {
+				string fileData = File.ReadAllText(filePath);
+				if (null != decodeMethod && !string.IsNullOrEmpty(fileData)) {
+					fileData = decodeMethod(fileData);
 				}
-				if (!string.IsNullOrEmpty (fileData)) {
-					result = (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject (fileData);
+				if (!string.IsNullOrEmpty(fileData)) {
+					result = (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject(fileData);
 				}
 			}
 			return result;
@@ -165,7 +158,7 @@ namespace June
 			T obj = default(T);
 			string text = ReadTextFromResource (resourceName);
 			if (null != text) {
-				using (StringReader reader = new StringReader (text)) {
+				using (StringReader reader = new StringReader(text)) {
 					XmlSerializer serializer = new XmlSerializer (typeof(T));
 					obj = (T)serializer.Deserialize (reader);
 				}
@@ -179,13 +172,12 @@ namespace June
 		/// <returns>The serialize json document from resource.</returns>
 		/// <param name="resourceName">Resource name.</param>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public static IDictionary<string, object> DeSerializeJsonDocFromResource (string resourceName)
-		{
+		public static IDictionary<string, object> DeSerializeJsonDocFromResource(string resourceName) {
 			IDictionary<string, object> result = null;
-			string text = ReadTextFromResource (resourceName);
+			string text = ReadTextFromResource(resourceName);
 			if (null != text) {
 				object obj;
-				if (SimpleJson.SimpleJson.TryDeserializeObject (text, out obj)) {
+				if (SimpleJson.SimpleJson.TryDeserializeObject(text, out obj)) {
 					result = (IDictionary<string, object>)obj;
 				}
 			}
@@ -197,17 +189,16 @@ namespace June
 		/// </summary>
 		/// <returns>The deserialized json document from cache or resource.</returns>
 		/// <param name="resourceName">Resource name.</param>
-		public static IDictionary<string, object> DeSerializeJsonDocFromCacheOrResource (string resourceName)
-		{
+		public static IDictionary<string, object> DeSerializeJsonDocFromCacheOrResource(string resourceName) {
 			IDictionary<string, object> result = null;
-			string filePath = Path.Combine (Application.persistentDataPath, resourceName);
-			if (File.Exists (filePath)) {
-				Logger.Log ("[DE-SERIALIZE] OPENING FILE :" + filePath);
-				result = DeSerializeJsonDocFromFile (filePath, null);
+			string filePath = Path.Combine(Application.persistentDataPath, resourceName);
+			if (File.Exists(filePath)) {
+				Logger.Log("[DE-SERIALIZE] OPENING FILE :" + filePath);
+				result = DeSerializeJsonDocFromFile(filePath, null);
 			}
 			if (null == result) {
-				Logger.Log ("[DE-SERIALIZE] OPENING RESOURCE :" + resourceName);
-				result = DeSerializeJsonDocFromResource (resourceName);
+				Logger.Log("[DE-SERIALIZE] OPENING RESOURCE :" + resourceName);
+				result = DeSerializeJsonDocFromResource(resourceName);
 			}
 			return result;
 		}
@@ -221,9 +212,8 @@ namespace June
 		/// <param name='dt'>
 		/// Date time object
 		/// </param>
-		public static long ToUnixTimestamp (System.DateTime dt)
-		{
-			DateTime unixRef = new DateTime (1970, 1, 1, 0, 0, 0);
+		public static long ToUnixTimestamp(System.DateTime dt) {
+			DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 			return (dt.Ticks - unixRef.Ticks) / 10000000;
 		}
 
@@ -236,10 +226,9 @@ namespace June
 		/// <param name='timestamp'>
 		/// Timestamp.
 		/// </param>
-		public static DateTime FromUnixTimestamp (long timestamp)
-		{
-			DateTime unixRef = new DateTime (1970, 1, 1, 0, 0, 0);
-			return unixRef.AddSeconds (timestamp);
+		public static DateTime FromUnixTimestamp(long timestamp) {
+			DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
+			return unixRef.AddSeconds(timestamp);
 		}
 
 		/// <summary>
@@ -251,9 +240,8 @@ namespace June
 		/// <param name='jsonStr'>
 		/// Json string.
 		/// </param>
-		public static IDictionary<string, object> DeSerializeJSON (string jsonStr)
-		{
-			return (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject (jsonStr);
+		public static IDictionary<string, object> DeSerializeJSON(string jsonStr) {
+			return (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject(jsonStr);
 		}
 
 		/// <summary>
@@ -262,14 +250,13 @@ namespace June
 		/// <param name="plainText">The plain text.</param>
 		/// <returns></returns>
 		/// <remarks></remarks>
-		public static string SHA1Encode (string plainText)
-		{
-			var inputBytes = ASCIIEncoding.ASCII.GetBytes (plainText);
-			using (var sha1 = new SHA1Managed ()) {
-				var hashBytes = sha1.ComputeHash (inputBytes);
-				StringBuilder hashValue = new StringBuilder ();
-				Array.ForEach<byte> (hashBytes, b => hashValue.Append (b.ToString ("x2")));
-				return hashValue.ToString ();
+		public static string SHA1Encode(string plainText) {
+			var inputBytes = ASCIIEncoding.ASCII.GetBytes(plainText);
+			using(var sha1 = new SHA1Managed()) {
+				var hashBytes = sha1.ComputeHash(inputBytes);
+				StringBuilder hashValue = new StringBuilder();
+				Array.ForEach<byte>(hashBytes, b => hashValue.Append(b.ToString("x2")));
+				return hashValue.ToString();
 			}
 		}
 
@@ -288,17 +275,16 @@ namespace June
 		/// <param name='responseCode'>
 		/// Response code.
 		/// </param>
-		public static IEnumerator ExecutePostCommand (string url, string data, Action<WWW> callback)
-		{
-			var form = new WWWForm ();
+		public static IEnumerator ExecutePostCommand(string url, string data, Action<WWW> callback) {
+			var form = new WWWForm();
 			form.headers ["Content-Type"] = "application/json";
-			Logger.Log (string.Format ("[HTTP POST] Request {0} {1}", url, data));
+			Logger.Log(string.Format("[HTTP POST] Request {0} {1}", url, data));
 		
-			using (WWW www = new WWW (url, Encoding.UTF8.GetBytes (data), form.headers)) {
+			using (WWW www = new WWW(url, Encoding.UTF8.GetBytes(data), form.headers)) {
 				yield return www;
-				Logger.Log (string.Format ("[HTTP POST] Response {0}", (!string.IsNullOrEmpty (www.error)) ? (" Error - " + www.error) : www.text));
+				Logger.Log (string.Format("[HTTP POST] Response {0}", (!string.IsNullOrEmpty (www.error)) ? (" Error - " + www.error) : www.text));
 				if (www.isDone && null != callback) {
-					callback (www);
+					callback(www);
 				}		
 			}
 		}
@@ -312,21 +298,20 @@ namespace June
 		/// <param name="password">Password.</param>
 		/// <param name="data">Data.</param>
 		/// <param name="callback">Callback.</param>
-		public static IEnumerator ExecutePostCommandWithBasicAuth (string url, string username, string password, string data, Action<WWW> callback)
-		{
-			var form = new WWWForm ();
+		public static IEnumerator ExecutePostCommandWithBasicAuth(string url, string username, string password, string data, Action<WWW> callback) {
+			var form = new WWWForm();
 			var headers = form.headers;
 		
 			headers ["Content-Type"] = "application/json";
-			headers ["Authorization"] = "Basic " + System.Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (string.Format ("{0}:{1}", username, password)));
+			headers ["Authorization"] = "Basic " + System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", username, password)));
 		
-			Logger.Log (string.Format ("[HTTP POST] Request {0} {1}:{2} {3}", url, username, password, data));
+			Logger.Log(string.Format("[HTTP POST] Request {0} {1}:{2} {3}", url, username, password, data));
 
-			using (WWW www = new WWW (url, Encoding.UTF8.GetBytes (data), headers)) {
+			using (WWW www = new WWW(url, Encoding.UTF8.GetBytes(data), headers)) {
 				yield return www;
-				Logger.Log (string.Format ("[HTTP POST] Response {0}", (!string.IsNullOrEmpty (www.error)) ? (" Error - " + www.error) : www.text));
+				Logger.Log (string.Format("[HTTP POST] Response {0}", (!string.IsNullOrEmpty (www.error)) ? (" Error - " + www.error) : www.text));
 				if (www.isDone && null != callback) {
-					callback (www);
+					callback(www);
 				}		
 			}
 		}
@@ -343,23 +328,22 @@ namespace June
 		/// <param name='callback'>
 		/// Callback.
 		/// </param>
-		public static IEnumerator ExecuteGetCommand (string url, Action<WWW> callback)
-		{
-			Logger.Log (string.Format ("[HTTP GET] Request {0}", url));
+		public static IEnumerator ExecuteGetCommand(string url, Action<WWW> callback) {
+			Logger.Log(string.Format("[HTTP GET] Request {0}", url));
 			
 			if (!Util.IsInternetReachable) {
 				if (null != callback) {
-					callback (null);
+					callback(null);
 				}
 				yield break;
 			}
 
-			using (WWW www = new WWW (url)) {
+			using (WWW www = new WWW(url)) {
 	
 				yield return www;
 				//Logger.Log (string.Format("[HTTP GET] Response {0} {1}", requestNo, (!string.IsNullOrEmpty (www.error)) ? (" Error - " + www.error) : www.text));
 				if (www.isDone && null != callback) {
-					callback (www);
+					callback(www);
 				}
 			}
 		}
@@ -372,8 +356,7 @@ namespace June
 		/// <param name="address">Address.</param>
 		/// <param name="timeOut">Time out.</param>
 		/// <param name="callback">Callback.</param>
-		public static IEnumerator ExecutePingCommand (string address, float timeOut, Action<float> callback)
-		{
+		public static IEnumerator ExecutePingCommand (string address, float timeOut, Action<float> callback) {
 			Ping ping = new Ping (address);
 			float timeDiff = 0.1f;
 			float time = 0.0f;
@@ -381,12 +364,12 @@ namespace June
 				yield return new WaitForSeconds (timeDiff);
 				time += timeDiff;
 				if (time >= timeOut) {
-					break;
+						break;
 				}
 			}
-			Logger.Log ("PING:" + time.ToString ("0.0") + " TIMEOUT:" + timeOut + " IsDone:" + ping.isDone + " Time:" + ping.time);
+			Logger.Log("PING:" + time.ToString("0.0") + " TIMEOUT:" + timeOut + " IsDone:" + ping.isDone + " Time:" + ping.time);
 			if (null != callback) {
-				callback (time);
+					callback (time);
 			}
 		}
 		#endif
@@ -396,12 +379,11 @@ namespace June
 		/// </summary>
 		/// <returns>The to string.</returns>
 		/// <param name="d">D.</param>
-		public static string ConvertToString (Dictionary<string, string> d)
-		{
+		public static string ConvertToString(Dictionary<string, string> d) {
 			// Build up each line one-by-one and then trim the end
-			StringBuilder builder = new StringBuilder ();
+			StringBuilder builder = new StringBuilder();
 			foreach (KeyValuePair<string, string> pair in d) {
-				builder.Append (pair.Key).Append (":").Append (pair.Value).Append (',');
+				builder.Append(pair.Key).Append(":").Append(pair.Value).Append(',');
 			}
 			string result = builder.ToString ();
 			// Remove the final delimiter
@@ -415,29 +397,91 @@ namespace June
 		/// </summary>
 		/// <returns>The title case.</returns>
 		/// <param name="word">Word.</param>
-		public static string ToTitleCase (string word)
-		{
+		public static string ToTitleCase(string word) {
 			if (word == null)
 				return null;
 		
 			if (word.Length > 1)
-				return char.ToUpper (word [0]) + word.Substring (1);
+				return char.ToUpper(word [0]) + word.Substring(1);
 		
-			return word.ToUpper ();
+			return word.ToUpper();
 		}
 
+		#if !UNITY_WEBGL
+		/// <summary>
+		/// Starts the internet reachability check.
+		/// </summary>
+		public static void StartInternetReachabilityCheck () {
+			if (null == _IsCheckingForInternet || _IsCheckingForInternet.IsPaused) {
+				if(null != _IsCheckingForInternet)
+					_IsCheckingForInternet.Kill();
+				_IsCheckingForInternet = Job.Create (TestInternetConnection ());
+			}
+		}
+
+		/// <summary>
+		/// Tests the internet connection.
+		/// </summary>
+		/// <returns>The internet connection.</returns>
+		public static IEnumerator TestInternetConnection () {
+			long startTime = 0;
+			long timeTaken = 0;
+			float maxTime = 5.0F;
+			float secondsToWait = 10F;
+				
+			#if INTERNET_CHECK_USING_PING
+				while (true) {
+					yield return Job.CreateAsCoroutine (
+						ExecutePingCommand ("74.125.224.72", maxTime,
+					    	time => {
+								Logger.Log ("RECEIVED PING - " + time);
+								if (time < maxTime) {
+										IsInternetReachable = true;
+										secondsToWait = 20F;
+								} else {
+										IsInternetReachable = false;
+										secondsToWait = 5F;
+								}
+						}));
+					yield return new WaitForSeconds (secondsToWait);
+				}
+			#else
+				while (true) {
+					startTime = DateTime.Now.Ticks;
+					//Util.Logger.Log("START TICK - " + startTime);
+					yield return Coroutiner.StartCoroutine(
+						Util.ExecuteGetCommand("http://www.google.com",
+							www => {
+								timeTaken = DateTime.Now.Ticks - startTime;
+								//Util.Logger.Log("END TICK - " + DateTime.Now.Ticks);
+								//Util.Logger.Log("TIME TAKEN - " + timeTaken);
+								if(!string.IsNullOrEmpty(www.error)) {
+									//Util.Logger.Log("ERROR - " + www.error);
+									IsInternetReachable = false;
+									secondsToWait = 5;
+								}
+								else {
+									IsInternetReachable = true;
+									secondsToWait = 20;
+								}
+							}));
+					yield return new WaitForSeconds(secondsToWait);
+				}
+			#endif
+		}
+		#endif
+			
 		/// <summary>
 		/// Converts to generic dictionary.
 		/// </summary>
 		/// <returns>The to generic dictionary.</returns>
 		/// <param name="obj">Object.</param>
-		public static IDictionary<string, object> ConvertToGenericDictionary (IDictionary obj)
-		{
-			IDictionary<string, object> result = new Dictionary<string, object> (); 
+		public static IDictionary<string, object> ConvertToGenericDictionary(IDictionary obj) {
+			IDictionary<string, object> result = new Dictionary<string, object>(); 
 			foreach (var key in obj.Keys) {
-				string keyStr = key.ToString ();
-				if (!obj.Contains (key)) {
-					result.Add (keyStr, obj [key]);
+				string keyStr = key.ToString();
+				if (!obj.Contains(key)) {
+					result.Add(keyStr, obj [key]);
 				}
 			}
 			return result;
@@ -448,16 +492,16 @@ namespace June
 		/// </summary>
 		/// <param name="list">The list.</param>
 		/// <returns></returns>
-		public static int Median (int[] list)
-		{
+		public static int Median(int[] list) {
 			int result = 0;
-			Array.Sort (list);
+			Array.Sort(list);
 			var listSize = list.Length;
 
 			int midIndex = listSize / 2;
 			if (0 == listSize % 2) {    // Even number of elements            
 				result = ((list [midIndex - 1] + list [midIndex]) / 2);
-			} else {                      // Odd number of elements
+			}
+			else {                      // Odd number of elements
 				result = list [midIndex];
 			}
 
@@ -469,33 +513,21 @@ namespace June
 		/// </summary>
 		/// <returns><c>true</c> if is number the specified obj; otherwise, <c>false</c>.</returns>
 		/// <param name="obj">Object.</param>
-		public static bool IsNumber (object obj)
-		{
+		public static bool IsNumber(object obj) {
 			if (null == obj)
 				return false;
 
-			if (obj is sbyte)
-				return true;
-			if (obj is byte)
-				return true;
-			if (obj is short)
-				return true;
-			if (obj is ushort)
-				return true;
-			if (obj is int)
-				return true;
-			if (obj is uint)
-				return true;
-			if (obj is long)
-				return true;
-			if (obj is ulong)
-				return true;
-			if (obj is float)
-				return true;
-			if (obj is double)
-				return true;
-			if (obj is decimal)
-				return true;
+			if (obj is sbyte) return true;
+			if (obj is byte) return true;
+			if (obj is short) return true;
+			if (obj is ushort) return true;
+			if (obj is int) return true;
+			if (obj is uint) return true;
+			if (obj is long) return true;
+			if (obj is ulong) return true;
+			if (obj is float) return true;
+			if (obj is double) return true;
+			if (obj is decimal) return true;
 
 			return false;
 		}

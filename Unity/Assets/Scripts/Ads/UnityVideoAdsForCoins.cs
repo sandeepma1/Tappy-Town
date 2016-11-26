@@ -3,7 +3,7 @@ using UnityEngine.Advertisements;
 
 public class UnityVideoAdsForCoins : MonoBehaviour
 {
-	public void ShowAd ()
+	/*public void ShowAd ()
 	{
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
@@ -16,9 +16,9 @@ public class UnityVideoAdsForCoins : MonoBehaviour
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show ("rewardedVideo", options);
 		}
-	}
+	}*/
 
-	private void HandleShowResult (ShowResult result)
+	/*private void HandleShowResult (ShowResult result)
 	{
 		switch (result) {
 		case ShowResult.Finished:
@@ -32,7 +32,7 @@ public class UnityVideoAdsForCoins : MonoBehaviour
 			Debug.LogError ("The ad failed to be shown.");
 			break;
 		}
-	}
+	}*/
 
 	private void RewardPlayer ()
 	{

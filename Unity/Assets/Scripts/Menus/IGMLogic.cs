@@ -256,7 +256,7 @@ public class IGMLogic : MonoBehaviour
 	public void SelectChar ()
 	{
 		//TODO-Pooch-Developer
-		//flagFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
+		//Bronz.LocalStore.Instance.SetFloat ("lastScrollValue", CharacterSelection.m_instance.scrollValue.x);
 		//GameEventManager.SetState (GameEventManager.E_STATES.e_pause);
 		//	charSelcLogic.GetComponent<CharacterSelection> ().SetCharName ();
 		//SceneManager.LoadSceneAsync ("level");

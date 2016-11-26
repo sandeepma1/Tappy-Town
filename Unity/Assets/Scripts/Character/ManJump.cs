@@ -145,7 +145,7 @@ public class ManJump : MonoBehaviour
 			//PlayParticle (skateSparksTrail);
 			//print (skateSparksTrail.isPlaying);
 			//GameManagers.m_instance.Restartlevel ();
-			GameManagers.m_instance.Restartlevel ();
+			//	GameManagers.m_instance.Restartlevel ();
 		}
 	}
 
@@ -310,6 +310,7 @@ public class ManJump : MonoBehaviour
 		IGMLogic.m_instance.StartCoroutine ("Shake");
 		isDeath = true;
 		Bronz.LocalStore.Instance.SetInt ("PlayerDeath", Bronz.LocalStore.Instance.GetInt ("PlayerDeath") + 1);
+
 		dieSound.Play ();
 		PlayParticle (playerDieParticle);
 		DisplayPlayerObject (false);

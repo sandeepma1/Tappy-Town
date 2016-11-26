@@ -37,7 +37,6 @@ public class CoinCalculation : MonoBehaviour
 		Bronz.LocalStore.Instance.SetInt ("Mission_CoinCount", Bronz.LocalStore.Instance.GetInt ("Mission_CoinCount") + nos);
 		Bronz.LocalStore.Instance.SetInt ("Mission_CoinCountSR", Bronz.LocalStore.Instance.GetInt ("Mission_CoinCountSR") + nos);
 		coinsText_1.text = coinsText.text = Bronz.LocalStore.Instance.GetInt ("coins").ToString ();
-		
 	}
 
 	public void AddToken (int nos)

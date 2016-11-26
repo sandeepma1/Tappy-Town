@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 public class UnityVideoAdsForContinue : MonoBehaviour
 {
 	
-	public void ShowAd ()
+	/*public void ShowAd ()
 	{
 		if (Advertisement.IsReady ()) {
 			Advertisement.Show ();
@@ -18,9 +18,9 @@ public class UnityVideoAdsForContinue : MonoBehaviour
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show ("rewardedVideo", options);
 		}
-	}
+	}*/
 
-	private void HandleShowResult (ShowResult result)
+	/*private void HandleShowResult (ShowResult result)
 	{
 		switch (result) {
 		case ShowResult.Finished:
@@ -35,7 +35,7 @@ public class UnityVideoAdsForContinue : MonoBehaviour
 			break;
 		}
 	}
-
+*/
 	private void ContinueAfterDeath ()
 	{
 		ManJump.m_instance.UserHadWatchedVideoAd ();
