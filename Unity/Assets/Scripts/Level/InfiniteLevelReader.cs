@@ -46,7 +46,7 @@ public class InfiniteLevelReader : MonoBehaviour
 
 	void SetupGameEnvironment ()
 	{
-		Character currentCharacter = CharacterManager.CurrentCharacterSelected;
+		Characterz currentCharacter = CharacterManager.CurrentCharacterSelected;
 		NightModeON (currentCharacter.IsNightModeOn);
 		Instantiate (Resources.Load ("Prefabs/StartBlock/" + CharacterManager.CurrentCharacterSelected.WorldName, typeof(GameObject)), Vector3.zero, Quaternion.identity);	
 	}

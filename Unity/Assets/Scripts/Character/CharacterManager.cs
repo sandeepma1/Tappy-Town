@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using June;
 using June.Core;
 
-public class CharacterManager : BaseConfig<CharacterManager,Character>
+public class CharacterManager : BaseConfig<CharacterManager,Characterz>
 {
-	public override System.Converter<IDictionary<string, object>, Character> ItemConverter {
+	public override System.Converter<IDictionary<string, object>, Characterz> ItemConverter {
 		get {
-			return (doc) => new Character (doc);
+			return (doc) => new Characterz (doc);
 		}
 	}
 
@@ -38,21 +38,21 @@ public class CharacterManager : BaseConfig<CharacterManager,Character>
 		Items.Sort ((i1, i2) => i1.SortId.CompareTo (i2.SortId));
 	}
 
-	public static List<Character> AllCharacters {		
+	public static List<Characterz> AllCharacters {		
 		get {
 			return Instance.Items;
 		}
 	}
 
-	public static Character CurrentCharacterSelected {
+	public static Characterz CurrentCharacterSelected {
 		get { 
 			string charName = PlayerPrefs.GetString ("currentCharacterSelectedID", "chr_mailman");			
-			Character character = Util.FirstOrDefault (AllCharacters, c => c.PrefabName == charName);
+			Characterz character = Util.FirstOrDefault (AllCharacters, c => c.PrefabName == charName);
 			return character ?? DefaultCharacter;
 		} 
 	}
 
-	public static Character GetCharacterWithId (string id)
+	public static Characterz GetCharacterWithId (string id)
 	{
 		return Util.FirstOrDefault (AllCharacters, c => c.Id == id);
 	}
@@ -62,7 +62,7 @@ public class CharacterManager : BaseConfig<CharacterManager,Character>
 		return Util.FirstOrDefault (AllCharacters, c => c.Id == id);
 	}*/
 
-	public static Character DefaultCharacter {
+	public static Characterz DefaultCharacter {
 		get {
 			return GetCharacterWithId ("IGC-000");
 		}
@@ -74,7 +74,7 @@ public class CharacterManager : BaseConfig<CharacterManager,Character>
 	}
 }
 
-public class Character : BaseModel
+public class Characterz : BaseModel
 {
 	public string Id {
 		get {
@@ -176,7 +176,7 @@ public class Character : BaseModel
 		}
 	}
 
-	public Character (IDictionary<string,object> doc) : base (doc)
+	public Characterz (IDictionary<string,object> doc) : base (doc)
 	{
 	}
 }

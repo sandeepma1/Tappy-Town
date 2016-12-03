@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Item
+public class Character
 {
 	public GameObject charMesh;
 	public string charName;
@@ -20,7 +20,7 @@ public class Item
 	public bool isSelected;
 
 
-	public Item (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, int cUIBSid, bool isUnlck, bool isSelect)
+	public Character (GameObject mesh, string name, string desc, string id, string cType, string cValue, string cValueUnlocked, string cID, int cUIBSid, bool isUnlck, bool isSelect)
 	{
 		charMesh = mesh;
 		charName = name;
@@ -46,7 +46,7 @@ public class CharacterSelection : MonoBehaviour
 	public Text characterName;
 	public Text characterDescription;
 	//public GameObject characterPreviewParent;
-	public List<Item> itemList;
+	public List<Character> itemList;
 	GameObject[] unlockedCharactersMesh = new GameObject[100];
 	SampleCharacter currentCharacterVisible;
 	public GameObject mesh;
@@ -118,12 +118,12 @@ public class CharacterSelection : MonoBehaviour
 
 	void FillList ()
 	{		
-		itemList = new List<Item> ();
+		itemList = new List<Character> ();
 		for (int i = 0; i < CharacterManager.AllCharacters.Count; i++) {
 			string pathName = "Characters/" + CharacterManager.AllCharacters [i].PrefabName;		
 			GameObject mesh = Resources.Load (pathName) as GameObject;
 
-			itemList.Add (new Item (mesh, 
+			itemList.Add (new Character (mesh, 
 				CharacterManager.AllCharacters [i].Name, 
 				CharacterManager.AllCharacters [i].Description, 
 				CharacterManager.AllCharacters [i].Id,
@@ -203,32 +203,32 @@ public class CharacterSelection : MonoBehaviour
 		other.transform.FindChild ("mesh").gameObject.GetComponent<MeshRenderer> ().enabled = false;
 		
 		switch (currentCharacterVisible.currID) {
-		case "IRP-001":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [0].GetComponent<MeshFilter> ().sharedMesh;
-			tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [0].GetComponent<MeshRenderer> ().sharedMaterial;
-			break;
-		case "IRP-002":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [1].GetComponent<MeshFilter> ().sharedMesh;
-			tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [1].GetComponent<MeshRenderer> ().sharedMaterial;
-			break;
-		case "IRP-003":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [2].GetComponent<MeshFilter> ().sharedMesh;
-			tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [2].GetComponent<MeshRenderer> ().sharedMaterial;
-			break;
-		case "IRP-004":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [3].GetComponent<MeshFilter> ().sharedMesh;
-			tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [3].GetComponent<MeshRenderer> ().sharedMaterial;
-			break;
-		case "IRP-005":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [4].GetComponent<MeshFilter> ().sharedMesh;
-			tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [4].GetComponent<MeshRenderer> ().sharedMaterial;
-			break;
-		case "":
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh = null;
-			break;
-		default:
-			tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh = null;
-			break;
+			case "IRP-001":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [0].GetComponent<MeshFilter> ().sharedMesh;
+				tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [0].GetComponent<MeshRenderer> ().sharedMaterial;
+				break;
+			case "IRP-002":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [1].GetComponent<MeshFilter> ().sharedMesh;
+				tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [1].GetComponent<MeshRenderer> ().sharedMaterial;
+				break;
+			case "IRP-003":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [2].GetComponent<MeshFilter> ().sharedMesh;
+				tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [2].GetComponent<MeshRenderer> ().sharedMaterial;
+				break;
+			case "IRP-004":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [3].GetComponent<MeshFilter> ().sharedMesh;
+				tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [3].GetComponent<MeshRenderer> ().sharedMaterial;
+				break;
+			case "IRP-005":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh =	tokenMeshBank [4].GetComponent<MeshFilter> ().sharedMesh;
+				tokenmeshpreview.GetComponent<MeshRenderer> ().sharedMaterial = tokenMeshBank [4].GetComponent<MeshRenderer> ().sharedMaterial;
+				break;
+			case "":
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh = null;
+				break;
+			default:
+				tokenmeshpreview.GetComponent<MeshFilter> ().sharedMesh = null;
+				break;
 		}
 	}
 
@@ -241,32 +241,32 @@ public class CharacterSelection : MonoBehaviour
 	void FillButtonDetails (string t_Value, string t_ValueUnlocked, string t_Type)
 	{		
 		switch (t_Type) {
-		case "coins":			
-			FillButtonValues (t_Value + "~", "", "", iconBank [0]);
-			break;
-		case "tokens":			
-			FillButtonValues (t_Value + "*", "", "", iconBank [1]);
-			break;
-		case "fb":
-			FillButtonValues ("Log In", "", "", iconBank [2]);
-			break;
-		case "usd":			
-			FillButtonValues ("$" + t_Value, "", "", iconBank [3]);
-			break;
-		case "collectibles":
-			FillButtonValues ("Find", "", t_ValueUnlocked + "/" + t_Value, iconBank [4]);			
-			break;		
-		case "":
-			FillButtonValues ("", "Select", "", iconBank [3]);
-			break;
-		case "selected":
-			FillButtonValues ("", "Selected", "", iconBank [3]);
-			break;
-		case "blank":			
-			FillButtonValues ("", "", "", iconBank [3]);
-			break;
-		default:
-			break;
+			case "coins":			
+				FillButtonValues (t_Value + "~", "", "", iconBank [0]);
+				break;
+			case "tokens":			
+				FillButtonValues (t_Value + "*", "", "", iconBank [1]);
+				break;
+			case "fb":
+				FillButtonValues ("Log In", "", "", iconBank [2]);
+				break;
+			case "usd":			
+				FillButtonValues ("$" + t_Value, "", "", iconBank [3]);
+				break;
+			case "collectibles":
+				FillButtonValues ("Find", "", t_ValueUnlocked + "/" + t_Value, iconBank [4]);			
+				break;		
+			case "":
+				FillButtonValues ("", "Select", "", iconBank [3]);
+				break;
+			case "selected":
+				FillButtonValues ("", "Selected", "", iconBank [3]);
+				break;
+			case "blank":			
+				FillButtonValues ("", "", "", iconBank [3]);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -286,21 +286,21 @@ public class CharacterSelection : MonoBehaviour
 	public void SelectButtonPressed ()
 	{
 		switch (currTypeToAsk) {
-		case "coins":
-			CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
-			break;
-		case "tokens":
-			CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
-			break;
-		case "usd":
-			IGMLogic.m_instance.ShowinAppStoreMenu ();
-			break;
-		case "collectibles":
-			IGMLogic.m_instance.CloseCharacterSelectionMenu ();
-			GatchaSystem.m_instance.OpenGatchaMenu ();
-			break;
-		default:
-			break;
+			case "coins":
+				CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
+				break;
+			case "tokens":
+				CheckIfPlayerHaveResources (currTypeToAsk, int.Parse (currValueToAsk));
+				break;
+			case "usd":
+				IGMLogic.m_instance.ShowinAppStoreMenu ();
+				break;
+			case "collectibles":
+				IGMLogic.m_instance.CloseCharacterSelectionMenu ();
+				GatchaSystem.m_instance.OpenGatchaMenu ();
+				break;
+			default:
+				break;
 		}
 
 		if (selectButton.transform.Find ("Select").transform.GetComponent<Text> ().text == "Select") {
